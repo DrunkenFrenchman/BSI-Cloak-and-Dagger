@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSICivilWars.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
@@ -9,7 +10,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CivilWars.Helpers
 {
-    public interface IBaseManager<InfoType, GameObject> where GameObject : MBObjectBase
+    public interface IBaseManager<GameObject, InfoType> where GameObject : MBObjectBase where InfoType : IFactionInfo<IFaction>
     {
         HashSet<InfoType> Infos { get; set; }
 
