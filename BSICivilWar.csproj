@@ -195,7 +195,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug\Debug.cs" />
-    <Compile Include="Managers\BaseManager.cs" />
+    <Compile Include="Interfaces\IFactionInfo.cs" />
+    <Compile Include="Interfaces\IBaseManager.cs" />
     <Compile Include="Managers\CivilWarManager.cs" />
     <Compile Include="Managers\ClanManager.cs" />
     <Compile Include="Managers\FactionInfoManager.cs" />

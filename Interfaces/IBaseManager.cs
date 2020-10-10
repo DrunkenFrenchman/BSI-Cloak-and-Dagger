@@ -1,17 +1,18 @@
-﻿using BSI.CivilWar.Interface;
+﻿using BSI.CivilWar.Manager;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWar.Manager
+namespace BSI.CivilWar.Interface
 {
-    public class KingdomManager : IBaseManager<FactionInfo>
+    public interface IBaseManager<IDictionary>
     {
-      
+        
     }
 }

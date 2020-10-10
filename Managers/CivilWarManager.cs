@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSI.CivilWars.Helpers
+namespace BSI.CivilWar.Manager
 {
     public class CivilWarManager
     {

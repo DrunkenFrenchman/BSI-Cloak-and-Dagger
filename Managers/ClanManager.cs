@@ -8,9 +8,9 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWars.Helpers
+namespace BSI.CivilWar.Manager
 {
-    class ClanManager<id, clan> : Dictionary<string, >
+    class ClanManager<id, clan> : Dictionary<string, FactionInfo>
     {
 
     }

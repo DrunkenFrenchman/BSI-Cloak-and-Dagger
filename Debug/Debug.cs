@@ -2,12 +2,12 @@
 using System.IO;
 using TaleWorlds.Core;
 
-namespace BSI.CivilWars
+namespace BSI.CivilWar
 {
 
     public class Debug
     {
-        private static readonly BSI.CivilWars.Settings settings = BSI.CivilWars.Settings.Instance;
+        private static readonly BSI.CivilWar.Settings settings = BSI.CivilWar.Settings.Instance;
         private static readonly string fileName = typeof(Debug).Namespace + ".debug.log";
 
         //Print Message in Game Helper

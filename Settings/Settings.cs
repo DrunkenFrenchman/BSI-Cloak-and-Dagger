@@ -4,9 +4,9 @@ using MCM.Abstractions.Settings.Base.Global;
 
 
 
-namespace BSI.CivilWars
+namespace BSI.CivilWar
 {
-    public class Settings : AttributeGlobalSettings<MySettings>
+    public class Settings : AttributeGlobalSettings<Settings>
     {
         public override string Id => "BSICivilWars";
         public override string DisplayName => "BSI Civil Wars";
@@ -29,3 +29,4 @@ namespace BSI.CivilWars
 
 
     }
+}
