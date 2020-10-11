@@ -9,9 +9,10 @@ using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.Localization;
 using System.Reflection;
-using BSI.CivilWar.Interface;
+using BSI.CivilWar.Core;
+using HarmonyLib;
 
-namespace BSI.CivilWar.Manager
+namespace BSI.CivilWar.Core
 {
     public abstract class FactionInfo : IFactionInfo<IFaction>
     {
@@ -19,9 +20,13 @@ namespace BSI.CivilWar.Manager
         {
             Faction = faction;
         }
-        IFaction Faction { get; set; }
+
+        IFaction Faction { get => this.Faction; set => Faction = value; }
+
         public string StringId { get => Faction.StringId; }
-        public Hero Leader { get => Faction.Leader; set => throw new NotImplementedException(); }
+
+        public Hero Leader { get => Faction.Leader; set => Leader = value; }
+
         public IEnumerable<MobileParty> WarParties { get => Faction.WarParties; }
 
         public IEnumerable<Hero> Lords { get => Faction.Lords; }
@@ -46,9 +51,9 @@ namespace BSI.CivilWar.Manager
 
         public IEnumerable<StanceLink> Stances { get => Faction.Stances; }
 
-        public int TributeWallet { get => Faction.TributeWallet; set => throw new NotImplementedException(); }
+        public int TributeWallet { get => Faction.TributeWallet; set => TributeWallet = value; }
 
-        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating ; set => throw new NotImplementedException(); }
+        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating ; set => MainHeroCrimeRating = value; }
 
         public float DailyCrimeRatingChange { get => Faction.DailyCrimeRatingChange; }
 
@@ -60,7 +65,7 @@ namespace BSI.CivilWar.Manager
 
         public StatExplainer DailyCrimeRatingChangeExplained { get => Faction.DailyCrimeRatingChangeExplained; }
 
-        public CampaignTime NotAttackableByPlayerUntilTime { get => Faction.NotAttackableByPlayerUntilTime; set => throw new NotImplementedException(); }
+        public CampaignTime NotAttackableByPlayerUntilTime { get => Faction.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
 
         public IEnumerable<Settlement> Settlements { get => Faction.Settlements; }
 
@@ -74,9 +79,9 @@ namespace BSI.CivilWar.Manager
 
         public Banner Banner { get => Faction.Banner; }
 
-        public abstract StanceLink GetStanceWith(IFaction other);
+        public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
 
-        public abstract bool IsAtWarWith(IFaction other);
+        public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
     }
 }

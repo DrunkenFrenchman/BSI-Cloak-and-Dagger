@@ -7,7 +7,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace BSI.CivilWar.Interface
+namespace BSI.CivilWar.Core
 {
     public interface IFactionInfo<IFaction>
     {

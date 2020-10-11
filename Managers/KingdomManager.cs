@@ -1,4 +1,4 @@
-﻿using BSI.CivilWar.Interface;
+﻿using BSI.CivilWar.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CivilWar.Manager
 {
-    public class KingdomManager : IBaseManager<FactionInfo>
+    public class KingdomManager<Key, Data> where Data : FactionInfo
     {
       
     }
