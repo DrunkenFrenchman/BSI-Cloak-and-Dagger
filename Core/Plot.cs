@@ -12,12 +12,12 @@ namespace BSI.CivilWar.Core
 {
     public abstract class Plot : IPlot
     {
-        public IFaction ParentFaction { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsCivilWar { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IBaseManager<string, Clan> Members { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IBaseManager<string, Clan> Opponents { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool EndGoal { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        public IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
+        public IBaseManager<string, Hero> Members { get => this.Members; }
+        public IBaseManager<string, Hero> Opponents { get => this.Opponents; }
+        public Goal EndGoal { get => this.EndGoal; }
         public TextObject Name => throw new NotImplementedException();
 
         public string StringId => throw new NotImplementedException();
@@ -95,12 +95,32 @@ namespace BSI.CivilWar.Core
 
         public CampaignTime NotAttackableByPlayerUntilTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public void AddMember(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void End(Enum result)
+        {
+            throw new NotImplementedException();
+        }
+
         public StanceLink GetStanceWith(IFaction other)
         {
             throw new NotImplementedException();
         }
 
         public bool IsAtWarWith(IFaction other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void New()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveMember(Hero hero)
         {
             throw new NotImplementedException();
         }

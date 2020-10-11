@@ -195,11 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BaseManager.cs" />
+    <Compile Include="Core\Goal.cs" />
     <Compile Include="Core\Plot.cs" />
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Core\IFactionInfo.cs" />
     <Compile Include="Core\IBaseManager.cs" />
-    <Compile Include="Managers\CivilWarManager.cs" />
+    <Compile Include="Managers\PlotManager.cs" />
     <Compile Include="Managers\ClanManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Core\FactionInfo.cs" />

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BSI.CivilWar.Manager
+namespace BSI.CivilWar.Core
 {
-    public class CivilWarManager
+    public enum Goal
     {
+        Independence,
     }
 }

@@ -11,9 +11,14 @@ namespace BSI.CivilWar.Core
     public interface IPlot : IFaction
     {
         IFaction ParentFaction { get; set; }
+        IFaction OriginalFaction { get; set; }
         bool IsCivilWar { get; set; }
-        IBaseManager<String, Clan> Members { get; set; }
-        IBaseManager<String, Clan> Opponents { get; set; }
-        bool EndGoal { get; set; }
+        IBaseManager<String, Hero> Members { get; }
+        IBaseManager<String, Hero> Opponents { get; }
+        Goal EndGoal { get; }
+        void AddMember(Hero hero);
+        void RemoveMember(Hero hero);
+        void New();
+        void End(Enum result);
     }
 }
