@@ -8,6 +8,7 @@ namespace BSI.Core
 {
     public enum Goal
     {
-        Independence,
+        NotMet = -1,
+        Independence = 1,
     }
 }

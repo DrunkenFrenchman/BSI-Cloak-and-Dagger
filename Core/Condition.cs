@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using BSI.Core;
@@ -9,14 +10,15 @@ namespace BSI.Core
 {
     public class Condition
     {
-        public bool GoalIsMet(Plot plot)
+        public Goal GoalIsMet(Plot plot)
         {
-            if (plot.EndGoal == Goal.Independence)
+           
+            if (plot.EndGoal.Contains(Goal.Independence))
             {
-                return plot.ParentFaction.Equals(plot.OriginalFaction);
+                if (plot.OriginalFaction.Equals(plot.ParentFaction)) { return Goal.Independence; }                
             }
 
-            throw new NotImplementedException();
+            return Goal.NotMet;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace BSI.Core
         public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
         public IBaseManager<string, Hero> Members { get => this.Members; }
         public IBaseManager<string, Hero> Opponents { get => this.Opponents; }
-        public Goal EndGoal { get => this.EndGoal; }
+        public List<Goal> EndGoal { get => this.EndGoal; set => EndGoal = value; }
         public TextObject Name => throw new NotImplementedException();
 
         public string StringId => throw new NotImplementedException();
@@ -132,6 +132,6 @@ namespace BSI.Core
             throw new NotImplementedException();
         }
         Condition condition = new Condition();
-        public bool IsComplete => condition.GoalIsMet(this);
+        public Goal IsComplete => condition.GoalIsMet(this);
     }
 }
