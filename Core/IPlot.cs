@@ -15,10 +15,11 @@ namespace BSI.CivilWar.Core
         bool IsCivilWar { get; set; }
         IBaseManager<String, Hero> Members { get; }
         IBaseManager<String, Hero> Opponents { get; }
+        new Hero Leader { get; set; }
         Goal EndGoal { get; }
         void AddMember(Hero hero);
         void RemoveMember(Hero hero);
         void New();
-        void End(Enum result);
+        void End();
     }
 }

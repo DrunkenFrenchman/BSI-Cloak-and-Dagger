@@ -13,6 +13,6 @@ namespace BSI.CivilWar.Plots
 {
     public class CivilWar : Plot
     {
-
+        
     }
 }

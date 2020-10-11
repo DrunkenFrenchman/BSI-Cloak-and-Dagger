@@ -12,6 +12,13 @@ namespace BSI.CivilWar.Core
 {
     public abstract class Plot : IPlot
     {
+        public void Populate(Hero instigator)
+        {
+            this.ParentFaction = instigator.MapFaction;
+            this.OriginalFaction = instigator.MapFaction;
+            this.Leader = instigator;
+        }
+
         public IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
@@ -46,7 +53,7 @@ namespace BSI.CivilWar.Core
 
         public CharacterObject BasicTroop => throw new NotImplementedException();
 
-        public Hero Leader => throw new NotImplementedException();
+        public Hero Leader { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public Banner Banner => throw new NotImplementedException();
 
@@ -100,7 +107,7 @@ namespace BSI.CivilWar.Core
             throw new NotImplementedException();
         }
 
-        public void End(Enum result)
+        public void End()
         {
             throw new NotImplementedException();
         }
@@ -124,5 +131,7 @@ namespace BSI.CivilWar.Core
         {
             throw new NotImplementedException();
         }
+        Condition condition = new Condition();
+        public bool IsComplete => condition.GoalIsMet(this);
     }
 }
