@@ -8,7 +8,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace BSI.CivilWar.Core
+namespace BSI.Core
 {
     public abstract class Plot : IPlot
     {

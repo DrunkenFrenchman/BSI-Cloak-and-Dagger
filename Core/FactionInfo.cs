@@ -9,10 +9,10 @@ using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.Localization;
 using System.Reflection;
-using BSI.CivilWar.Core;
+using BSI.Core;
 using HarmonyLib;
 
-namespace BSI.CivilWar.Core
+namespace BSI.Core
 {
     public abstract class FactionInfo : IFactionInfo<IFaction>, IFactionInfo<IPlot>
     {

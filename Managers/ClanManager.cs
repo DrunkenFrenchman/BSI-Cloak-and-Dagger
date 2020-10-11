@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
-using BSI.CivilWar.Core;
+using BSI.Core;
 
-namespace BSI.CivilWar.Manager
+namespace BSI.Manager
 {
     class ClanManager<id, clan> : Dictionary<string, FactionInfo>
     {

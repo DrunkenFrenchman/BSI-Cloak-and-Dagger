@@ -5,10 +5,10 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
-using BSI.CivilWar.Core;
+using BSI.Core;
 using TaleWorlds.CampaignSystem;
 
-namespace BSI.CivilWar.Core
+namespace BSI.Core
 {
     public abstract class BaseManager<TKey, TFaction> : IBaseManager<String, FactionInfo> where TFaction : FactionInfo
     {

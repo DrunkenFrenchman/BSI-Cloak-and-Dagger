@@ -1,4 +1,4 @@
-﻿using BSI.CivilWar.Manager;
+﻿using BSI.Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWar.Core
+namespace BSI.Core
 {
     public interface IBaseManager<TKey, TValue> : IDictionary<String, FactionInfo>
     {
