@@ -14,11 +14,18 @@ using HarmonyLib;
 
 namespace BSI.CivilWar.Core
 {
-    public abstract class FactionInfo : IFactionInfo<IFaction>
+    public abstract class FactionInfo : IFactionInfo<IFaction>, IFactionInfo<IPlot>
     {
+
         protected FactionInfo(IFaction faction)
         {
             Faction = faction;
+            this.IsCivilWar = false;           
+        }
+        protected FactionInfo(IPlot faction)
+        {
+            Faction = faction;
+            this.IsCivilWar = true;
         }
 
         IFaction Faction { get => this.Faction; set => Faction = value; }
@@ -28,6 +35,19 @@ namespace BSI.CivilWar.Core
         public Hero Leader { get => Faction.Leader; set => Leader = value; }
 
         public IEnumerable<MobileParty> WarParties { get => Faction.WarParties; }
+        
+        private IEnumerable<Hero> GetWarPartyLeaders()
+        {
+            var warPartyLeaders = new List<Hero>();
+            if (!(this.IsClan || this.IsKingdomFaction || this.IsCivilWar)) { return warPartyLeaders; }
+            foreach (MobileParty warParty in this.WarParties)
+            {
+                warPartyLeaders.Add(warParty.LeaderHero);
+            }
+            return warPartyLeaders;
+        }
+        
+        public IEnumerable<Hero> WarPartyLeaders => this.GetWarPartyLeaders();
 
         public IEnumerable<Hero> Lords { get => Faction.Lords; }
 
@@ -38,6 +58,8 @@ namespace BSI.CivilWar.Core
         public bool IsMinorFaction { get => Faction.IsMinorFaction; }
 
         public bool IsKingdomFaction { get => Faction.IsKingdomFaction; }
+
+        public bool IsCivilWar { get => this.IsCivilWar; set => IsCivilWar = value; }
 
         public bool IsClan { get => Faction.IsClan; }
 
@@ -79,10 +101,21 @@ namespace BSI.CivilWar.Core
 
         public Banner Banner { get => Faction.Banner; }
 
+        IPlot IFactionInfo<IPlot>.MapFaction => throw new NotImplementedException();
+
         public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
 
         public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
+        public StanceLink GetStanceWith(IPlot other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsAtWarWith(IPlot other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

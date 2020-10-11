@@ -9,5 +9,6 @@ namespace BSI.CivilWar.Manager
 {
     class GameManager
     {
+
     }
 }

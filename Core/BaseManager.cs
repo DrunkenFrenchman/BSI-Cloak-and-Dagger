@@ -2,13 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using BSI.CivilWar.Core;
+using TaleWorlds.CampaignSystem;
 
 namespace BSI.CivilWar.Core
 {
-    class BaseManager<TKey, TValue> : IBaseManager<String, FactionInfo>
+    public abstract class BaseManager<TKey, TFaction> : IBaseManager<String, FactionInfo> where TFaction : FactionInfo
     {
         public FactionInfo this[string key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 

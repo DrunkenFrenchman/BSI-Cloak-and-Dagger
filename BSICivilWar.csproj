@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BSI.CivilWar</RootNamespace>
-    <AssemblyName>BSICivilWar</AssemblyName>
+    <AssemblyName>BSI.CivilWar</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\BaseManager.cs" />
+    <Compile Include="Core\Plot.cs" />
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Core\IFactionInfo.cs" />
     <Compile Include="Core\IBaseManager.cs" />
@@ -203,6 +204,8 @@
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Core\FactionInfo.cs" />
     <Compile Include="Managers\KingdomManager.cs" />
+    <Compile Include="Core\IPlot.cs" />
+    <Compile Include="Plots\CivilWar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Settings.cs" />
   </ItemGroup>

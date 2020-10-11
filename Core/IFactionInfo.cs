@@ -19,6 +19,7 @@ namespace BSI.CivilWar.Core
         bool IsBanditFaction { get; }
         bool IsMinorFaction { get; }
         bool IsKingdomFaction { get; }
+        bool IsCivilWar { get; }
         bool IsClan { get; }
         bool IsOutlaw { get; }
         bool IsMapFaction { get; }

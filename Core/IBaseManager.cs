@@ -11,7 +11,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CivilWar.Core
 {
-    public interface IBaseManager<TKey, TValue> : IDictionary<string, FactionInfo>
+    public interface IBaseManager<TKey, TValue> : IDictionary<String, FactionInfo>
     {
         TValue this[TKey key] { get; set; }
         new ICollection<TValue> Values { get; }
