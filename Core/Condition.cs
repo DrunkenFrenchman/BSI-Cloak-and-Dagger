@@ -1,8 +1,8 @@
 ﻿namespace BSI.Core
 {
-    public class Condition
+    public sealed class Condition
     {
-        public Goal GoalIsMet(Plot plot)
+        internal Goal GoalIsMet(Plot plot)
         {
            
             if (plot.EndGoal.Equals(Goal.Independence))
@@ -13,7 +13,7 @@
             return Goal.NotMet;
         }
 
-        public string PlotManifesto(Plot plot)
+        internal string PlotManifesto(Plot plot)
         {
             string manifesto = "Plot to ";
 

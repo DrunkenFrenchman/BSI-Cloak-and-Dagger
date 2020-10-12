@@ -15,9 +15,10 @@ namespace BSI.Manager
     {
         public Game Game { get => this.Game; set => this.Game = value; }
 
-        public GameManager(Game game, MBGameManager mbGameManager)
+        public GameManager(Game game)
         {
             this.Game = game;
         }
+
     }
 }

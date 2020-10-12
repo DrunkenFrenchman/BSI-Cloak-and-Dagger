@@ -12,6 +12,6 @@ namespace BSI.Core
         bool ContainsKey(TKey key);
         bool Remove(TKey key);
         bool TryGetValue(TKey key, out TValue value);
-        void AddItem(string stringId, FactionInfo<Clan> factionInfo);
+        void AddItem(string stringId, IBSIObjectBase factionInfo);
     }
 }

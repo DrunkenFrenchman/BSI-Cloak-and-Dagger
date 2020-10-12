@@ -1,6 +1,6 @@
 ﻿namespace BSI.Core
 {
-    public enum Goal
+    internal enum Goal
     {
         NotMet = -1,
         Independence = 1,
