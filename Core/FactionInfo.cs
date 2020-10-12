@@ -14,15 +14,15 @@ using HarmonyLib;
 
 namespace BSI.Core
 {
-    public abstract class FactionInfo<TValue> : IFactionInfo<IFaction>
+    public class FactionInfo<TValue> : IFactionInfo<IFaction>
     {
 
-        protected FactionInfo(IFaction faction, bool isCivilWar = false)
+        public FactionInfo(IFaction faction, bool isCivilWar = false)
         {
             Faction = faction;
             this.IsCivilWar = isCivilWar;           
         }
-        protected FactionInfo(IPlot faction, bool isCivilWar = true)
+        public FactionInfo(IPlot faction, bool isCivilWar = true)
         {
             Faction = (IFaction) faction;
             this.IsCivilWar = isCivilWar;

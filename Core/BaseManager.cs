@@ -1,81 +1,88 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
-using BSI.Core;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
     public abstract class BaseManager<TKey, TValue> : IBaseManager<String, FactionInfo<IFaction>>
     {
-        public FactionInfo<IFaction> this[string key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public FactionInfo<IFaction> this[string key] { get => this[key] ; set => this[key] = value; }
 
-        public ICollection<FactionInfo<IFaction>> Values => throw new NotImplementedException();
+        public ICollection<FactionInfo<IFaction>> Values => this.Values;
 
-        public ICollection<string> Keys => throw new NotImplementedException();
+        public ICollection<string> Keys => this.Keys;
 
-        public int Count => throw new NotImplementedException();
+        public int Count => this.Count;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => this.IsReadOnly;
 
         public void Add(string key, FactionInfo<IFaction> value)
         {
-            throw new NotImplementedException();
+            this.Keys.Add(key);
+            this.Values.Add(value);
         }
 
         public void Add(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
-            throw new NotImplementedException();
+            this.AddItem(item);
+        }
+
+        public void AddItem(string stringId, FactionInfo<Clan> factionInfo)
+        {
+            this.AddItem(stringId, factionInfo);
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.Clear();
         }
 
         public bool Contains(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
-            throw new NotImplementedException();
+            return this.Contains(item);
         }
 
         public bool ContainsKey(string key)
         {
-            throw new NotImplementedException();
+            return this.Keys.Contains(key);
         }
 
         public void CopyTo(KeyValuePair<string, FactionInfo<IFaction>>[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            this.CopyTo(array, arrayIndex);
         }
 
         public IEnumerator<KeyValuePair<string, FactionInfo<IFaction>>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         public bool Remove(string key)
         {
-            throw new NotImplementedException();
+            return this.Remove(key);
         }
 
         public bool Remove(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
-            throw new NotImplementedException();
+            return this.Remove(item);
         }
 
         public bool TryGetValue(string key, out FactionInfo<IFaction> value)
         {
-            throw new NotImplementedException();
+            if (this.Keys.Contains(key)) 
+            {
+                value = this[key];
+                return true;
+            }
+            value = null;
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }

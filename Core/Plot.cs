@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -149,24 +144,26 @@ namespace BSI.Core
         }
         public float TotalStrength => this.GetTotalStrength();
 
-        public IEnumerable<StanceLink> Stances => throw new NotImplementedException();
+        public IEnumerable<StanceLink> Stances => this.Stances;
 
-        public int TributeWallet { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public float MainHeroCrimeRating { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int TributeWallet { get => this.TributeWallet; set => TributeWallet = value; }
+        public float MainHeroCrimeRating { get => this.MainHeroCrimeRating; set => MainHeroCrimeRating = value; }
 
-        public float DailyCrimeRatingChange => throw new NotImplementedException();
+        public float DailyCrimeRatingChange => this.DailyCrimeRatingChange;
 
-        public float Aggressiveness => throw new NotImplementedException();
+        public float Aggressiveness => this.Aggressiveness;
 
         public bool IsEliminated => this.Members.IsEmpty();
 
         public StatExplainer DailyCrimeRatingChangeExplained => throw new NotImplementedException();
 
-        public CampaignTime NotAttackableByPlayerUntilTime { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public CampaignTime NotAttackableByPlayerUntilTime { get => this.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
 
         public void AddMember(Hero hero)
         {
-            throw new NotImplementedException();
+            FactionInfo<Clan> factionInfo = new FactionInfo<Clan>(hero.Clan);
+            this.Members.AddItem(hero.Clan.StringId, factionInfo);
+            this.Opponents.Remove(hero.Clan.StringId);
         }
 
         public void End()
@@ -176,24 +173,22 @@ namespace BSI.Core
 
         public StanceLink GetStanceWith(IFaction other)
         {
-            throw new NotImplementedException();
+            return other.GetStanceWith(this.Leader.Clan);
         }
 
         public bool IsAtWarWith(IFaction other)
         {
-            throw new NotImplementedException();
-        }
-
-        public void New()
-        {
-            throw new NotImplementedException();
+            return other.IsAtWarWith(this.Leader.Clan);
         }
 
         public void RemoveMember(Hero hero)
         {
-            throw new NotImplementedException();
+            FactionInfo<Clan> factionInfo = new FactionInfo<Clan>(hero.Clan);
+            this.Opponents.AddItem(hero.Clan.StringId, factionInfo);
+            this.Members.Remove(hero.Clan.StringId);
         }
-        Condition condition = new Condition();
+
+        private Condition condition = new Condition();
         public Goal IsComplete => condition.GoalIsMet(this);
         
         // Methods below not used

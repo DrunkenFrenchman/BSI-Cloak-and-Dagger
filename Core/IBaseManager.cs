@@ -1,13 +1,6 @@
-﻿using BSI.Manager;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.Core
 {
@@ -19,5 +12,6 @@ namespace BSI.Core
         bool ContainsKey(TKey key);
         bool Remove(TKey key);
         bool TryGetValue(TKey key, out TValue value);
+        void AddItem(string stringId, FactionInfo<Clan> factionInfo);
     }
 }
