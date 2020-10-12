@@ -4,7 +4,7 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
-    public interface IBaseManager<TKey, TValue> : IDictionary<String, TValue> where TValue : FactionInfo<IFaction>
+    public interface IBaseManager<TKey, TValue> : IDictionary<String, TValue> where TValue : IBSIObjectBase
     { 
         TValue this[TKey key] { get; set; }
         new ICollection<TValue> Values { get; }

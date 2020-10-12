@@ -14,7 +14,7 @@ using HarmonyLib;
 
 namespace BSI.Core
 {
-    public class FactionInfo<TValue> : IFactionInfo<IFaction>
+    public class FactionInfo<TValue> : IFactionInfo<IFaction>, IBSIObjectBase
     {
 
         public FactionInfo(IFaction faction, bool isCivilWar = false)
@@ -28,7 +28,7 @@ namespace BSI.Core
             this.IsCivilWar = isCivilWar;
         }
 
-        IFaction Faction { get => this.Faction; set => Faction = value; }
+        public IFaction Faction { get => this.Faction; set => Faction = value; }
 
         public string StringId { get => Faction.StringId; }
 

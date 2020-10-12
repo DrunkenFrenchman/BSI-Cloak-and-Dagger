@@ -8,8 +8,10 @@ using static TaleWorlds.CampaignSystem.Hero;
 
 namespace BSI.Core
 {
-    public abstract class Plot : IPlot
+    public abstract class Plot : IPlot, IBSIObjectBase
     {
+        public bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
+
         public void Populate(Hero instigator)
         {
             this.ParentFaction = instigator.MapFaction;
@@ -188,7 +190,7 @@ namespace BSI.Core
             this.Members.Remove(hero.Clan.StringId);
         }
 
-        private Condition condition = new Condition();
+        private readonly Condition condition = new Condition();
         public Goal IsComplete => condition.GoalIsMet(this);
         
         // Methods below not used

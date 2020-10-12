@@ -5,7 +5,7 @@ using TaleWorlds.Localization;
 
 namespace BSI.Core
 {
-    public interface IFactionInfo<IFaction>
+    public interface IFactionInfo<IFaction> : IBSIObjectBase
     {
         string StringId { get; }
         Hero Leader { get; }

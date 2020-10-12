@@ -3,8 +3,9 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
-    public interface IPlot : IFaction
+    public interface IPlot : IFaction, IBSIObjectBase
     {
+        bool PlayerInvited { get; set; }
         IFaction ParentFaction { get; set; }
         IFaction OriginalFaction { get; set; }
         bool IsCivilWar { get; set; }

@@ -4,11 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSI.Core;
+using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.ObjectSystem;
 
 namespace BSI.Manager
 {
-    class GameManager
+    [Serializable]
+    sealed class GameManager : BaseManager<Game, IBSIObjectBase>
     {
+        public Game Game { get => this.Game; set => this.Game = value; }
 
+        public GameManager(Game game, MBGameManager mbGameManager)
+        {
+            this.Game = game;
+        }
     }
 }

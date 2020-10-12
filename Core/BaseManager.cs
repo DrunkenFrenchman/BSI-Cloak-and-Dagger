@@ -6,11 +6,11 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
-    public abstract class BaseManager<TKey, TValue> : IBaseManager<String, FactionInfo<IFaction>>
+    public abstract class BaseManager<TKey, TValue> : IBaseManager<String, IBSIObjectBase>
     {
-        public FactionInfo<IFaction> this[string key] { get => this[key] ; set => this[key] = value; }
+        public IBSIObjectBase this[string key] { get => this[key] ; set => this[key] = value; }
 
-        public ICollection<FactionInfo<IFaction>> Values => this.Values;
+        public ICollection<IBSIObjectBase> Values => this.Values;
 
         public ICollection<string> Keys => this.Keys;
 
@@ -18,13 +18,13 @@ namespace BSI.Core
 
         public bool IsReadOnly => this.IsReadOnly;
 
-        public void Add(string key, FactionInfo<IFaction> value)
+        public void Add(string key, IBSIObjectBase value)
         {
             this.Keys.Add(key);
             this.Values.Add(value);
         }
 
-        public void Add(KeyValuePair<string, FactionInfo<IFaction>> item)
+        public void Add(KeyValuePair<string, IBSIObjectBase> item)
         {
             this.AddItem(item);
         }
@@ -39,7 +39,7 @@ namespace BSI.Core
             this.Clear();
         }
 
-        public bool Contains(KeyValuePair<string, FactionInfo<IFaction>> item)
+        public bool Contains(KeyValuePair<string, IBSIObjectBase> item)
         {
             return this.Contains(item);
         }
@@ -49,12 +49,12 @@ namespace BSI.Core
             return this.Keys.Contains(key);
         }
 
-        public void CopyTo(KeyValuePair<string, FactionInfo<IFaction>>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<string, IBSIObjectBase>[] array, int arrayIndex)
         {
             this.CopyTo(array, arrayIndex);
         }
 
-        public IEnumerator<KeyValuePair<string, FactionInfo<IFaction>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, IBSIObjectBase>> GetEnumerator()
         {
             return this.GetEnumerator();
         }
@@ -64,12 +64,12 @@ namespace BSI.Core
             return this.Remove(key);
         }
 
-        public bool Remove(KeyValuePair<string, FactionInfo<IFaction>> item)
+        public bool Remove(KeyValuePair<string, IBSIObjectBase> item)
         {
             return this.Remove(item);
         }
 
-        public bool TryGetValue(string key, out FactionInfo<IFaction> value)
+        public bool TryGetValue(string key, out IBSIObjectBase value)
         {
             if (this.Keys.Contains(key)) 
             {
