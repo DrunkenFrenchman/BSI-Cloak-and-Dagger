@@ -10,6 +10,8 @@ namespace BSI.Core
 {
     public abstract class Plot : IPlot, IBSIObjectBase
     {
+        public IBehavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
+        public Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
 
         public void Populate(Hero instigator)
@@ -25,11 +27,11 @@ namespace BSI.Core
         public IBaseManager<string, FactionInfo<IFaction>> Members { get => this.Members; }
         public IBaseManager<string, FactionInfo<IFaction>> Opponents { get => this.Opponents; }
         public Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
-        public TextObject Name => new TextObject(condition.PlotManifesto(this));
+        public TextObject Name => new TextObject(this.EndGoal.Manifesto);
 
         public string StringId { get => this.StringId; set => StringId = value; }
 
-        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.ToString());
+        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.Manifesto);
 
         public CultureObject Culture => this.OriginalFaction.Culture;
 
@@ -190,8 +192,7 @@ namespace BSI.Core
             this.Members.Remove(hero.Clan.StringId);
         }
 
-        private readonly Condition condition = new Condition();
-        public Goal IsComplete => condition.GoalIsMet(this);
+        public bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.EndCondition);
         
         // Methods below not used
         public string EncyclopediaLink => throw new NotImplementedException();

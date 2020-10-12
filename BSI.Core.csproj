@@ -194,8 +194,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Behavior.cs" />
+    <Compile Include="SubModule.cs" />
     <Compile Include="Core\BaseManager.cs" />
-    <Compile Include="Core\Condition.cs" />
     <Compile Include="Core\Goal.cs" />
     <Compile Include="Core\IBSIObjectBase.cs" />
     <Compile Include="Core\Plot.cs" />
@@ -209,8 +210,6 @@
     <Compile Include="Core\IPlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -17,15 +17,15 @@ namespace BSI.Core
     public class FactionInfo<TValue> : IFactionInfo<IFaction>, IBSIObjectBase
     {
 
-        public FactionInfo(IFaction faction, bool isCivilWar = false)
+        public FactionInfo(IFaction faction, bool isPlot = false)
         {
             Faction = faction;
-            this.IsCivilWar = isCivilWar;           
+            this.IsPlot = isPlot;           
         }
         public FactionInfo(IPlot faction, bool isCivilWar = true)
         {
             Faction = (IFaction) faction;
-            this.IsCivilWar = isCivilWar;
+            this.IsPlot = isCivilWar;
         }
 
         public IFaction Faction { get => this.Faction; set => Faction = value; }
@@ -39,7 +39,7 @@ namespace BSI.Core
         private IEnumerable<Hero> GetWarPartyLeaders()
         {
             var warPartyLeaders = new List<Hero>();
-            if (!(this.IsClan || this.IsKingdomFaction || this.IsCivilWar)) { return warPartyLeaders; }
+            if (!(this.IsClan || this.IsKingdomFaction || this.IsPlot)) { return warPartyLeaders; }
             foreach (MobileParty warParty in this.WarParties)
             {
                 warPartyLeaders.Add(warParty.LeaderHero);
@@ -59,7 +59,7 @@ namespace BSI.Core
 
         public bool IsKingdomFaction { get => Faction.IsKingdomFaction; }
 
-        public bool IsCivilWar { get => this.IsCivilWar; set => IsCivilWar = value; }
+        public bool IsPlot { get => this.IsPlot; set => IsPlot = value; }
 
         public bool IsClan { get => Faction.IsClan; }
 
