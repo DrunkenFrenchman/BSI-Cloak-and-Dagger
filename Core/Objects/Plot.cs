@@ -12,15 +12,15 @@ namespace BSI.Core
     public abstract class Plot : IPlot, IBSIObjectBase
     {
         public Plot(
-            Hero instigator,
+            CharacterObject instigator,
             Goal endGoal,
             Goal initialGoal = null, 
             bool isCivilWar = false
             )
         {
-            if (instigator.Clan.Leader.Equals(instigator))
+            if (instigator.IsHero &&  instigator.HeroObject.Clan.Leader.Equals(instigator))
             {
-                this.Leader = instigator;
+                this.Leader = instigator.HeroObject;
                 this.EndGoal = endGoal;
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
@@ -32,15 +32,15 @@ namespace BSI.Core
             else throw new ArgumentException();
         }
 
-        public IBehavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
-        public Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
-        public bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
-        public IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
-        public Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
-        public TextObject Name => new TextObject(this.EndGoal.GetManifesto);
-        public List<Hero> Members { get => this.Members; }
+        public virtual Behavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
+        public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
+        public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
+        public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public virtual bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
+        public virtual Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
+        public virtual TextObject Name => new TextObject(this.EndGoal.GetManifesto);
+        public virtual List<Hero> Members { get => this.Members; }
         private List<Hero> GetClanLeaders()
         {
             List<Hero> clanLeaders = new List<Hero>();
@@ -50,27 +50,27 @@ namespace BSI.Core
             }
             return clanLeaders;
         }
-        public List<Hero> ClanLeaders => this.GetClanLeaders();
-        public List<Hero> Opponents { get => this.Opponents; }
-        public string StringId { get => this.StringId; set => StringId = value; }
+        public virtual List<Hero> ClanLeaders => this.GetClanLeaders();
+        public virtual List<Hero> Opponents { get => this.Opponents; }
+        public virtual string StringId { get => this.StringId; set => StringId = value; }
 
-        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.GetManifesto);
+        public virtual TextObject InformalName => new TextObject("Plot for " + this.EndGoal.GetManifesto);
 
-        public CultureObject Culture => this.OriginalFaction.Culture;
+        public virtual CultureObject Culture => this.OriginalFaction.Culture;
 
-        public uint Color => this.OriginalFaction.Color;
+        public virtual uint Color => this.OriginalFaction.Color;
 
-        public uint Color2 => this.OriginalFaction.Color2;
+        public virtual uint Color2 => this.OriginalFaction.Color2;
 
-        public uint AlternativeColor => this.OriginalFaction.AlternativeColor;
+        public virtual uint AlternativeColor => this.OriginalFaction.AlternativeColor;
 
-        public uint AlternativeColor2 => this.OriginalFaction.AlternativeColor2;
+        public virtual uint AlternativeColor2 => this.OriginalFaction.AlternativeColor2;
 
-        public CharacterObject BasicTroop => this.OriginalFaction.BasicTroop;
+        public virtual CharacterObject BasicTroop => this.OriginalFaction.BasicTroop;
 
-        public Hero Leader { get => this.Leader; set => Leader = value; }
+        public virtual Hero Leader { get => this.Leader; set => Leader = value; }
 
-        public Banner Banner => this.Leader.ClanBanner;
+        public virtual Banner Banner => this.Leader.ClanBanner;
 
         private List<Settlement> GetSettlements()
         {
@@ -81,7 +81,7 @@ namespace BSI.Core
             }
             return settlements;
         }
-        public IEnumerable<Settlement> Settlements => this.GetSettlements();
+        public virtual IEnumerable<Settlement> Settlements => this.GetSettlements();
 
         private IEnumerable<Hero> GetLords()
         {
@@ -92,9 +92,9 @@ namespace BSI.Core
             }
             return lords;
         }
-        public IEnumerable<Hero> Lords => this.GetLords();
+        public virtual IEnumerable<Hero> Lords => this.GetLords();
 
-        public IEnumerable<Hero> Heroes => this.Heroes;
+        public virtual IEnumerable<Hero> Heroes => this.Heroes;
 
         private IEnumerable<MobileParty> GetAllParties()
         {
@@ -106,7 +106,7 @@ namespace BSI.Core
             }
             return mobileParties;        
         }
-        public IEnumerable<MobileParty> AllParties => this.GetAllParties();
+        public virtual IEnumerable<MobileParty> AllParties => this.GetAllParties();
 
         private IEnumerable<MobileParty> GetWarParties()
         {
@@ -119,21 +119,21 @@ namespace BSI.Core
             return warParties;
         }
 
-        public IEnumerable<MobileParty> WarParties => this.GetWarParties();
+        public virtual IEnumerable<MobileParty> WarParties => this.GetWarParties();
 
-        public bool IsBanditFaction => this.OriginalFaction.IsBanditFaction;
+        public virtual bool IsBanditFaction => this.OriginalFaction.IsBanditFaction;
 
-        public bool IsMinorFaction => this.IsMinorFaction;
+        public virtual bool IsMinorFaction => this.IsMinorFaction;
 
-        public bool IsKingdomFaction => this.IsKingdomFaction;
+        public virtual bool IsKingdomFaction => this.IsKingdomFaction;
 
-        public bool IsClan => this.IsClan;
+        public virtual bool IsClan => this.IsClan;
 
-        public bool IsOutlaw => this.IsOutlaw;
+        public virtual bool IsOutlaw => this.IsOutlaw;
 
-        public bool IsMapFaction => this.IsMapFaction;
+        public virtual bool IsMapFaction => this.IsMapFaction;
 
-        public IFaction MapFaction => this.ParentFaction;
+        public virtual IFaction MapFaction => this.ParentFaction;
 
         private float GetTotalStrength()
         {
@@ -144,24 +144,24 @@ namespace BSI.Core
             }
             return strength;
         }
-        public float TotalStrength => this.GetTotalStrength();
+        public virtual float TotalStrength => this.GetTotalStrength();
 
-        public IEnumerable<StanceLink> Stances => this.Stances;
+        public virtual IEnumerable<StanceLink> Stances => this.Stances;
 
-        public int TributeWallet { get => this.TributeWallet; set => TributeWallet = value; }
-        public float MainHeroCrimeRating { get => this.MainHeroCrimeRating; set => MainHeroCrimeRating = value; }
+        public virtual int TributeWallet { get => this.TributeWallet; set => TributeWallet = value; }
+        public virtual float MainHeroCrimeRating { get => this.MainHeroCrimeRating; set => MainHeroCrimeRating = value; }
 
-        public float DailyCrimeRatingChange => this.DailyCrimeRatingChange;
+        public virtual float DailyCrimeRatingChange => this.DailyCrimeRatingChange;
 
-        public float Aggressiveness => this.Aggressiveness;
+        public virtual float Aggressiveness => this.ParentFaction.Aggressiveness;
 
-        public bool IsEliminated => this.Members.IsEmpty();
+        public virtual bool IsEliminated => this.IsEliminated;
 
-        public StatExplainer DailyCrimeRatingChangeExplained => throw new NotImplementedException();
+        public virtual StatExplainer DailyCrimeRatingChangeExplained => throw new NotImplementedException();
 
-        public CampaignTime NotAttackableByPlayerUntilTime { get => this.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
+        public virtual CampaignTime NotAttackableByPlayerUntilTime { get => this.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
 
-        public bool AddMember(Hero clanLeader)
+        public virtual bool AddMember(Hero clanLeader)
         {
             if (this.Members.Contains(clanLeader) || !(clanLeader.Clan.Leader.Equals(clanLeader))) { return false; }
             else 
@@ -176,22 +176,22 @@ namespace BSI.Core
             }
         }
 
-        public void End()
+        public virtual void End()
         {
             throw new NotImplementedException();
         }
 
-        public StanceLink GetStanceWith(IFaction other)
+        public virtual StanceLink GetStanceWith(IFaction other)
         {
             return other.GetStanceWith(this.Leader.Clan);
         }
 
-        public bool IsAtWarWith(IFaction other)
+        public virtual bool IsAtWarWith(IFaction other)
         {
             return other.IsAtWarWith(this.Leader.Clan);
         }
 
-        public bool RemoveMember(Hero clanLeader)
+        public virtual bool RemoveMember(Hero clanLeader)
         {
             if (!this.Members.Contains(clanLeader) || !(clanLeader.Clan.Leader.Equals(clanLeader))) { return false; }
             else
@@ -205,7 +205,7 @@ namespace BSI.Core
                 return true;
             }
         }
-        public bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.GetEndCondition);
+        public virtual bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.GetEndCondition);
 
         string IFaction.EncyclopediaLink => throw new NotImplementedException();
 

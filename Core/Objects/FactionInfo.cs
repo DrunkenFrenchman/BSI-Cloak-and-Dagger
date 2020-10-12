@@ -11,10 +11,11 @@ using TaleWorlds.Localization;
 using System.Reflection;
 using BSI.Core;
 using HarmonyLib;
+using BSI.Manager;
 
 namespace BSI.Core
 {
-    public class FactionInfo<TValue> : IFactionInfo<IFaction>, IBSIObjectBase
+    public class FactionInfo : IFactionInfo<IFaction>, IBSIObjectBase
     {
 
         public FactionInfo(IFaction faction, bool isPlot = false)
@@ -101,7 +102,19 @@ namespace BSI.Core
 
         public Banner Banner { get => Faction.Banner; }
 
-        IFaction IFactionInfo<IFaction>.MapFaction => (IPlot) this.Faction.MapFaction;
+        internal BaseManager<IBSIObjectBase> PopulateManager()
+        { 
+            BaseManager<IBSIObjectBase> temp = new ClanManager<IBSIObjectBase>();
+            
+            temp.AddRange(this.VassalManager);
+            temp.AddRange(this.PlotManager);
+            return temp;
+        }
+        public BaseManager<IBSIObjectBase> SubFactionManager => this.PopulateManager();
+
+        public BaseManager<IBSIObjectBase> VassalManager => this.VassalManager;
+
+        public BaseManager<IBSIObjectBase> PlotManager => this.PlotManager;
 
         public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
 

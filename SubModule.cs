@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSI.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-namespace BSI
+namespace BSI.Core
 {
     class SubModule : MBSubModuleBase
     {
@@ -72,7 +73,7 @@ namespace BSI
 
         protected override void OnSubModuleLoad()
         {
-            base.OnSubModuleLoad();
+            
         }
 
         protected override void OnSubModuleUnloaded()

@@ -28,7 +28,7 @@ namespace BSI.Manager
 
             foreach (Kingdom kingdom in Kingdom.All)
             {
-                temp.Add(new FactionInfo<Kingdom>(kingdom));
+                temp.Add(new FactionInfo(kingdom));
                 foreach (PlotManager plot in this)
                 {
                     temp.Add(plot);
