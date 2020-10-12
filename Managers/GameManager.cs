@@ -12,18 +12,30 @@ using TaleWorlds.ObjectSystem;
 namespace BSI.Manager
 {
     [Serializable]
-    sealed class GameManager : BaseManager<String, IBSIObjectBase>
+    sealed class GameManager : BaseManager<IBSIObjectBase>
     {
         public Game Game { get => this.Game; set => this.Game = value; }
 
         public GameManager(Game game)
         {
             this.Game = game;
-            foreach (Kingdom kingdom in Kingdom.All)
-            {
-                this.Add(kingdom.StringId, new FactionInfo<Kingdom>(kingdom));
-            }
+            this.Update();
         }
 
+        public void Update()
+        {
+            GameManager temp = new GameManager(Game);
+
+            foreach (Kingdom kingdom in Kingdom.All)
+            {
+                temp.Add(new FactionInfo<Kingdom>(kingdom));
+                foreach (PlotManager plot in this)
+                {
+                    temp.Add(plot);
+                }
+            }
+            this.Clear();
+            this.AddRange(temp);
+        }
     }
 }

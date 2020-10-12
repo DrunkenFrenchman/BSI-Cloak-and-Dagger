@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http.Headers;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -10,28 +11,50 @@ namespace BSI.Core
 {
     public abstract class Plot : IPlot, IBSIObjectBase
     {
+        public Plot(
+            Hero instigator,
+            Goal endGoal,
+            Goal initialGoal = null, 
+            bool isCivilWar = false
+            )
+        {
+            if (instigator.Clan.Leader.Equals(instigator))
+            {
+                this.Leader = instigator;
+                this.EndGoal = endGoal;
+                if (initialGoal is null) { this.CurrentGoal = initialGoal; }
+                else { this.CurrentGoal = this.EndGoal; }
+                if (isCivilWar is true)
+                {
+                    this.IsCivilWar = true;
+                }
+            }
+            else throw new ArgumentException();
+        }
+
         public IBehavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
-
-        public void Populate(Hero instigator)
-        {
-            this.ParentFaction = instigator.MapFaction;
-            this.OriginalFaction = instigator.MapFaction;
-            this.Leader = instigator;
-        }
-
         public IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
-        public IBaseManager<string, FactionInfo<IFaction>> Members { get => this.Members; }
-        public IBaseManager<string, FactionInfo<IFaction>> Opponents { get => this.Opponents; }
         public Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
-        public TextObject Name => new TextObject(this.EndGoal.Manifesto);
-
+        public TextObject Name => new TextObject(this.EndGoal.GetManifesto);
+        public List<Hero> Members { get => this.Members; }
+        private List<Hero> GetClanLeaders()
+        {
+            List<Hero> clanLeaders = new List<Hero>();
+            foreach (Hero member in this.Members)
+            {
+                if (member.Equals(member.Clan.Leader)) { clanLeaders.Add(member); }
+            }
+            return clanLeaders;
+        }
+        public List<Hero> ClanLeaders => this.GetClanLeaders();
+        public List<Hero> Opponents { get => this.Opponents; }
         public string StringId { get => this.StringId; set => StringId = value; }
 
-        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.Manifesto);
+        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.GetManifesto);
 
         public CultureObject Culture => this.OriginalFaction.Culture;
 
@@ -52,56 +75,34 @@ namespace BSI.Core
         private List<Settlement> GetSettlements()
         {
             List<Settlement> settlements = new List<Settlement>();
-            foreach (var member in this.Members)
+            foreach (Hero member in this.Members)
             {
-                foreach (Settlement settlement in member.Value.Settlements)
-                {
-                    settlements.Add(settlement);
-                }
+                if (member.Equals(member.Clan.Leader)) { settlements.AddRange(member.Clan.Settlements); }
             }
             return settlements;
         }
         public IEnumerable<Settlement> Settlements => this.GetSettlements();
 
-        private List<Hero> GetLords()
+        private IEnumerable<Hero> GetLords()
         {
             List<Hero> lords = new List<Hero>();
-
-            foreach (Hero hero in this.Heroes)
+            foreach (Hero clanLeader in this.ClanLeaders)
             {
-                if (!hero.Rank.Equals(FactionRank.None)) { lords.Add(hero); } 
+                lords.AddRange(clanLeader.Clan.Lords);
             }
             return lords;
         }
         public IEnumerable<Hero> Lords => this.GetLords();
 
-        private List<Hero> GetHeroes()
-        {
-            List<Hero> heroes = new List<Hero>();
-
-            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
-            {
-                foreach (Hero hero in pair.Value.Heroes)
-                {
-                    heroes.Add(hero);
-                }
-            }
-
-            return heroes;
-        }
-
-        public IEnumerable<Hero> Heroes => this.GetHeroes();
+        public IEnumerable<Hero> Heroes => this.Heroes;
 
         private IEnumerable<MobileParty> GetAllParties()
         {
             List<MobileParty> mobileParties = new List<MobileParty>();
 
-            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
+            foreach (Hero hero in this.ClanLeaders)
             {
-                foreach (MobileParty mobile in pair.Value.AllParties)
-                {
-                    mobileParties.Add(mobile);
-                }
+                mobileParties.AddRange(hero.Clan.AllParties);
             }
             return mobileParties;        
         }
@@ -111,12 +112,9 @@ namespace BSI.Core
         {
             List<MobileParty> warParties = new List<MobileParty>();
 
-            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
+            foreach (Hero hero in this.ClanLeaders)
             {
-                foreach (MobileParty mobile in pair.Value.WarParties)
-                {
-                    warParties.Add(mobile);
-                }
+                warParties.AddRange(hero.Clan.WarParties);
             }
             return warParties;
         }
@@ -163,11 +161,19 @@ namespace BSI.Core
 
         public CampaignTime NotAttackableByPlayerUntilTime { get => this.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
 
-        public void AddMember(Hero hero)
+        public bool AddMember(Hero clanLeader)
         {
-            FactionInfo<Clan> factionInfo = new FactionInfo<Clan>(hero.Clan);
-            this.Members.AddItem(hero.Clan.StringId, factionInfo);
-            this.Opponents.Remove(hero.Clan.StringId);
+            if (this.Members.Contains(clanLeader) || !(clanLeader.Clan.Leader.Equals(clanLeader))) { return false; }
+            else 
+            {
+                List<Hero> newMembers = new List<Hero>(clanLeader.Clan.Lords);
+                this.Members.AddRange(newMembers);
+                foreach (Hero newMember in newMembers)
+                {
+                    this.Opponents.Remove(newMember);
+                } 
+                return true;
+            }
         }
 
         public void End()
@@ -185,23 +191,35 @@ namespace BSI.Core
             return other.IsAtWarWith(this.Leader.Clan);
         }
 
-        public void RemoveMember(Hero hero)
+        public bool RemoveMember(Hero clanLeader)
         {
-            FactionInfo<Clan> factionInfo = new FactionInfo<Clan>(hero.Clan);
-            this.Opponents.AddItem(hero.Clan.StringId, factionInfo);
-            this.Members.Remove(hero.Clan.StringId);
+            if (!this.Members.Contains(clanLeader) || !(clanLeader.Clan.Leader.Equals(clanLeader))) { return false; }
+            else
+            {
+                List<Hero> leavers = new List<Hero>(clanLeader.Clan.Lords);
+                this.Opponents.AddRange(leavers);
+                foreach (Hero leaver in leavers)
+                {
+                    this.Members.Remove(leaver);
+                }
+                return true;
+            }
         }
+        public bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.GetEndCondition);
 
-        public bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.EndCondition);
-        
-        // Methods below not used
-        public string EncyclopediaLink => throw new NotImplementedException();
-        public string EncyclopediaLinkWithName => throw new NotImplementedException();
-        public TextObject EncyclopediaText => throw new NotImplementedException();
-        public Vec2 InitialPosition => throw new NotImplementedException();
-        public IEnumerable<Town> Fiefs => throw new NotImplementedException();
-        public uint LabelColor => throw new NotImplementedException();
-        public Vec2 FactionMidPoint => throw new NotImplementedException();
+        string IFaction.EncyclopediaLink => throw new NotImplementedException();
+
+        string IFaction.EncyclopediaLinkWithName => throw new NotImplementedException();
+
+        TextObject IFaction.EncyclopediaText => throw new NotImplementedException();
+
+        Vec2 IFaction.InitialPosition => throw new NotImplementedException();
+
+        uint IFaction.LabelColor => throw new NotImplementedException();
+
+        IEnumerable<Town> IFaction.Fiefs => throw new NotImplementedException();
+
+        Vec2 IFaction.FactionMidPoint => throw new NotImplementedException();
 
 
     }

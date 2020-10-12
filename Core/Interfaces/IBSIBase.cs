@@ -10,4 +10,9 @@ namespace BSI.Core
     {
 
     }
+
+    public interface IBSIManagerBase
+    {
+
+    }
 }

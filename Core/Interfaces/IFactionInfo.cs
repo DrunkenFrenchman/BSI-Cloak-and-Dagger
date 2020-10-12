@@ -39,6 +39,7 @@ namespace BSI.Core
 
         StanceLink GetStanceWith(IFaction other);
         bool IsAtWarWith(IFaction other);
-
+        
+        
     }
 }

@@ -9,12 +9,10 @@ namespace BSI.Core
         IFaction ParentFaction { get; set; }
         IFaction OriginalFaction { get; set; }
         bool IsCivilWar { get; set; }
-        IBaseManager<String, FactionInfo<IFaction>> Members { get; }
-        IBaseManager<String, FactionInfo<IFaction>> Opponents { get; }
         new Hero Leader { get; set; }
         Goal EndGoal { get; set; }
-        void AddMember(Hero hero);
-        void RemoveMember(Hero hero);
+        bool AddMember(Hero hero);
+        bool RemoveMember(Hero hero);
         void End();
     }
 }
