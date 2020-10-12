@@ -11,8 +11,8 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.Core
 {
-    public interface IBaseManager<TKey, TValue> : IDictionary<String, FactionInfo>
-    {
+    public interface IBaseManager<TKey, TValue> : IDictionary<String, TValue> where TValue : FactionInfo<IFaction>
+    { 
         TValue this[TKey key] { get; set; }
         new ICollection<TValue> Values { get; }
         void Add(TKey key, TValue value);

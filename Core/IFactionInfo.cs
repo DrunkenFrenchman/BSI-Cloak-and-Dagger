@@ -12,7 +12,7 @@ namespace BSI.Core
     public interface IFactionInfo<IFaction>
     {
         string StringId { get; }
-        Hero Leader { get; set; }
+        Hero Leader { get; }
         IEnumerable<Hero> Lords { get; }
         IEnumerable<MobileParty> AllParties { get; }
         IEnumerable<MobileParty> WarParties { get; }
@@ -26,14 +26,14 @@ namespace BSI.Core
         IFaction MapFaction { get; }
         float TotalStrength { get; }
         IEnumerable<StanceLink> Stances { get; }
-        int TributeWallet { get; set; }
-        float MainHeroCrimeRating { get; set; }
+        int TributeWallet { get; }
+        float MainHeroCrimeRating { get; }
         float DailyCrimeRatingChange { get; }
         float Aggressiveness { get; }
         bool IsEliminated { get; }
         IEnumerable<Hero> Heroes { get; }
         StatExplainer DailyCrimeRatingChangeExplained { get; }
-        CampaignTime NotAttackableByPlayerUntilTime { get; set; }
+        CampaignTime NotAttackableByPlayerUntilTime { get; }
         IEnumerable<Settlement> Settlements { get; }
         TextObject Name { get; }
         TextObject InformalName { get; }

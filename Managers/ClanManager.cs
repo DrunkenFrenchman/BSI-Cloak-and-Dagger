@@ -11,7 +11,7 @@ using BSI.Core;
 
 namespace BSI.Manager
 {
-    class ClanManager<id, clan> : Dictionary<string, FactionInfo>
+    class ClanManager<id, clan> : Dictionary<string, FactionInfo<IFaction>>
     {
 
     }

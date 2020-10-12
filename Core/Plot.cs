@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using static TaleWorlds.CampaignSystem.Hero;
 
 namespace BSI.Core
 {
@@ -22,70 +25,129 @@ namespace BSI.Core
         public IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
-        public IBaseManager<string, Hero> Members { get => this.Members; }
-        public IBaseManager<string, Hero> Opponents { get => this.Opponents; }
-        public List<Goal> EndGoal { get => this.EndGoal; set => EndGoal = value; }
-        public TextObject Name => throw new NotImplementedException();
+        public IBaseManager<string, FactionInfo<IFaction>> Members { get => this.Members; }
+        public IBaseManager<string, FactionInfo<IFaction>> Opponents { get => this.Opponents; }
+        public Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
+        public TextObject Name => new TextObject(condition.PlotManifesto(this));
 
-        public string StringId => throw new NotImplementedException();
+        public string StringId { get => this.StringId; set => StringId = value; }
 
-        public TextObject InformalName => throw new NotImplementedException();
+        public TextObject InformalName => new TextObject("Plot for " + this.EndGoal.ToString());
 
-        public string EncyclopediaLink => throw new NotImplementedException();
+        public CultureObject Culture => this.OriginalFaction.Culture;
 
-        public string EncyclopediaLinkWithName => throw new NotImplementedException();
+        public uint Color => this.OriginalFaction.Color;
 
-        public TextObject EncyclopediaText => throw new NotImplementedException();
+        public uint Color2 => this.OriginalFaction.Color2;
 
-        public CultureObject Culture => throw new NotImplementedException();
+        public uint AlternativeColor => this.OriginalFaction.AlternativeColor;
 
-        public Vec2 InitialPosition => throw new NotImplementedException();
+        public uint AlternativeColor2 => this.OriginalFaction.AlternativeColor2;
 
-        public uint LabelColor => throw new NotImplementedException();
+        public CharacterObject BasicTroop => this.OriginalFaction.BasicTroop;
 
-        public uint Color => throw new NotImplementedException();
+        public Hero Leader { get => this.Leader; set => Leader = value; }
 
-        public uint Color2 => throw new NotImplementedException();
+        public Banner Banner => this.Leader.ClanBanner;
 
-        public uint AlternativeColor => throw new NotImplementedException();
+        private List<Settlement> GetSettlements()
+        {
+            List<Settlement> settlements = new List<Settlement>();
+            foreach (var member in this.Members)
+            {
+                foreach (Settlement settlement in member.Value.Settlements)
+                {
+                    settlements.Add(settlement);
+                }
+            }
+            return settlements;
+        }
+        public IEnumerable<Settlement> Settlements => this.GetSettlements();
 
-        public uint AlternativeColor2 => throw new NotImplementedException();
+        private List<Hero> GetLords()
+        {
+            List<Hero> lords = new List<Hero>();
 
-        public CharacterObject BasicTroop => throw new NotImplementedException();
+            foreach (Hero hero in this.Heroes)
+            {
+                if (!hero.Rank.Equals(FactionRank.None)) { lords.Add(hero); } 
+            }
+            return lords;
+        }
+        public IEnumerable<Hero> Lords => this.GetLords();
 
-        public Hero Leader { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private List<Hero> GetHeroes()
+        {
+            List<Hero> heroes = new List<Hero>();
 
-        public Banner Banner => throw new NotImplementedException();
+            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
+            {
+                foreach (Hero hero in pair.Value.Heroes)
+                {
+                    heroes.Add(hero);
+                }
+            }
 
-        public IEnumerable<Settlement> Settlements => throw new NotImplementedException();
+            return heroes;
+        }
 
-        public IEnumerable<Town> Fiefs => throw new NotImplementedException();
+        public IEnumerable<Hero> Heroes => this.GetHeroes();
 
-        public IEnumerable<Hero> Lords => throw new NotImplementedException();
+        private IEnumerable<MobileParty> GetAllParties()
+        {
+            List<MobileParty> mobileParties = new List<MobileParty>();
 
-        public IEnumerable<Hero> Heroes => throw new NotImplementedException();
+            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
+            {
+                foreach (MobileParty mobile in pair.Value.AllParties)
+                {
+                    mobileParties.Add(mobile);
+                }
+            }
+            return mobileParties;        
+        }
+        public IEnumerable<MobileParty> AllParties => this.GetAllParties();
 
-        public IEnumerable<MobileParty> AllParties => throw new NotImplementedException();
+        private IEnumerable<MobileParty> GetWarParties()
+        {
+            List<MobileParty> warParties = new List<MobileParty>();
 
-        public IEnumerable<MobileParty> WarParties => throw new NotImplementedException();
+            foreach (KeyValuePair<String, FactionInfo<IFaction>> pair in this.Members)
+            {
+                foreach (MobileParty mobile in pair.Value.WarParties)
+                {
+                    warParties.Add(mobile);
+                }
+            }
+            return warParties;
+        }
 
-        public bool IsBanditFaction => throw new NotImplementedException();
+        public IEnumerable<MobileParty> WarParties => this.GetWarParties();
 
-        public bool IsMinorFaction => throw new NotImplementedException();
+        public bool IsBanditFaction => this.OriginalFaction.IsBanditFaction;
 
-        public bool IsKingdomFaction => throw new NotImplementedException();
+        public bool IsMinorFaction => this.IsMinorFaction;
 
-        public bool IsClan => throw new NotImplementedException();
+        public bool IsKingdomFaction => this.IsKingdomFaction;
 
-        public bool IsOutlaw => throw new NotImplementedException();
+        public bool IsClan => this.IsClan;
 
-        public bool IsMapFaction => throw new NotImplementedException();
+        public bool IsOutlaw => this.IsOutlaw;
 
-        public IFaction MapFaction => throw new NotImplementedException();
+        public bool IsMapFaction => this.IsMapFaction;
 
-        public float TotalStrength => throw new NotImplementedException();
+        public IFaction MapFaction => this.ParentFaction;
 
-        public Vec2 FactionMidPoint => throw new NotImplementedException();
+        private float GetTotalStrength()
+        {
+            float strength = 0;
+            foreach (MobileParty party in this.WarParties)
+            {
+                strength += party.GetTotalStrengthWithFollowers();
+            }
+            return strength;
+        }
+        public float TotalStrength => this.GetTotalStrength();
 
         public IEnumerable<StanceLink> Stances => throw new NotImplementedException();
 
@@ -96,7 +158,7 @@ namespace BSI.Core
 
         public float Aggressiveness => throw new NotImplementedException();
 
-        public bool IsEliminated => throw new NotImplementedException();
+        public bool IsEliminated => this.Members.IsEmpty();
 
         public StatExplainer DailyCrimeRatingChangeExplained => throw new NotImplementedException();
 
@@ -133,5 +195,16 @@ namespace BSI.Core
         }
         Condition condition = new Condition();
         public Goal IsComplete => condition.GoalIsMet(this);
+        
+        // Methods below not used
+        public string EncyclopediaLink => throw new NotImplementedException();
+        public string EncyclopediaLinkWithName => throw new NotImplementedException();
+        public TextObject EncyclopediaText => throw new NotImplementedException();
+        public Vec2 InitialPosition => throw new NotImplementedException();
+        public IEnumerable<Town> Fiefs => throw new NotImplementedException();
+        public uint LabelColor => throw new NotImplementedException();
+        public Vec2 FactionMidPoint => throw new NotImplementedException();
+
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,11 +11,11 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
-    public abstract class BaseManager<TKey, TFaction> : IBaseManager<String, FactionInfo> where TFaction : FactionInfo
+    public abstract class BaseManager<TKey, TValue> : IBaseManager<String, FactionInfo<IFaction>>
     {
-        public FactionInfo this[string key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public FactionInfo<IFaction> this[string key] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public ICollection<FactionInfo> Values => throw new NotImplementedException();
+        public ICollection<FactionInfo<IFaction>> Values => throw new NotImplementedException();
 
         public ICollection<string> Keys => throw new NotImplementedException();
 
@@ -22,12 +23,12 @@ namespace BSI.Core
 
         public bool IsReadOnly => throw new NotImplementedException();
 
-        public void Add(string key, FactionInfo value)
+        public void Add(string key, FactionInfo<IFaction> value)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(KeyValuePair<string, FactionInfo> item)
+        public void Add(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
             throw new NotImplementedException();
         }
@@ -37,7 +38,7 @@ namespace BSI.Core
             throw new NotImplementedException();
         }
 
-        public bool Contains(KeyValuePair<string, FactionInfo> item)
+        public bool Contains(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
             throw new NotImplementedException();
         }
@@ -47,12 +48,12 @@ namespace BSI.Core
             throw new NotImplementedException();
         }
 
-        public void CopyTo(KeyValuePair<string, FactionInfo>[] array, int arrayIndex)
+        public void CopyTo(KeyValuePair<string, FactionInfo<IFaction>>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerator<KeyValuePair<string, FactionInfo>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, FactionInfo<IFaction>>> GetEnumerator()
         {
             throw new NotImplementedException();
         }
@@ -62,12 +63,12 @@ namespace BSI.Core
             throw new NotImplementedException();
         }
 
-        public bool Remove(KeyValuePair<string, FactionInfo> item)
+        public bool Remove(KeyValuePair<string, FactionInfo<IFaction>> item)
         {
             throw new NotImplementedException();
         }
 
-        public bool TryGetValue(string key, out FactionInfo value)
+        public bool TryGetValue(string key, out FactionInfo<IFaction> value)
         {
             throw new NotImplementedException();
         }

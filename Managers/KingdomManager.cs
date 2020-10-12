@@ -10,7 +10,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.Manager
 {
-    public class KingdomManager<Key, Data> where Data : FactionInfo
+    public class KingdomManager<Key, Data> where Data : FactionInfo<IFaction>
     {
       
     }

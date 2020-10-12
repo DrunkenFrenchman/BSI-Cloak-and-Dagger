@@ -14,25 +14,25 @@ using HarmonyLib;
 
 namespace BSI.Core
 {
-    public abstract class FactionInfo : IFactionInfo<IFaction>, IFactionInfo<IPlot>
+    public abstract class FactionInfo<TValue> : IFactionInfo<IFaction>
     {
 
-        protected FactionInfo(IFaction faction)
+        protected FactionInfo(IFaction faction, bool isCivilWar = false)
         {
             Faction = faction;
-            this.IsCivilWar = false;           
+            this.IsCivilWar = isCivilWar;           
         }
-        protected FactionInfo(IPlot faction)
+        protected FactionInfo(IPlot faction, bool isCivilWar = true)
         {
-            Faction = faction;
-            this.IsCivilWar = true;
+            Faction = (IFaction) faction;
+            this.IsCivilWar = isCivilWar;
         }
 
         IFaction Faction { get => this.Faction; set => Faction = value; }
 
         public string StringId { get => Faction.StringId; }
 
-        public Hero Leader { get => Faction.Leader; set => Leader = value; }
+        public Hero Leader { get => Faction.Leader; }
 
         public IEnumerable<MobileParty> WarParties { get => Faction.WarParties; }
         
@@ -73,9 +73,9 @@ namespace BSI.Core
 
         public IEnumerable<StanceLink> Stances { get => Faction.Stances; }
 
-        public int TributeWallet { get => Faction.TributeWallet; set => TributeWallet = value; }
+        public int TributeWallet { get => Faction.TributeWallet; set => Faction.TributeWallet = value; }
 
-        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating ; set => MainHeroCrimeRating = value; }
+        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating ; set => Faction.MainHeroCrimeRating = value; }
 
         public float DailyCrimeRatingChange { get => Faction.DailyCrimeRatingChange; }
 
@@ -101,21 +101,12 @@ namespace BSI.Core
 
         public Banner Banner { get => Faction.Banner; }
 
-        IPlot IFactionInfo<IPlot>.MapFaction => throw new NotImplementedException();
+        IFaction IFactionInfo<IFaction>.MapFaction => (IPlot) this.Faction.MapFaction;
 
         public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
 
         public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
-        public StanceLink GetStanceWith(IPlot other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool IsAtWarWith(IPlot other)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
 
