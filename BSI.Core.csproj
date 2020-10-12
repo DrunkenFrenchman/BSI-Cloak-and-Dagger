@@ -194,20 +194,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Behavior.cs" />
+    <Compile Include="Core\Interfaces\IBehavior.cs" />
     <Compile Include="SubModule.cs" />
-    <Compile Include="Core\BaseManager.cs" />
-    <Compile Include="Core\Goal.cs" />
-    <Compile Include="Core\IBSIObjectBase.cs" />
-    <Compile Include="Core\Plot.cs" />
-    <Compile Include="Core\IFactionInfo.cs" />
-    <Compile Include="Core\IBaseManager.cs" />
+    <Compile Include="Core\Objects\_BaseManager.cs" />
+    <Compile Include="Core\Objects\_Goal.cs" />
+    <Compile Include="Core\Interfaces\IBSIObjectBase.cs" />
+    <Compile Include="Core\Objects\_Plot.cs" />
+    <Compile Include="Core\Interfaces\IFactionInfo.cs" />
+    <Compile Include="Core\Interfaces\IBaseManager.cs" />
     <Compile Include="Managers\PlotManager.cs" />
     <Compile Include="Managers\ClanManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
-    <Compile Include="Core\FactionInfo.cs" />
+    <Compile Include="Core\Objects\_FactionInfo.cs" />
     <Compile Include="Managers\KingdomManager.cs" />
-    <Compile Include="Core\IPlot.cs" />
+    <Compile Include="Core\Interfaces\IPlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
