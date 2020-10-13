@@ -11,9 +11,6 @@ namespace BSI.Core
 {
     public abstract class BaseManager<TValue> : List<TValue>, IManager<TValue> where TValue : IBSIObjectBase
     {
-        public static implicit operator BaseManager<TValue>(FactionManager<IBSIObjectBase> v)
-        {
-            return v;
-        }
+ 
     }
 }

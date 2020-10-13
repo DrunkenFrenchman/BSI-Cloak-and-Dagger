@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using BSI.Manager;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
@@ -40,7 +41,7 @@ namespace BSI.Core
         StanceLink GetStanceWith(IFaction other);
         bool IsAtWarWith(IFaction other);
 
-        BaseManager<IBSIObjectBase> VassalManager { get; }
-        BaseManager<IBSIObjectBase> PlotManager { get; }
+        List<FactionInfo> VassalManager { get; }
+        PlotManager PlotManager { get; set; }
     }
 }

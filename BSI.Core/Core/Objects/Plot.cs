@@ -12,32 +12,28 @@ namespace BSI.Core
     public abstract class Plot : IPlot, IBSIObjectBase
     {
         public Plot(
-            CharacterObject instigator,
+            Hero instigator,
             Goal endGoal,
-            Goal initialGoal = null, 
-            bool isCivilWar = false
+            Type type,
+            Goal initialGoal = null
             )
         {
-            if (instigator.IsHero &&  instigator.HeroObject.Clan.Leader.Equals(instigator))
+            if (instigator.Clan.Leader.Equals(instigator))
             {
-                this.Leader = instigator.HeroObject;
+                this.Leader = instigator;
                 this.EndGoal = endGoal;
+                this.PlotType = type;
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
-                if (isCivilWar is true)
-                {
-                    this.IsCivilWar = true;
-                }
             }
             else throw new ArgumentException();
         }
-
         public virtual Behavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
         public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public virtual bool IsCivilWar { get => this.IsCivilWar; set => this.IsCivilWar = value; }
+        public virtual Type PlotType { get => this.PlotType; set => this.PlotType = value; }
         public virtual Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
         public virtual TextObject Name => new TextObject(this.EndGoal.GetManifesto);
         public virtual List<Hero> Members { get => this.Members; }

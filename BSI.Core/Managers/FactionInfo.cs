@@ -12,6 +12,7 @@ using System.Reflection;
 using BSI.Core;
 using HarmonyLib;
 using BSI.Manager;
+using BSI.Core.Tools;
 
 namespace BSI.Core
 {
@@ -20,13 +21,10 @@ namespace BSI.Core
 
         public FactionInfo(IFaction faction, bool isPlot = false)
         {
-            Faction = faction;
-            this.IsPlot = isPlot;           
-        }
-        public FactionInfo(IPlot faction, bool isCivilWar = true)
-        {
-            Faction = (IFaction) faction;
-            this.IsPlot = isCivilWar;
+            this.Faction = faction;
+            this.IsPlot = false;
+            this.PlotManager = new PlotManager();
+            BSI_Faction.Lookup.Add( faction.StringId, this );
         }
 
         public IFaction Faction { get => this.Faction; set => Faction = value; }
@@ -102,23 +100,26 @@ namespace BSI.Core
 
         public Banner Banner { get => Faction.Banner; }
 
-        internal FactionManager<FactionInfo> PopulateVassalManager()
+        internal List<FactionInfo> PopulateVassalManager()
         {
+            List<FactionInfo> temp = new List<FactionInfo>();
             if (!this.IsClan)
             {
                 foreach (Hero hero in this.Heroes)
                 {
-                    if (Tools.isClanLeader(hero))
+                    if (BSI_Hero.IsClanLeader(hero))
                     {
-
+                        temp.Add(new FactionInfo(hero.Clan));
                     }
-                } 
+                }
+                return temp;
             }
+            else return null;
         }
 
-        public BaseManager<IBSIObjectBase> VassalManager => this.VassalManager;
+        public List<FactionInfo> VassalManager => this.PopulateVassalManager();
 
-        public BaseManager<IBSIObjectBase> PlotManager => this.PlotManager;
+        public PlotManager PlotManager { get => this.PlotManager; set => this.PlotManager = value; }
         public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
         public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }

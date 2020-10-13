@@ -1,4 +1,4 @@
-﻿using BSI.Managers;
+﻿using BSI.Manager;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,15 +4,6 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
-    [Flags]
-    public enum Targets
-    {
-        Hero,
-        Clan,
-        Kingdom,
-        Plot,
-        World,
-    }
 
     public sealed class Goal
     {

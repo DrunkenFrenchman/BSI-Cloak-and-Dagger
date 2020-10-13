@@ -195,8 +195,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Objects\Behavior.cs" />
-    <Compile Include="Core\Tools\Tools.cs" />
-    <Compile Include="Managers\BehaviorManager.cs" />
+    <Compile Include="Core\Tools\BSI_Hero.cs" />
+    <Compile Include="Core\Tools\BSI_Faction.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Core\Objects\BaseManager.cs" />
     <Compile Include="Core\Objects\Goal.cs" />
@@ -205,9 +205,8 @@
     <Compile Include="Core\Interfaces\IFactionInfo.cs" />
     <Compile Include="Core\Interfaces\IManager.cs" />
     <Compile Include="Managers\PlotManager.cs" />
-    <Compile Include="Managers\FactionManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
-    <Compile Include="Core\Objects\FactionInfo.cs" />
+    <Compile Include="Managers\FactionInfo.cs" />
     <Compile Include="Core\Interfaces\IPlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
