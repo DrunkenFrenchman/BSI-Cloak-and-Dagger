@@ -11,26 +11,6 @@ namespace BSI.Core
 {
     class SubModule : MBSubModuleBase
     {
-        public override void BeginGameStart(Game game)
-        {
-            base.BeginGameStart(game);
-        }
-
-        public override bool DoLoading(Game game)
-        {
-            return base.DoLoading(game);
-        }
-
-        public override void OnCampaignStart(Game game, object starterObject)
-        {
-            base.OnCampaignStart(game, starterObject);
-        }
-
-        public override void OnGameEnd(Game game)
-        {
-            base.OnGameEnd(game);
-        }
-
         public override void OnGameInitializationFinished(Game game)
         {
             base.OnGameInitializationFinished(game);

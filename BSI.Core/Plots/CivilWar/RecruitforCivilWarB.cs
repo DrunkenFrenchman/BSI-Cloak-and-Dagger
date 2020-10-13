@@ -9,14 +9,14 @@ using BSI.Manager;
 using Messages.FromLobbyServer.ToClient;
 using TaleWorlds.CampaignSystem;
 
-namespace BSI.Core.Behaviors
+namespace BSI.Plots.CivilWar
 {
-    public sealed class RecruitforCivilWar : BehaviorCore
+    public sealed class RecruitforCivilWarB : BehaviorCore
     {
         private static readonly MySettings settings = new MySettings();
 
         private readonly Plot ThisPlot;
-        public RecruitforCivilWar(Goal goal)
+        public RecruitforCivilWarB(Goal goal)
         {
             this.ThisPlot = goal.GetPlot;
         }

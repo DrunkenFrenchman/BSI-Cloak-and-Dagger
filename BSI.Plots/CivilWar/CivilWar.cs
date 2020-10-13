@@ -17,14 +17,13 @@ namespace BSI.Plots
     public class CivilWar : Plot, IPlot
     {
         internal static MySettings settings = new MySettings();
-        public CivilWar(Hero instigator, Goal endGoal, Type type, Goal initialGoal = null, Uniqueto uniqueto = Uniqueto.Kingdom) : base(instigator, endGoal, type, initialGoal)
+        public CivilWar(Hero instigator, Goal endGoal, Goal initialGoal = null, Uniqueto uniqueto = Uniqueto.Kingdom) : base(instigator, endGoal, initialGoal)
         {
 
             if (instigator.Clan.Leader.Equals(instigator) && !instigator.Clan.Kingdom.Leader.Equals(instigator))
             {
                 this.Leader = instigator;
                 this.EndGoal = endGoal;
-                this.PlotType = type;
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
                 this.Uniqueto = uniqueto;

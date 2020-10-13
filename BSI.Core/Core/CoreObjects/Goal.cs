@@ -9,11 +9,9 @@ namespace BSI.Core
     {
         public Goal(
             IFaction target, 
-            Plot plot, 
             Goal nextGoal = null
             )
         {
-            this.Plot = plot;
             this.Target = target;
             this.NextGoal = nextGoal is null ? this : nextGoal;
         }

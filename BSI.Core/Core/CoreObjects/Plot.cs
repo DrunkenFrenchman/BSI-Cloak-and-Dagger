@@ -15,9 +15,8 @@ namespace BSI.Core
     {
         public Plot(
             Hero instigator,
-            Goal endGoal,
-            Type type,
-            Goal initialGoal = null,
+            Goal initialGoal,
+            Goal endGoal = null,
             Uniqueto unique = 0
             )
         {
@@ -25,7 +24,6 @@ namespace BSI.Core
             {
                 this.Leader = instigator;
                 this.EndGoal = endGoal;
-                this.PlotType = type;
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
                 PlotManager.AllPlots.Add(this);
@@ -40,7 +38,7 @@ namespace BSI.Core
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
         public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public virtual Type PlotType { get => this.PlotType; set => this.PlotType = value; }
+        public virtual Type PlotType { get => this.GetType(); set => this.PlotType = value; }
         public virtual Goal EndGoal { get => this.EndGoal; set => this.EndGoal = value; }
         public virtual TextObject Name => new TextObject(this.EndGoal.Manifesto);
         public virtual List<Hero> Members { get => this.Members; }

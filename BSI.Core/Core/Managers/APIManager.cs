@@ -17,10 +17,7 @@ namespace BSI.Core.Managers
         }
         public static void RunDailyChecks()
         {
-            foreach (Type type in PlotTypes.Values)
-            {
-                 
-            }
+
         }
     }
 }
