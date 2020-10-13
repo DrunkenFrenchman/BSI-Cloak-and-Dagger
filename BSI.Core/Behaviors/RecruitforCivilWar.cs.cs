@@ -23,8 +23,19 @@ namespace BSI.Core.Behaviors
         public override bool EndCondition()
         {
             int tick = new Random().Next(100);
+            double warPersonality 
+                = BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Generosity)
+                + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Mercy)
+                + BSI_Hero.GetTraitLevel(ThisPlot.OriginalFaction.Leader, BSI_Hero.HeroTraits.Generosity)
+                + BSI_Hero.GetTraitLevel(ThisPlot.OriginalFaction.Leader, BSI_Hero.HeroTraits.Mercy);
+            double valorFactor
+                = Math.Pow((ThisPlot.TotalStrength / (ThisPlot.OriginalFaction.TotalStrength - ThisPlot.TotalStrength)),
+                BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor) == 0 ? 1 : 2 * BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor));
+            double warPartyFactor
+                = Math.Pow((ThisPlot.WarParties.Count() / (ThisPlot.OriginalFaction.WarParties.Count() - ThisPlot.WarParties.Count())),
+                1 + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Calc));
 
-            throw new NotImplementedException();
+            return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
         }
 
         public override bool OnDailyTick()
@@ -40,6 +51,11 @@ namespace BSI.Core.Behaviors
                 IsNewLeader(plotter);
             }
 
+            if (EndCondition() && !ThisPlot.CurrentGoal.IsEndGoal)
+            {
+                ThisPlot.CurrentGoal = ThisPlot.CurrentGoal.GetNextGoal;
+            }
+            else { return false; }
             return true;
         }
 

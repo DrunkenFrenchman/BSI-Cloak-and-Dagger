@@ -7,13 +7,13 @@ namespace BSI
 
     public class Debug
     {
-        private static readonly BSI.Plots.Settings settings = BSI.Plots.Settings.Instance;
+        private static readonly BSI.Plots.MySettings settings = BSI.Plots.MySettings.Instance;
         private static readonly string fileName = typeof(Debug).Namespace + ".debug.log";
 
         //Print Message in Game Helper
         public static void PrintMessage(string message)
         {
-            if (settings.BSIDebug is true)
+            if (settings.BSIPlotsDebug is true)
             {
                 if (message != null) { InformationManager.DisplayMessage(new InformationMessage(message)); }
                 else { InformationManager.DisplayMessage(new InformationMessage(typeof(Debug).Namespace + " tried printing null message!")); }
@@ -38,7 +38,7 @@ namespace BSI
         //Add Log Helper
         public static void AddEntry(string entry)
         {
-            if (settings.BSIDebug is false) { return; }
+            if (settings.BSIPlotsDebug is false) { return; }
 
             //Create Directory
             string path = GetDirectory();
