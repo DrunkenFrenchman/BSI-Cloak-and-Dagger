@@ -13,6 +13,7 @@ namespace BSI.Manager
 {
     public class FactionManager<T> : BaseManager<T>, IBSIManagerBase where T : IBSIObjectBase
     {
+        
 
     }
 }

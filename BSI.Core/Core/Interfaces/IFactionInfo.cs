@@ -40,7 +40,6 @@ namespace BSI.Core
         StanceLink GetStanceWith(IFaction other);
         bool IsAtWarWith(IFaction other);
 
-        BaseManager<IBSIObjectBase> SubFactionManager { get; }
         BaseManager<IBSIObjectBase> VassalManager { get; }
         BaseManager<IBSIObjectBase> PlotManager { get; }
     }

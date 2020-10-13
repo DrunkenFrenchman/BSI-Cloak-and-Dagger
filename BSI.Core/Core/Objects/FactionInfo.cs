@@ -102,15 +102,19 @@ namespace BSI.Core
 
         public Banner Banner { get => Faction.Banner; }
 
-        internal FactionManager<IBSIObjectBase> PopulateManager()
+        internal FactionManager<FactionInfo> PopulateVassalManager()
         {
-            FactionManager<IBSIObjectBase> temp = new FactionManager<IBSIObjectBase>();
-            
-            temp.AddRange(this.VassalManager);
-            temp.AddRange(this.PlotManager);
-            return temp;
+            if (!this.IsClan)
+            {
+                foreach (Hero hero in this.Heroes)
+                {
+                    if (Tools.isClanLeader(hero))
+                    {
+
+                    }
+                } 
+            }
         }
-        public BaseManager<IBSIObjectBase> SubFactionManager => this.PopulateManager();
 
         public BaseManager<IBSIObjectBase> VassalManager => this.VassalManager;
 

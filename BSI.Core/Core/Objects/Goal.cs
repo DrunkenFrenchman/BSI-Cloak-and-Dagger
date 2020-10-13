@@ -11,6 +11,7 @@ namespace BSI.Core
         Clan,
         Kingdom,
         Plot,
+        World,
     }
 
     public sealed class Goal
@@ -32,6 +33,7 @@ namespace BSI.Core
             this.NextGoal = nextGoal;
 
         }
+
 #pragma warning disable CS0628 // New protected member declared in sealed class
         protected IFaction Target { get => this.Target; set => this.Target = value; }
 #pragma warning restore CS0628 // New protected member declared in sealed class

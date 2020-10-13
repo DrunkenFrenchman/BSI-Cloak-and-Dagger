@@ -14,28 +14,26 @@ namespace BSI.Manager
     [Serializable]
     sealed class GameManager : BaseManager<IBSIObjectBase>, IManager<IBSIObjectBase>, IBSIManagerBase
     {
-        public Game Game { get => this.Game; set => this.Game = value; }
+        public static Game CurrentGame;
 
-        public GameManager(Game game)
+        public static readonly List<IBSIObjectBase> Kingdoms;
+
+        public static readonly PlotManager GlobalPlots = new PlotManager(CurrentGame);
+
+        public static void NewGame(Game game)
         {
-            this.Game = game;
-            this.Update();
+            GameManager.CurrentGame = game;
+            GameManager.UpdateKingdoms();
         }
 
-        public void Update()
+        public static void UpdateKingdoms()
         {
-            GameManager temp = new GameManager(Game);
+            GameManager.Kingdoms.Clear();
 
             foreach (Kingdom kingdom in Kingdom.All)
             {
-                temp.Add(new FactionInfo(kingdom));
-                foreach (PlotManager plot in this)
-                {
-                    temp.Add(plot);
-                }
+                GameManager.Kingdoms.Add(new FactionInfo(kingdom));
             }
-            this.Clear();
-            this.AddRange(temp);
         }
     }
 }

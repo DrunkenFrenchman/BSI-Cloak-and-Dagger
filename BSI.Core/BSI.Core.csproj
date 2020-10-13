@@ -195,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Objects\Behavior.cs" />
+    <Compile Include="Core\Tools\Tools.cs" />
     <Compile Include="Managers\BehaviorManager.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Core\Objects\BaseManager.cs" />
