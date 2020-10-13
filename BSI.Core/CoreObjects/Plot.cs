@@ -28,14 +28,14 @@ namespace BSI.Core
             }
             else throw new ArgumentException();
         }
-        public virtual Behavior CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
+        public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
         public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual Type PlotType { get => this.PlotType; set => this.PlotType = value; }
         public virtual Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
-        public virtual TextObject Name => new TextObject(this.EndGoal.GetManifesto);
+        public virtual TextObject Name => new TextObject(this.EndGoal.Manifesto);
         public virtual List<Hero> Members { get => this.Members; }
         private List<Hero> GetClanLeaders()
         {
@@ -50,7 +50,7 @@ namespace BSI.Core
         public virtual List<Hero> Opponents { get => this.Opponents; }
         public virtual string StringId { get => this.StringId; set => StringId = value; }
 
-        public virtual TextObject InformalName => new TextObject("Plot for " + this.EndGoal.GetManifesto);
+        public virtual TextObject InformalName => new TextObject("Plot for " + this.EndGoal.Manifesto);
 
         public virtual CultureObject Culture => this.OriginalFaction.Culture;
 
@@ -201,7 +201,7 @@ namespace BSI.Core
                 return true;
             }
         }
-        public virtual bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.GetEndCondition);
+        public virtual bool IsComplete => (this.CurrentGoal == this.EndGoal && this.EndGoal.EndCondition);
 
         string IFaction.EncyclopediaLink => throw new NotImplementedException();
 

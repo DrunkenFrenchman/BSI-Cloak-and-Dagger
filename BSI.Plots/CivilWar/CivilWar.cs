@@ -10,16 +10,17 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using BSI.Manager;
 using BSI.Core.Tools;
+using TaleWorlds.CampaignSystem.Conversation.Tags;
 
 namespace BSI.Plots
 {
     public class CivilWar : Plot, IPlot
     {
-        
+        internal static MySettings settings = new MySettings();
         public CivilWar(Hero instigator, Goal endGoal, Type type, Goal initialGoal = null) : base(instigator, endGoal, type, initialGoal)
         {
 
-            if (instigator.Clan.Leader.Equals(instigator))
+            if (instigator.Clan.Leader.Equals(instigator) && !instigator.Clan.Kingdom.Leader.Equals(instigator))
             {
                 this.Leader = instigator;
                 this.EndGoal = endGoal;
@@ -31,37 +32,5 @@ namespace BSI.Plots
 
         }
 
-        protected class StageOne : Behavior
-        {
-
-            public override bool EndCondition()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override bool OnDailyTick()
-            {
-                foreach (Kingdom k in GameManager.Kingdoms)
-                {
-                    foreach (Hero hero in k.Heroes)
-                    {
-                        if (BSI_Hero.IsClanLeader(hero))
-                        {
-
-                        }
-                    }
-                }
-            }
-
-            internal bool StartedPlotting(Hero hero)
-            {
-                
-            }
-
-            public override bool OnGameLoad()
-            {
-                throw new NotImplementedException();
-            }
-        }
     }
 }

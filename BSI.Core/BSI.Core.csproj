@@ -7,7 +7,7 @@
     <ProjectGuid>{1B849401-926E-4D5C-BFF8-DFCC1DEDFD41}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BSI</RootNamespace>
+    <RootNamespace>BSI.Core</RootNamespace>
     <AssemblyName>BloodShitandIron</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,8 +55,8 @@
     <Reference Include="0Harmony">
       <HintPath>..\..\..\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.Harmony\bin\Win64_Shipping_Client\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="MCMv4">
-      <HintPath>..\..\..\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.MBOptionScreen\bin\Win64_Shipping_Client\MCMv4.dll</HintPath>
+    <Reference Include="MCMv3">
+      <HintPath>..\..\..\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Bannerlord.MBOptionScreen.MCMv3\bin\Win64_Shipping_Client\MCMv3.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -194,20 +194,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Objects\Behavior.cs" />
-    <Compile Include="Core\Tools\BSI_Hero.cs" />
-    <Compile Include="Core\Tools\BSI_Faction.cs" />
+    <Compile Include="Behaviors\Recruit.cs" />
+    <Compile Include="Goals\Recruit.cs" />
+    <Compile Include="CoreObjects\Behavior.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Tools\BSI_Hero.cs" />
+    <Compile Include="Tools\BSI_Faction.cs" />
     <Compile Include="SubModule.cs" />
-    <Compile Include="Core\Objects\BaseManager.cs" />
-    <Compile Include="Core\Objects\Goal.cs" />
-    <Compile Include="Core\Interfaces\IBSIBase.cs" />
-    <Compile Include="Core\Objects\Plot.cs" />
-    <Compile Include="Core\Interfaces\IFactionInfo.cs" />
-    <Compile Include="Core\Interfaces\IManager.cs" />
+    <Compile Include="CoreObjects\BaseManager.cs" />
+    <Compile Include="CoreObjects\Goal.cs" />
+    <Compile Include="Interfaces\IBSIBase.cs" />
+    <Compile Include="CoreObjects\Plot.cs" />
+    <Compile Include="Interfaces\IFactionInfo.cs" />
+    <Compile Include="Interfaces\IManager.cs" />
     <Compile Include="Managers\PlotManager.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Managers\FactionInfo.cs" />
-    <Compile Include="Core\Interfaces\IPlot.cs" />
+    <Compile Include="Interfaces\IPlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

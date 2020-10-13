@@ -10,11 +10,11 @@ using TaleWorlds.MountAndBlade;
 
 namespace BSI.Core
 {
-    public abstract class Behavior
+    public abstract class BehaviorCore
     {
         public System.Reflection.MemberInfo[] GetMembers()
         {
-            return typeof(Behavior).GetMembers();
+            return typeof(BehaviorCore).GetMembers();
         }
 
         public abstract bool EndCondition();

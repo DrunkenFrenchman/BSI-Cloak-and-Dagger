@@ -44,5 +44,31 @@ namespace BSI.Core.Tools
             catch { throw new ArgumentException(); }
             return null;
         }
+
+        internal static List<TraitObject> traitObjects = new List<TraitObject>(TraitObject.All);
+        public enum HeroTraits
+        {
+            Valor,
+            Mercy,
+            Honor,
+            Generosity,
+            Calc,
+        }
+        
+        public static int GetTraitLevel(Hero hero, HeroTraits trait)
+        {
+            return hero.GetTraitLevel(TraitObject.Find(trait.ToString()));
+        }
+
+        public static List<Hero> GetPlottingFriends(Hero hero, Plot plot)
+        {
+            List<Hero> plottingFriends = new List<Hero>();
+            foreach (Hero plotter in plot.Members)  
+            {
+                if (hero.IsFriend(plotter)) { plottingFriends.Add(plotter); }
+            }
+
+            return plottingFriends;
+        }
     }      
 }
