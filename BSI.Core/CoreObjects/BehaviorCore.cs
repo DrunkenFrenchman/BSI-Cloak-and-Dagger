@@ -14,7 +14,8 @@ namespace BSI.Core
     public abstract class BehaviorCore
     {
         internal abstract bool CanPlot(Hero hero);
-        public abstract bool JoinCondition(Hero hero);
+        public abstract bool WantPlot(Hero hero);
+        public abstract bool DoPlot(Hero hero);
         public abstract bool IsNewLeader(Hero hero);
         public abstract bool LeaveCondition(Hero hero);
         public abstract bool EndCondition();

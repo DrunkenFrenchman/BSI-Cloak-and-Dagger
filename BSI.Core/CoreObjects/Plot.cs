@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -17,7 +18,7 @@ namespace BSI.Core
             Goal endGoal,
             Type type,
             Goal initialGoal = null,
-            Targets unique = 0
+            Uniqueto unique = 0
             )
         {
             if (instigator.Clan.Leader.Equals(instigator))
@@ -28,18 +29,12 @@ namespace BSI.Core
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
                 PlotManager.AllPlots.Add(this);
-                UniqueTo = unique;
+                //UniqueTo = unique;
             }
             else throw new ArgumentException();
         }
-        public enum Targets
-        {
-            Clan = 1,
-            Kingdom,
-            Global
-        }
         
-        public Targets UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
+        //public virtual Uniqueto UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
         public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
@@ -60,7 +55,7 @@ namespace BSI.Core
         }
         public virtual List<Hero> ClanLeaders => this.GetClanLeaders();
         public virtual List<Hero> Opponents { get => this.Opponents; }
-        public virtual string StringId { get => this.StringId; set => StringId = value; }
+        public virtual string StringId { get => this.OriginalFaction.StringId + "_" + this.PlotType.ToString(); }
 
         public virtual TextObject InformalName => new TextObject("Plot for " + this.EndGoal.Manifesto);
 
@@ -183,7 +178,6 @@ namespace BSI.Core
                 return true;
             }
         }
-
         public virtual void End()
         {
             throw new NotImplementedException();

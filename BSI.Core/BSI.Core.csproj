@@ -195,9 +195,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\RecruitforCivilWar.cs.cs" />
+    <Compile Include="Flags\UniqueTo.cs" />
+    <Compile Include="Triggers\Triggers.cs" />
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Goals\RecruitforCivilWar.cs" />
     <Compile Include="CoreObjects\BehaviorCore.cs" />
+    <Compile Include="Managers\APIManager.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Tools\BSI_Hero.cs" />
     <Compile Include="Tools\BSI_Faction.cs" />

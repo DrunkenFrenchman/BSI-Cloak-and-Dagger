@@ -49,7 +49,7 @@ namespace BSI.Core.Behaviors
         {
             foreach (Hero hero in ThisPlot.OriginalFaction.Heroes)
             {
-                JoinCondition(hero);
+                DoPlot(hero);
             }
 
             foreach (Hero plotter in ThisPlot.ClanLeaders)
@@ -73,7 +73,7 @@ namespace BSI.Core.Behaviors
                 && !ThisPlot.Members.Contains(hero));
         }
 
-        internal bool StartedPlotting(Hero hero)
+        public override bool WantPlot(Hero hero)
         {
             int tick = new Random().Next(100);
             int honorScore = -(BSI_Hero.GetTraitLevel(hero, BSI_Hero.HeroTraits.Honor) + BSI_Hero.GetTraitLevel(hero.Clan.Kingdom.Leader, BSI_Hero.HeroTraits.Honor));
@@ -82,9 +82,9 @@ namespace BSI.Core.Behaviors
             return plottingChance > tick;
         }
 
-        public override bool JoinCondition(Hero hero)
+        public override bool DoPlot(Hero hero)
         {
-            if (BSI_Hero.IsClanLeader(hero) && CanPlot(hero) && StartedPlotting(hero)) 
+            if (BSI_Hero.IsClanLeader(hero) && CanPlot(hero) && WantPlot(hero)) 
             {
                 if (ThisPlot != null) { return ThisPlot.AddMember(hero); }
                 return false; 
