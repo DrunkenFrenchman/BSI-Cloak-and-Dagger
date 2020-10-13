@@ -18,6 +18,7 @@ namespace BSI.Core
         public abstract bool IsNewLeader(Hero hero);
         public abstract bool LeaveCondition(Hero hero);
         public abstract bool EndCondition();
+        public abstract bool EndResult();
         public virtual bool OnDailyTick()
         {
             throw new NotImplementedException();

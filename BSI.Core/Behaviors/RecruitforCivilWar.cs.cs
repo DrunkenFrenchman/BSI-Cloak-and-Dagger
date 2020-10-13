@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BSI.Core;
 using BSI.Core.Tools;
 using BSI.Manager;
+using Messages.FromLobbyServer.ToClient;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core.Behaviors
@@ -38,6 +39,12 @@ namespace BSI.Core.Behaviors
             return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
         }
 
+        public override bool EndResult()
+        {
+            Debug.PrintMessage("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
+            return true;
+        }
+
         public override bool OnDailyTick()
         {
             foreach (Hero hero in ThisPlot.OriginalFaction.Heroes)
@@ -55,13 +62,15 @@ namespace BSI.Core.Behaviors
             {
                 ThisPlot.CurrentGoal = ThisPlot.CurrentGoal.GetNextGoal;
             }
-            else { return false; }
+            else { EndResult(); }
             return true;
         }
 
         internal override bool CanPlot(Hero hero)
         {
-            return (!hero.Clan.Kingdom.Leader.Equals(hero) && (hero.GetRelation(hero.Clan.Kingdom.Leader) < settings.NegativeRelationThreshold));
+            return (!hero.Clan.Kingdom.Leader.Equals(hero) 
+                && (hero.GetRelation(hero.Clan.Kingdom.Leader) < settings.NegativeRelationThreshold)
+                && !ThisPlot.Members.Contains(hero));
         }
 
         internal bool StartedPlotting(Hero hero)
@@ -77,7 +86,7 @@ namespace BSI.Core.Behaviors
         {
             if (BSI_Hero.IsClanLeader(hero) && CanPlot(hero) && StartedPlotting(hero)) 
             {
-                if (ThisPlot != null) { ThisPlot.AddMember(hero); return true; }
+                if (ThisPlot != null) { return ThisPlot.AddMember(hero); }
                 return false; 
             }
             return false;
@@ -96,8 +105,12 @@ namespace BSI.Core.Behaviors
 
         public override bool LeaveCondition(Hero hero)
         {
-            return (hero.GetRelation(ThisPlot.OriginalFaction.Leader) > settings.PositiveRelationThreshold 
-                && hero.GetRelation(ThisPlot.OriginalFaction.Leader) > hero.GetRelation(ThisPlot.Leader));
+            if ((hero.GetRelation(ThisPlot.OriginalFaction.Leader) > settings.PositiveRelationThreshold
+                && hero.GetRelation(ThisPlot.OriginalFaction.Leader) > hero.GetRelation(ThisPlot.Leader)))
+            {
+                return ThisPlot.RemoveMember(hero);
+            }
+            return false;
         }
     }
 }
