@@ -18,7 +18,7 @@ namespace BSI.Plots.CivilWar
         private readonly Plot ThisPlot;
         public RecruitforCivilWarB(Goal goal)
         {
-            this.ThisPlot = goal.GetPlot;
+            this.ThisPlot = goal.Plot;
         }
 
         public override bool EndCondition()
@@ -60,7 +60,7 @@ namespace BSI.Plots.CivilWar
 
             if (EndCondition() && !ThisPlot.CurrentGoal.IsEndGoal)
             {
-                ThisPlot.CurrentGoal = ThisPlot.CurrentGoal.GetNextGoal;
+                ThisPlot.CurrentGoal = ThisPlot.CurrentGoal.NextGoal;
             }
             else { EndResult(); }
             return true;

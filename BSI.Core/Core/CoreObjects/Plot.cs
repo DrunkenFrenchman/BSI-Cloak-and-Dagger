@@ -1,4 +1,5 @@
-﻿using BSI.Manager;
+﻿using BSI.Core.Tools;
+using BSI.Manager;
 using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
@@ -27,8 +28,14 @@ namespace BSI.Core
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
                 PlotManager.AllPlots.Add(this);
+
+                BSI_Faction.Lookup.TryGetValue(instigator.Clan.Kingdom.StringId, out FactionInfo faction);
+                this.OriginalFaction = faction;
                 //UniqueTo = unique;
+
+                this.OriginalFaction.PlotManager.FactionPlots.Add(this);
             }
+
             else throw new ArgumentException();
         }
         
@@ -36,8 +43,8 @@ namespace BSI.Core
         public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
-        public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public virtual FactionInfo ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
+        public virtual FactionInfo OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual Type PlotType { get => this.GetType(); set => this.PlotType = value; }
         public virtual Goal EndGoal { get => this.EndGoal; set => this.EndGoal = value; }
         public virtual TextObject Name => new TextObject(this.EndGoal.Manifesto);
@@ -59,15 +66,15 @@ namespace BSI.Core
 
         public virtual CultureObject Culture => this.OriginalFaction.Culture;
 
-        public virtual uint Color => this.OriginalFaction.Color;
+        public virtual uint Color => this.OriginalFaction.Faction.Color;
 
-        public virtual uint Color2 => this.OriginalFaction.Color2;
+        public virtual uint Color2 => this.OriginalFaction.Faction.Color2;
 
-        public virtual uint AlternativeColor => this.OriginalFaction.AlternativeColor;
+        public virtual uint AlternativeColor => this.OriginalFaction.Faction.AlternativeColor;
 
-        public virtual uint AlternativeColor2 => this.OriginalFaction.AlternativeColor2;
+        public virtual uint AlternativeColor2 => this.OriginalFaction.Faction.AlternativeColor2;
 
-        public virtual CharacterObject BasicTroop => this.OriginalFaction.BasicTroop;
+        public virtual CharacterObject BasicTroop => this.OriginalFaction.Faction.BasicTroop;
 
         public virtual Hero Leader { get => this.Leader; set => Leader = value; }
 
@@ -134,7 +141,7 @@ namespace BSI.Core
 
         public virtual bool IsMapFaction => this.IsMapFaction;
 
-        public virtual IFaction MapFaction => this.ParentFaction;
+        public virtual IFaction MapFaction => this.ParentFaction.MapFaction;
 
         private float GetTotalStrength()
         {
