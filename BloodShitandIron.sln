@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.Core", "BSI.Core.csproj", "{1B849401-926E-4D5C-BFF8-DFCC1DEDFD41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.Core", "BSI.Core\BSI.Core.csproj", "{1B849401-926E-4D5C-BFF8-DFCC1DEDFD41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.Plots", "..\BSI.Plots\BSI.Plots.csproj", "{7BBFE74E-FD5E-4E93-88DB-70BDFB4EE3E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.Plots", "BSI.Plots\BSI.Plots.csproj", "{7BBFE74E-FD5E-4E93-88DB-70BDFB4EE3E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
