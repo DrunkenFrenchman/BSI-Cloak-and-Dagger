@@ -102,9 +102,9 @@ namespace BSI.Core
 
         public Banner Banner { get => Faction.Banner; }
 
-        internal BaseManager<IBSIObjectBase> PopulateManager()
-        { 
-            BaseManager<IBSIObjectBase> temp = new ClanManager<IBSIObjectBase>();
+        internal FactionManager<IBSIObjectBase> PopulateManager()
+        {
+            FactionManager<IBSIObjectBase> temp = new FactionManager<IBSIObjectBase>();
             
             temp.AddRange(this.VassalManager);
             temp.AddRange(this.PlotManager);
@@ -115,11 +115,10 @@ namespace BSI.Core
         public BaseManager<IBSIObjectBase> VassalManager => this.VassalManager;
 
         public BaseManager<IBSIObjectBase> PlotManager => this.PlotManager;
-
-        public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
-
         public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
+        public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }
+      
     }
 }
 

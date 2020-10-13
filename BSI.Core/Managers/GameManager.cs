@@ -12,7 +12,7 @@ using TaleWorlds.ObjectSystem;
 namespace BSI.Manager
 {
     [Serializable]
-    sealed class GameManager : BaseManager<IBSIObjectBase>
+    sealed class GameManager : BaseManager<IBSIObjectBase>, IManager<IBSIObjectBase>, IBSIManagerBase
     {
         public Game Game { get => this.Game; set => this.Game = value; }
 
