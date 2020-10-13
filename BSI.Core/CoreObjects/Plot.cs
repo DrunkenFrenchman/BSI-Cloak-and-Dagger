@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSI.Manager;
+using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using TaleWorlds.CampaignSystem;
@@ -15,7 +16,8 @@ namespace BSI.Core
             Hero instigator,
             Goal endGoal,
             Type type,
-            Goal initialGoal = null
+            Goal initialGoal = null,
+            Targets unique = 0
             )
         {
             if (instigator.Clan.Leader.Equals(instigator))
@@ -25,16 +27,26 @@ namespace BSI.Core
                 this.PlotType = type;
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
+                PlotManager.AllPlots.Add(this);
+                UniqueTo = unique;
             }
             else throw new ArgumentException();
         }
+        public enum Targets
+        {
+            Clan = 1,
+            Kingdom,
+            Global
+        }
+        
+        public Targets UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
         public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
         public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
         public virtual IFaction ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual IFaction OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
         public virtual Type PlotType { get => this.PlotType; set => this.PlotType = value; }
-        public virtual Goal EndGoal { get => this.EndGoal; set => EndGoal = value; }
+        public virtual Goal EndGoal { get => this.EndGoal; set => this.EndGoal = value; }
         public virtual TextObject Name => new TextObject(this.EndGoal.Manifesto);
         public virtual List<Hero> Members { get => this.Members; }
         private List<Hero> GetClanLeaders()

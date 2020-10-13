@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.BannerEditor;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core
 {
     public abstract class BehaviorCore
     {
-        public System.Reflection.MemberInfo[] GetMembers()
-        {
-            return typeof(BehaviorCore).GetMembers();
-        }
-
+        internal abstract bool CanPlot(Hero hero);
+        public abstract bool JoinCondition(Hero hero);
+        public abstract bool IsNewLeader(Hero hero);
+        public abstract bool LeaveCondition(Hero hero);
         public abstract bool EndCondition();
         public virtual bool OnDailyTick()
         {

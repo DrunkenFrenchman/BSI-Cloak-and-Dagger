@@ -194,9 +194,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Behaviors\Recruit.cs" />
-    <Compile Include="Goals\Recruit.cs" />
-    <Compile Include="CoreObjects\Behavior.cs" />
+    <Compile Include="Behaviors\RecruitforCivilWar.cs.cs" />
+    <Compile Include="Goals\RecruitforCivilWar.cs" />
+    <Compile Include="CoreObjects\BehaviorCore.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Tools\BSI_Hero.cs" />
     <Compile Include="Tools\BSI_Faction.cs" />
@@ -212,6 +212,7 @@
     <Compile Include="Managers\FactionInfo.cs" />
     <Compile Include="Interfaces\IPlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\BSI_Plot.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
