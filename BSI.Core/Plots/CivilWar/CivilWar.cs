@@ -11,6 +11,7 @@ using TaleWorlds.Localization;
 using BSI.Manager;
 using BSI.Core.Tools;
 using TaleWorlds.CampaignSystem.Conversation.Tags;
+using BSI.Core.CoreObjects;
 
 namespace BSI.Plots.CivilWar
 {
@@ -32,7 +33,13 @@ namespace BSI.Plots.CivilWar
 
         }
 
-        public Uniqueto Uniqueto { get => this.Uniqueto; set => this.Uniqueto = value; }
+        public CivilWar(bool ONLY_USE_FOR_API_LOAD = true) : base(ONLY_USE_FOR_API_LOAD)
+        {
+
+        }
+
+        public static new readonly Trigger Trigger = new CivilWarT();
+        public override Uniqueto Uniqueto { get => this.Uniqueto; internal set => this.Uniqueto = value; }
 
     }
 }

@@ -9,10 +9,11 @@ using BSI.Core.Tools;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using System.Runtime.CompilerServices;
+using BSI.Core.CoreObjects;
 
-namespace BSI.Core.Triggers
+namespace BSI.Plots.CivilWar
 {
-    public class CivilWarT
+    public class CivilWarT : Trigger
     {
 
         public static readonly MySettings settings = new MySettings();
@@ -31,7 +32,7 @@ namespace BSI.Core.Triggers
             return plottingChance > tick;
         }
 
-        internal static bool DoPlot(Hero hero)
+        public override bool DoPlot(Hero hero)
         {
             if (CanPlot(hero) && WantPlot(hero))
             {

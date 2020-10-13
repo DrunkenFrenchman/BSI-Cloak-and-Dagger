@@ -1,4 +1,6 @@
-﻿using BSI.Manager;
+﻿using BSI.Core.Managers;
+using BSI.Manager;
+using BSI.Plots.CivilWar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,29 +13,19 @@ namespace BSI.Core
 {
     class SubModule : MBSubModuleBase
     {
-        public override void OnGameInitializationFinished(Game game)
-        {
-            base.OnGameInitializationFinished(game);
-        }
 
-        public override void OnGameLoaded(Game game, object initializerObject)
-        {
-            base.OnGameLoaded(game, initializerObject);
-        }
 
         public override void OnMissionBehaviourInitialize(Mission mission)
         {
             base.OnMissionBehaviourInitialize(mission);
         }
 
-        public override void OnMultiplayerGameStart(Game game, object starterObject)
-        {
-            base.OnMultiplayerGameStart(game, starterObject);
-        }
 
         public override void OnNewGameCreated(Game game, object initializerObject)
         {
-            base.OnNewGameCreated(game, initializerObject);
+            Debug.AddEntry("New Game Started");
+            GameManager.NewGame(game);
+            Debug.AddEntry("New Game Setup Finished");
         }
 
         protected override void OnApplicationTick(float dt)
@@ -41,24 +33,19 @@ namespace BSI.Core
             base.OnApplicationTick(dt);
         }
 
-        protected override void OnBeforeInitialModuleScreenSetAsRoot()
-        {
-            base.OnBeforeInitialModuleScreenSetAsRoot();
-        }
-
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
         {
-            base.OnGameStart(game, gameStarterObject);
+            Debug.AddEntry("New Game Started");
+            GameManager.NewGame(game);
+            Debug.AddEntry("New Game Setup Finished");
         }
 
         protected override void OnSubModuleLoad()
         {
-            
+            Debug.AddEntry("Module Loaded");
+            APIManager.LoadPlot(new CivilWar());
+            Debug.AddEntry("Civil War Loaded");
         }
 
-        protected override void OnSubModuleUnloaded()
-        {
-            base.OnSubModuleUnloaded();
-        }
     }
 }

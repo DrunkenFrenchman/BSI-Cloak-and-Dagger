@@ -1,4 +1,5 @@
-﻿using BSI.Core.Tools;
+﻿using BSI.Core.CoreObjects;
+using BSI.Core.Tools;
 using BSI.Manager;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace BSI.Core
 {
     public abstract class Plot : IPlot, IBSIObjectBase
     {
+        public Plot(bool ONLY_USE_FOR_API_LOAD = true)
+        {
+
+        }
         public Plot(
             Hero instigator,
             Goal initialGoal,
@@ -38,7 +43,8 @@ namespace BSI.Core
 
             else throw new ArgumentException();
         }
-        
+        public virtual Uniqueto Uniqueto { get; internal set; }
+        public virtual Trigger Trigger { get; internal set; }
         //public virtual Uniqueto UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
         public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
         public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }

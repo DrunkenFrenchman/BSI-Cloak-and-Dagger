@@ -194,10 +194,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CoreObjects\Trigger.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarB.cs" />
     <Compile Include="Plots\Flags\UniqueTo.cs" />
     <Compile Include="Plots\CivilWar\CivilWar.cs" />
-    <Compile Include="Plots\Triggers\Triggers.cs" />
+    <Compile Include="Plots\CivilWar\CivilWarT.cs" />
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarG.cs" />
     <Compile Include="Core\CoreObjects\BehaviorCore.cs" />

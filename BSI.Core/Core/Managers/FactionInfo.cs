@@ -19,12 +19,14 @@ namespace BSI.Core
     public class FactionInfo : IFactionInfo<IFaction>, IBSIObjectBase
     {
 
-        public FactionInfo(IFaction faction, bool isPlot = false)
+        public FactionInfo(IFaction faction, PlotManager plotManager = null, bool isPlot = false)
         {
             this.Faction = faction;
             this.IsPlot = false;
-            this.PlotManager = new PlotManager();
-            BSI_Faction.Lookup.Add( faction.StringId, this );
+            if (plotManager is null) { this.PlotManager = new PlotManager(); }
+            else { this.PlotManager = plotManager; }
+            try { BSI_Faction.Lookup.Add(faction.StringId, this); }
+            catch { BSI_Faction.Lookup[faction.StringId] = this; }
         }
 
         public IFaction Faction { get => this.Faction; set => Faction = value; }
@@ -112,9 +114,8 @@ namespace BSI.Core
                         temp.Add(new FactionInfo(hero.Clan));
                     }
                 }
-                return temp;
             }
-            else return null;
+            return temp;
         }
 
         public List<FactionInfo> VassalManager => this.PopulateVassalManager();

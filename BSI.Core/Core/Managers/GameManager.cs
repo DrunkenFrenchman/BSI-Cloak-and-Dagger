@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSI.Core;
+using BSI.Core.Tools;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
@@ -32,8 +33,10 @@ namespace BSI.Manager
 
             foreach (Kingdom kingdom in Kingdom.All)
             {
-                GameManager.Kingdoms.Add(new FactionInfo(kingdom));
+                PlotManager temp = BSI_Faction.GetKingdom(kingdom).PlotManager;
+                GameManager.Kingdoms.Add(new FactionInfo(kingdom, temp));
             }
         }
+
     }
 }
