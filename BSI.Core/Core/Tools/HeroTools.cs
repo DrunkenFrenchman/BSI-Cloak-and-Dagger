@@ -9,7 +9,7 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Core.Tools
 {
-    public static class BSI_Hero
+    public static class HeroTools
     {
         public static bool IsClanLeader(Hero hero)
         {

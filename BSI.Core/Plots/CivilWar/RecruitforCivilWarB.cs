@@ -26,16 +26,16 @@ namespace BSI.Plots.CivilWar
         {
             int tick = new Random().Next(100);
             double warPersonality 
-                = BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Generosity)
-                + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Mercy)
-                + BSI_Hero.GetTraitLevel(ThisPlot.ParentFaction.Leader, BSI_Hero.HeroTraits.Generosity)
-                + BSI_Hero.GetTraitLevel(ThisPlot.ParentFaction.Leader, BSI_Hero.HeroTraits.Mercy);
+                = HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Generosity)
+                + HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Mercy)
+                + HeroTools.GetTraitLevel(ThisPlot.ParentFaction.Leader, HeroTools.HeroTraits.Generosity)
+                + HeroTools.GetTraitLevel(ThisPlot.ParentFaction.Leader, HeroTools.HeroTraits.Mercy);
             double valorFactor
                 = Math.Pow((ThisPlot.TotalStrength / (ThisPlot.ParentFaction.TotalStrength - ThisPlot.TotalStrength)),
-                BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor) == 0 ? 1 : 2 * BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor));
+                HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Valor) == 0 ? 1 : 2 * HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Valor));
             double warPartyFactor
                 = Math.Pow((ThisPlot.WarParties / (ThisPlot.ParentFaction.WarParties.Count() - ThisPlot.WarParties)),
-                1 + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Calc));
+                1 + HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Calc));
 
             return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
         }
@@ -77,15 +77,15 @@ namespace BSI.Plots.CivilWar
         public override bool WantPlot(Hero hero)
         {
             int tick = new Random().Next(100);
-            int honorScore = -(BSI_Hero.GetTraitLevel(hero, BSI_Hero.HeroTraits.Honor) + BSI_Hero.GetTraitLevel(hero.Clan.Kingdom.Leader, BSI_Hero.HeroTraits.Honor));
-            int plottingFriends = BSI_Hero.GetPlottingFriends(hero, ThisPlot).Count();
+            int honorScore = -(HeroTools.GetTraitLevel(hero, HeroTools.HeroTraits.Honor) + HeroTools.GetTraitLevel(hero.Clan.Kingdom.Leader, HeroTools.HeroTraits.Honor));
+            int plottingFriends = HeroTools.GetPlottingFriends(hero, ThisPlot).Count();
             double plottingChance = settings.BasePlotChance * Math.Pow(settings.PlotPersonalityMult, honorScore) * Math.Pow(settings.PlotFriendMult, plottingFriends);
             return plottingChance > tick;
         }
 
         public override bool DoPlot(Hero hero)
         {
-            if (BSI_Hero.IsClanLeader(hero) && CanPlot(hero) && WantPlot(hero)) 
+            if (HeroTools.IsClanLeader(hero) && CanPlot(hero) && WantPlot(hero)) 
             {
                 if (ThisPlot != null) { return ThisPlot.AddMember(hero); }
                 return false; 
@@ -96,7 +96,7 @@ namespace BSI.Plots.CivilWar
         public override bool IsNewLeader(Hero hero)
         {
             if (ThisPlot.Leader is null) { ThisPlot.Leader = hero; return true; }
-            else if (hero.Clan.Tier >= this.ThisPlot.Leader.Clan.Tier && BSI_Hero.GetPlottingFriends(hero, ThisPlot).Count() > BSI_Hero.GetPlottingFriends(ThisPlot.Leader, ThisPlot).Count())
+            else if (hero.Clan.Tier >= this.ThisPlot.Leader.Clan.Tier && HeroTools.GetPlottingFriends(hero, ThisPlot).Count() > HeroTools.GetPlottingFriends(ThisPlot.Leader, ThisPlot).Count())
             {
                 ThisPlot.Leader = hero;
                 return true;

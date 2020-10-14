@@ -1,4 +1,5 @@
-﻿using BSI.Core.Objects;
+﻿using BSI.Core.Managers;
+using BSI.Core.Objects;
 using BSI.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace BSI.Plots.CivilWar
         public override bool WantPlot(Hero hero)
         {
             int tick = new Random().Next(100);
-            int honorScore = -(BSI_Hero.GetTraitLevel(hero, BSI_Hero.HeroTraits.Honor) + BSI_Hero.GetTraitLevel(hero.Clan.Kingdom.Leader, BSI_Hero.HeroTraits.Honor));
+            int honorScore = -(HeroTools.GetTraitLevel(hero, HeroTools.HeroTraits.Honor) + HeroTools.GetTraitLevel(hero.Clan.Kingdom.Leader, HeroTools.HeroTraits.Honor));
             double plottingChance = settings.BasePlotChance * Math.Pow(settings.PlotPersonalityMult, honorScore);
             return plottingChance > tick;
         }
@@ -32,7 +33,7 @@ namespace BSI.Plots.CivilWar
         {
             if (CanPlot(hero) && WantPlot(hero))
             {
-                BSI_Faction.GetKingdom(hero.Clan.Kingdom).PlotManager.FactionPlots.Add(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom)));
+                BSIManager.GameManager[hero.Clan.Kingdom].AddPlot(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom)));
                 return true;
             }
 

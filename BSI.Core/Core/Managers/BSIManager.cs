@@ -13,11 +13,13 @@ namespace BSI.Core.Managers
 {
     public static class BSIManager
     {
-        public static Game CurrentGame;
+        internal static Game CurrentGame;
 
-        public static readonly Dictionary<IFaction, PlotManager> GameManager = new Dictionary<IFaction, PlotManager>();
+        internal static readonly Dictionary<IFaction, PlotManager> GameManager = new Dictionary<IFaction, PlotManager>();
 
-        public static readonly PlotManager GlobalPlots = new PlotManager();
+        internal static readonly PlotManager GlobalPlots = new PlotManager();
+
+
 
         
 
