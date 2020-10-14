@@ -22,11 +22,10 @@ namespace BSI.Core
 
         public FactionInfo(IFaction faction, PlotManager plotManager = null, bool isPlot = false)
         {
-            Debug.AddEntry("Starting FactonInfo for: " + faction.Name.ToString());
-            this.Faction = faction;
-            this.IsPlot = false;
-            if (plotManager is null) { this.PlotManager = new PlotManager(); }
-            else { this.PlotManager = plotManager; }
+            Debug.AddEntry("Starting FactionInfo for: " + faction.Name.ToString());
+            Faction = faction;
+            if (!(plotManager is null)) { PlotManager = plotManager; }
+            else { PlotManager = new PlotManager(); }
             try { BSI_Faction.Lookup.Add(faction.StringId, this); }
             catch { BSI_Faction.Lookup[faction.StringId] = this; }
         }
@@ -35,14 +34,14 @@ namespace BSI.Core
 
         public string StringId { get => Faction.StringId; }
 
-        public Hero Leader { get => Faction.Leader; }
+        public Hero Leader { get; set; }
 
         public IEnumerable<MobileParty> WarParties { get => Faction.WarParties; }
         
         private IEnumerable<Hero> GetWarPartyLeaders()
         {
             var warPartyLeaders = new List<Hero>();
-            if (!(this.IsClan || this.IsKingdomFaction || this.IsPlot)) { return warPartyLeaders; }
+            if (!(this.IsClan || this.IsKingdomFaction || this.PlotManager.IsPlotFaction)) { return warPartyLeaders; }
             foreach (MobileParty warParty in this.WarParties)
             {
                 warPartyLeaders.Add(warParty.LeaderHero);
@@ -62,8 +61,6 @@ namespace BSI.Core
 
         public bool IsKingdomFaction { get => Faction.IsKingdomFaction; }
 
-        public bool IsPlot { get => this.IsPlot; set => IsPlot = value; }
-
         public bool IsClan { get => Faction.IsClan; }
 
         public bool IsOutlaw { get => Faction.IsOutlaw; }
@@ -76,10 +73,9 @@ namespace BSI.Core
 
         public IEnumerable<StanceLink> Stances { get => Faction.Stances; }
 
-        public int TributeWallet { get => Faction.TributeWallet; set => Faction.TributeWallet = value; }
+        public int TributeWallet { get => Faction.TributeWallet; }
 
-        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating ; set => Faction.MainHeroCrimeRating = value; }
-
+        public float MainHeroCrimeRating { get => Faction.MainHeroCrimeRating; }
         public float DailyCrimeRatingChange { get => Faction.DailyCrimeRatingChange; }
 
         public float Aggressiveness { get => Faction.Aggressiveness; }
@@ -90,7 +86,7 @@ namespace BSI.Core
 
         public StatExplainer DailyCrimeRatingChangeExplained { get => Faction.DailyCrimeRatingChangeExplained; }
 
-        public CampaignTime NotAttackableByPlayerUntilTime { get => Faction.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
+        public CampaignTime NotAttackableByPlayerUntilTime { get => Faction.NotAttackableByPlayerUntilTime; }
 
         public IEnumerable<Settlement> Settlements { get => Faction.Settlements; }
 

@@ -43,7 +43,6 @@ namespace BSI.Core
         }
         public virtual Uniqueto Uniqueto { get; internal set; }
         public virtual Trigger Trigger { get; }
-        //public virtual Uniqueto UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
         public virtual BehaviorCore CurrentBehavior { get; internal set; }
         public virtual Goal CurrentGoal { get; internal set; }
         public virtual bool PlayerInvited { get; set; }
@@ -80,7 +79,7 @@ namespace BSI.Core
 
         public virtual CharacterObject BasicTroop => this.OriginalFaction.Faction.BasicTroop;
 
-        public virtual Hero Leader { get => this.Leader; set => Leader = value; }
+        public virtual Hero Leader { get; set; }
 
         public virtual Banner Banner => this.Leader.ClanBanner;
 
@@ -160,8 +159,8 @@ namespace BSI.Core
 
         public virtual IEnumerable<StanceLink> Stances => this.Stances;
 
-        public virtual int TributeWallet { get => this.TributeWallet; set => TributeWallet = value; }
-        public virtual float MainHeroCrimeRating { get => this.MainHeroCrimeRating; set => MainHeroCrimeRating = value; }
+        public virtual int TributeWallet { get; set; }
+        public virtual float MainHeroCrimeRating { get; set; }
 
         public virtual float DailyCrimeRatingChange => this.DailyCrimeRatingChange;
 
@@ -171,7 +170,7 @@ namespace BSI.Core
 
         public virtual StatExplainer DailyCrimeRatingChangeExplained => throw new NotImplementedException();
 
-        public virtual CampaignTime NotAttackableByPlayerUntilTime { get => this.NotAttackableByPlayerUntilTime; set => NotAttackableByPlayerUntilTime = value; }
+        public virtual CampaignTime NotAttackableByPlayerUntilTime { get; set; }
 
         public virtual bool AddMember(Hero clanLeader)
         {

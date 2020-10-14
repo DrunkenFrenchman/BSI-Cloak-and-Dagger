@@ -13,7 +13,7 @@ namespace BSI.Manager
     public class PlotManager : IBSIManagerBase
     {
         internal static List<Plot> AllPlots = new List<Plot>();
-
+        public bool IsPlotFaction { get; set; }
         public PlotManager()
         {
 
@@ -28,7 +28,7 @@ namespace BSI.Manager
 
         }
 
-        public List<Plot> FactionPlots { get => this.FactionPlots; }
+        public List<Plot> FactionPlots { get; }
 
     }
 }

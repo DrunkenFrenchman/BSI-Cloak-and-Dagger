@@ -21,7 +21,7 @@ namespace BSI.Manager
 
         public static readonly PlotManager GlobalPlots = new PlotManager(CurrentGame);
 
-        public static void NewGame(Game game)
+        public static void NewaGme(Game game)
         {
             GameManager.CurrentGame = game;
             GameManager.UpdateKingdoms();
