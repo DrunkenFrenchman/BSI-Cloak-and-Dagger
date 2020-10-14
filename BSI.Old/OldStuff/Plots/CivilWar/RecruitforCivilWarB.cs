@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BSI.Core;
-using BSI.Core.Objects;
 using BSI.Core.Tools;
+using BSI.Manager;
 using Messages.FromLobbyServer.ToClient;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.Plots.CivilWar
 {
-    public sealed class RecruitforCivilWarB : Behavior
+    public sealed class RecruitforCivilWarB : BehaviorCore
     {
         private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
 
         private readonly Plot ThisPlot;
-
-        public RecruitforCivilWarB()
+        public RecruitforCivilWarB(Goal goal)
         {
-
+            this.ThisPlot = goal.Plot;
         }
 
         public override bool EndCondition()
@@ -28,13 +27,13 @@ namespace BSI.Plots.CivilWar
             double warPersonality 
                 = BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Generosity)
                 + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Mercy)
-                + BSI_Hero.GetTraitLevel(ThisPlot.ParentFaction.Leader, BSI_Hero.HeroTraits.Generosity)
-                + BSI_Hero.GetTraitLevel(ThisPlot.ParentFaction.Leader, BSI_Hero.HeroTraits.Mercy);
+                + BSI_Hero.GetTraitLevel(ThisPlot.OriginalFaction.Leader, BSI_Hero.HeroTraits.Generosity)
+                + BSI_Hero.GetTraitLevel(ThisPlot.OriginalFaction.Leader, BSI_Hero.HeroTraits.Mercy);
             double valorFactor
-                = Math.Pow((ThisPlot.TotalStrength / (ThisPlot.ParentFaction.TotalStrength - ThisPlot.TotalStrength)),
+                = Math.Pow((ThisPlot.TotalStrength / (ThisPlot.OriginalFaction.TotalStrength - ThisPlot.TotalStrength)),
                 BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor) == 0 ? 1 : 2 * BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Valor));
             double warPartyFactor
-                = Math.Pow((ThisPlot.WarParties / (ThisPlot.ParentFaction.WarParties.Count() - ThisPlot.WarParties)),
+                = Math.Pow((ThisPlot.WarParties.Count() / (ThisPlot.OriginalFaction.WarParties.Count() - ThisPlot.WarParties.Count())),
                 1 + BSI_Hero.GetTraitLevel(ThisPlot.Leader, BSI_Hero.HeroTraits.Calc));
 
             return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
@@ -48,7 +47,7 @@ namespace BSI.Plots.CivilWar
 
         public override bool OnDailyTick()
         {
-            foreach (Hero hero in ThisPlot.ParentFaction.Heroes)
+            foreach (Hero hero in ThisPlot.OriginalFaction.Heroes)
             {
                 DoPlot(hero);
             }
@@ -106,8 +105,8 @@ namespace BSI.Plots.CivilWar
 
         public override bool LeaveCondition(Hero hero)
         {
-            if ((hero.GetRelation(ThisPlot.ParentFaction.Leader) > settings.PositiveRelationThreshold
-                && hero.GetRelation(ThisPlot.ParentFaction.Leader) > hero.GetRelation(ThisPlot.Leader)))
+            if ((hero.GetRelation(ThisPlot.OriginalFaction.Leader) > settings.PositiveRelationThreshold
+                && hero.GetRelation(ThisPlot.OriginalFaction.Leader) > hero.GetRelation(ThisPlot.Leader)))
             {
                 return ThisPlot.RemoveMember(hero);
             }

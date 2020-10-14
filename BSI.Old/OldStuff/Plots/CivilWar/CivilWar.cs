@@ -1,17 +1,23 @@
 ﻿using BSI.Core;
-using BSI.Core.Objects;
-using BSI.Core.Tools;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
+using TaleWorlds.Localization;
+using BSI.Manager;
+using BSI.Core.Tools;
+using TaleWorlds.CampaignSystem.Conversation.Tags;
+using BSI.Core.CoreObjects;
 
 namespace BSI.Plots.CivilWar
 {
-    public class CivilWar : Plot
-    { 
+    public class CivilWar : Plot, IPlot
+    {
         private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
-        
-        private static readonly TriggerBase CivilWarTrigger = new CivilWarTrigger();
-
         public CivilWar(Hero instigator, Goal endGoal, Goal initialGoal = null, Uniqueto uniqueto = Uniqueto.Kingdom) : base(instigator, endGoal, initialGoal)
         {
 
@@ -27,8 +33,8 @@ namespace BSI.Plots.CivilWar
 
         }
 
+        public static new readonly Trigger Trigger = new CivilWarT();
         public override Uniqueto Uniqueto { get;  internal set; }
-        public override string Name { get => throw new NotImplementedException(); internal set => throw new NotImplementedException(); }
-        public override TriggerBase Trigger { get => CivilWar.CivilWarTrigger; }
+
     }
 }

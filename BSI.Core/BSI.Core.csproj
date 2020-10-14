@@ -238,31 +238,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Attributes\TriggerAttribute.cs" />
-    <Compile Include="Core\CoreObjects\Trigger.cs" />
-    <Compile Include="Plots\CivilWar\RecruitforCivilWarB.cs" />
-    <Compile Include="Plots\Flags\UniqueTo.cs" />
-    <Compile Include="Plots\CivilWar\CivilWar.cs" />
-    <Compile Include="Plots\CivilWar\CivilWarT.cs" />
-    <Compile Include="Debug\Debug.cs" />
-    <Compile Include="Plots\CivilWar\RecruitforCivilWarG.cs" />
-    <Compile Include="Core\CoreObjects\BehaviorCore.cs" />
+    <Compile Include="Core\Flags\UniqueTo.cs" />
     <Compile Include="Core\Managers\BSIManager.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Core\Tools\BSI_Hero.cs" />
-    <Compile Include="Core\Tools\BSI_Faction.cs" />
-    <Compile Include="SubModule.cs" />
-    <Compile Include="Core\CoreObjects\BaseManager.cs" />
-    <Compile Include="Core\CoreObjects\Goal.cs" />
-    <Compile Include="Core\Interfaces\IBSIBase.cs" />
-    <Compile Include="Core\CoreObjects\Plot.cs" />
-    <Compile Include="Core\Interfaces\IFactionInfo.cs" />
     <Compile Include="Core\Managers\PlotManager.cs" />
-    <Compile Include="Core\Managers\GameManager.cs" />
-    <Compile Include="Core\Managers\FactionInfo.cs" />
-    <Compile Include="Core\Interfaces\IPlot.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Objects\Behavior.cs" />
+    <Compile Include="Core\Objects\TriggerBase.cs" />
+    <Compile Include="Core\Objects\Goal.cs" />
+    <Compile Include="Core\Objects\Plot.cs" />
+    <Compile Include="Core\Tools\BSI_Faction.cs" />
+    <Compile Include="Core\Tools\BSI_Hero.cs" />
     <Compile Include="Core\Tools\BSI_Plot.cs" />
+    <Compile Include="Debug\Debug.cs" />
+    <Compile Include="Plots\CivilWar\CivilWar.cs" />
+    <Compile Include="Plots\CivilWar\CivilWarTrigger.cs" />
+    <Compile Include="Plots\CivilWar\RecruitforCivilWarB.cs" />
+    <Compile Include="Plots\CivilWar\RecruitforCivilWarG.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="SubModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

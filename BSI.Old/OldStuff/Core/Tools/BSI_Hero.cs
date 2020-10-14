@@ -1,5 +1,4 @@
-﻿using BSI.Core.Objects;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -16,20 +15,20 @@ namespace BSI.Core.Tools
             return hero.Clan.Leader.Equals(hero);
         }
 
-        public static Hero GetHero(string stringId, IFaction faction = null, Plot plot = null)
+        public static Hero GetHero(string stringId, IFaction faction = null, FactionInfo info = null)
         {
             try
             {
-                if (!(faction is null))
+                if (faction != null)
                 {
                     foreach (Hero hero in faction.Heroes)
                     {
                         if (hero.StringId.Equals(stringId)) { return hero; }
                     }
                 }
-                if (!(plot is null))
+                if (info != null)
                 {
-                    foreach (Hero hero in plot.Members)
+                    foreach (Hero hero in info.Heroes)
                     {
                         if (hero.StringId.Equals(stringId)) { return hero; }
                     }

@@ -1,5 +1,4 @@
 ﻿using BSI.Core.Managers;
-using BSI.Manager;
 using BSI.Plots.CivilWar;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,6 @@ namespace BSI.Core
             if (game.GameType is Campaign)
             {
                 Debug.AddEntry("New Game Started");
-                BSIManager.LoadTrigger("CivilWar", new CivilWarT());
                 Debug.AddEntry("Civil War Loaded");
             }
         }

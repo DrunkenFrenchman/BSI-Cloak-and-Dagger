@@ -1,5 +1,4 @@
 ﻿using BSI.Core;
-using BSI.Core.Objects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,14 +12,13 @@ namespace BSI.Plots.CivilWar
     {
         public RecruitforCivilWarG(IFaction target, Goal nextGoal = null) : base(target, nextGoal)
         {
-            this.Behavior = new RecruitforCivilWarB();
+
         }
 
         public override string Name => base.Name;
 
         public override string Manifesto => base.Manifesto;
 
-        public override Behavior Behavior { get; internal set; }
-
+        protected override BehaviorCore Behavior => new BSI.Plots.CivilWar.RecruitforCivilWarB(this);
     }
 }

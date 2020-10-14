@@ -7,28 +7,41 @@ using System.Text;
 using System.Threading.Tasks;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
+using BSI.Core.Objects;
+using System.Collections.ObjectModel;
 
-namespace BSI.Manager
+namespace BSI.Core.Manager
 {
-    public class PlotManager : IBSIManagerBase
-    {
-        internal static List<Plot> AllPlots = new List<Plot>();
+    public class PlotManager
+    { 
         public bool IsPlotFaction { get; set; }
+        private Collection<Plot> FactionPlots { get; set; }
+        public ReadOnlyCollection<Plot> CurrentPlots { get; internal set; }
         public PlotManager()
         {
 
         }
-        public PlotManager(Kingdom kingdom)
+        public bool AddPlot(Plot plot)
         {
-            BSI_Faction.GetKingdom(kingdom).PlotManager = this;
+            if (!CurrentPlots.Contains(plot))
+            {
+                FactionPlots.Add(plot);
+                this.CurrentPlots = new ReadOnlyCollection<Plot>(FactionPlots);
+                return true;
+            }
+            return false;
         }
 
-        public PlotManager(Game game)
+        public bool RemovePlot(Plot plot)
         {
-
+            if (FactionPlots.Contains(plot))
+            {
+                FactionPlots.Remove(plot);
+                this.CurrentPlots = new ReadOnlyCollection<Plot>(FactionPlots);
+                return true;
+            }
+            return false;
         }
-
-        public List<Plot> FactionPlots { get; }
 
     }
 }
