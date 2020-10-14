@@ -13,11 +13,11 @@ using TaleWorlds.ObjectSystem;
 namespace BSI.Manager
 {
     [Serializable]
-    public sealed class GameManager : BaseManager<IBSIObjectBase>, IManager<IBSIObjectBase>, IBSIManagerBase
+    public static class GameManager
     {
         public static Game CurrentGame;
 
-        public static readonly List<IBSIObjectBase> Kingdoms;
+        public static readonly List<IBSIObjectBase> Kingdoms = new List<IBSIObjectBase>();
 
         public static readonly PlotManager GlobalPlots = new PlotManager(CurrentGame);
 
@@ -26,14 +26,22 @@ namespace BSI.Manager
             GameManager.CurrentGame = game;
             GameManager.UpdateKingdoms();
         }
-
         public static void UpdateKingdoms()
         {
-            GameManager.Kingdoms.Clear();
+            if (!GameManager.Kingdoms.IsEmpty())
+            {
+                GameManager.Kingdoms.Clear();
+            }
+            
+            Debug.AddEntry(Kingdom.All.ToString());
 
             foreach (Kingdom kingdom in Kingdom.All)
             {
-                PlotManager temp = BSI_Faction.GetKingdom(kingdom).PlotManager;
+
+                PlotManager temp;
+                if ( BSI_Faction.GetKingdom(kingdom) is null ) { temp = BSI_Faction.GetKingdom(kingdom).PlotManager; }
+                else { temp = new PlotManager(); }
+                
                 GameManager.Kingdoms.Add(new FactionInfo(kingdom, temp));
             }
         }

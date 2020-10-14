@@ -7,11 +7,11 @@ namespace BSI.Core
     public interface IPlot : IFaction, IBSIObjectBase
     {
         bool PlayerInvited { get; set; }
-        FactionInfo ParentFaction { get; set; }
-        FactionInfo OriginalFaction { get; set; }
-        Type PlotType { get; set; }
-        new Hero Leader { get; set; }
-        Goal EndGoal { get; set; }
+        FactionInfo ParentFaction { get; }
+        FactionInfo OriginalFaction { get; }
+        Type PlotType { get; }
+        new Hero Leader { get; }
+        Goal EndGoal { get; }
         List<Hero> Members { get; }
         bool AddMember(Hero hero);
         bool RemoveMember(Hero hero);

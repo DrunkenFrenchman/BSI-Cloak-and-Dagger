@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
@@ -13,38 +14,31 @@ namespace BSI.Core
 {
     class SubModule : MBSubModuleBase
     {
-
-
-        public override void OnMissionBehaviourInitialize(Mission mission)
+        public override void OnGameInitializationFinished(Game game)
         {
-            base.OnMissionBehaviourInitialize(mission);
+            if (game.GameType is Campaign)
+            {
+                Debug.AddEntry("New Game Started");
+                BSIManager.LoadTrigger("CivilWar", new CivilWarT());
+                Debug.AddEntry("Civil War Loaded");
+            }
         }
 
-
-        public override void OnNewGameCreated(Game game, object initializerObject)
-        {
-            Debug.AddEntry("New Game Started");
-            GameManager.NewGame(game);
-            Debug.AddEntry("New Game Setup Finished");
-        }
-
-        protected override void OnApplicationTick(float dt)
-        {
-            base.OnApplicationTick(dt);
-        }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
-        {
-            Debug.AddEntry("New Game Started");
-            GameManager.NewGame(game);
-            Debug.AddEntry("New Game Setup Finished");
+        { 
+            if (game.GameType is Campaign)
+            {
+                Debug.AddEntry("Adding Behavior");
+                CampaignGameStarter cgs = gameStarterObject as CampaignGameStarter;
+                cgs.AddBehavior(new BSIManager.BSIConnector());
+                Debug.AddEntry("Success!");
+            }
         }
 
         protected override void OnSubModuleLoad()
         {
             Debug.AddEntry("Module Loaded");
-            APIManager.LoadPlot(new CivilWar());
-            Debug.AddEntry("Civil War Loaded");
         }
 
     }

@@ -61,7 +61,7 @@ namespace BSI.Core
         //Debug Toggle
         [SettingPropertyBool("{=BSIWM_SETTING_DEBUG}Debug Toggle", HintText = "{=BSIWM_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_02}2. Debug", GroupOrder = 3)]
-        public bool BSIPlotsDebug { get; set; } = false;
+        public bool BSIPlotsDebug { get; set; } = true;
 
         public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
         {

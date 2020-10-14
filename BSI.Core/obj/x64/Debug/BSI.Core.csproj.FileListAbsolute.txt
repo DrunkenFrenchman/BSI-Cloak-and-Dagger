@@ -1,0 +1,9 @@
+D:\Program Files\GitHub\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CivilWar\BloodShitandIron.dll
+D:\Program Files\GitHub\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CivilWar\BloodShitandIron.pdb
+D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Debug\BSI.Core.csproj.CoreCompileInputs.cache
+D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Debug\BloodShitandIron.dll
+D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Debug\BloodShitandIron.pdb
+D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\BloodShitandIron.dll
+D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\BloodShitandIron.pdb
+D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\bin\Win64_Shipping_Client\BloodShitandIron.dll
+D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\bin\Win64_Shipping_Client\BloodShitandIron.pdb

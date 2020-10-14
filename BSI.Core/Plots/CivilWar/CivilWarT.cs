@@ -16,7 +16,7 @@ namespace BSI.Plots.CivilWar
     public class CivilWarT : Trigger
     {
 
-        public static readonly MySettings settings = new MySettings();
+        private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
         internal static bool CanPlot(Hero hero)
         {
             return (!hero.Clan.Kingdom.Leader.Equals(hero)
@@ -36,6 +36,7 @@ namespace BSI.Plots.CivilWar
         {
             if (CanPlot(hero) && WantPlot(hero))
             {
+                BSI_Faction.GetKingdom(hero.Clan.Kingdom).PlotManager.FactionPlots.Add(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom)));
                 return true;
             }
 

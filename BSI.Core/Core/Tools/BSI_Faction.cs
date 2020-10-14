@@ -14,7 +14,7 @@ namespace BSI.Core.Tools
         public static FactionInfo GetKingdom(Kingdom kingdom)
         {
             Lookup.TryGetValue(kingdom.StringId, out FactionInfo factioninfo);
-            return factioninfo;
+            return factioninfo is null ? factioninfo = new FactionInfo(kingdom) : factioninfo;
         }
     }
 }

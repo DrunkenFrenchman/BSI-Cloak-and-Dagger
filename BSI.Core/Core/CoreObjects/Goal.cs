@@ -17,11 +17,11 @@ namespace BSI.Core
         }
 
 #pragma warning disable CS0628 // New protected member declared in sealed class
-        public IFaction Target { get => this.Target; internal set => this.Target = value; }
-        public Plot Plot { get => this.Plot; internal set => this.Plot = value; }
+        public IFaction Target { get; internal set; }
+        public Plot Plot { get; internal set; }
         protected abstract BehaviorCore Behavior { get; }
         public bool IsEndGoal { get => this.NextGoal.Equals(this); }
-        public Goal NextGoal { get => this.NextGoal; internal set => this.NextGoal = value; }
+        public Goal NextGoal { get; internal set; }
         public virtual string Name { get => this.Name; }
         public bool EndCondition { get => this.Behavior.EndCondition(); }
         public virtual string Manifesto { get => this.Manifesto; }

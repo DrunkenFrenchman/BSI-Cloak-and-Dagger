@@ -1,4 +1,5 @@
 ﻿using BSI.Core;
+using BSI.Core.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,10 @@ namespace BSI.Manager
         public PlotManager()
         {
 
+        }
+        public PlotManager(Kingdom kingdom)
+        {
+            BSI_Faction.GetKingdom(kingdom).PlotManager = this;
         }
 
         public PlotManager(Game game)

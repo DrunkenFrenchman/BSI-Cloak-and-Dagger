@@ -18,9 +18,11 @@ namespace BSI.Core
 {
     public class FactionInfo : IFactionInfo<IFaction>, IBSIObjectBase
     {
+        
 
         public FactionInfo(IFaction faction, PlotManager plotManager = null, bool isPlot = false)
         {
+            Debug.AddEntry("Starting FactonInfo for: " + faction.Name.ToString());
             this.Faction = faction;
             this.IsPlot = false;
             if (plotManager is null) { this.PlotManager = new PlotManager(); }
@@ -29,7 +31,7 @@ namespace BSI.Core
             catch { BSI_Faction.Lookup[faction.StringId] = this; }
         }
 
-        public IFaction Faction { get => this.Faction; set => Faction = value; }
+        public IFaction Faction { get; internal set; }
 
         public string StringId { get => Faction.StringId; }
 
@@ -120,7 +122,7 @@ namespace BSI.Core
 
         public List<FactionInfo> VassalManager => this.PopulateVassalManager();
 
-        public PlotManager PlotManager { get => this.PlotManager; set => this.PlotManager = value; }
+        public PlotManager PlotManager { get; set; }
         public bool IsAtWarWith(IFaction other) { return Faction.IsAtWarWith(other); }
 
         public StanceLink GetStanceWith(IFaction other) { return Faction.GetStanceWith(other); }

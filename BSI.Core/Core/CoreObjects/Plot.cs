@@ -3,6 +3,7 @@ using BSI.Core.Tools;
 using BSI.Manager;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
 using TaleWorlds.CampaignSystem;
@@ -15,10 +16,7 @@ namespace BSI.Core
 {
     public abstract class Plot : IPlot, IBSIObjectBase
     {
-        public Plot(bool ONLY_USE_FOR_API_LOAD = true)
-        {
 
-        }
         public Plot(
             Hero instigator,
             Goal initialGoal,
@@ -44,17 +42,17 @@ namespace BSI.Core
             else throw new ArgumentException();
         }
         public virtual Uniqueto Uniqueto { get; internal set; }
-        public virtual Trigger Trigger { get; internal set; }
+        public virtual Trigger Trigger { get; }
         //public virtual Uniqueto UniqueTo { get => this.UniqueTo; set => UniqueTo = value; }
-        public virtual BehaviorCore CurrentBehavior { get => this.CurrentBehavior; set => this.CurrentBehavior = value; }
-        public virtual Goal CurrentGoal { get => this.CurrentGoal; set => this.CurrentGoal = value; }
-        public virtual bool PlayerInvited { get => this.PlayerInvited; set => this.PlayerInvited = value; }
-        public virtual FactionInfo ParentFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public virtual FactionInfo OriginalFaction { get => this.ParentFaction; set => this.ParentFaction = value; }
-        public virtual Type PlotType { get => this.GetType(); set => this.PlotType = value; }
-        public virtual Goal EndGoal { get => this.EndGoal; set => this.EndGoal = value; }
+        public virtual BehaviorCore CurrentBehavior { get; internal set; }
+        public virtual Goal CurrentGoal { get; internal set; }
+        public virtual bool PlayerInvited { get; set; }
+        public virtual FactionInfo ParentFaction { get; internal set; }
+        public virtual FactionInfo OriginalFaction { get; internal set; }
+        public virtual Type PlotType { get; internal set; }
+        public virtual Goal EndGoal { get; internal set; }
         public virtual TextObject Name => new TextObject(this.EndGoal.Manifesto);
-        public virtual List<Hero> Members { get => this.Members; }
+        public virtual List<Hero> Members { get; }
         private List<Hero> GetClanLeaders()
         {
             List<Hero> clanLeaders = new List<Hero>();

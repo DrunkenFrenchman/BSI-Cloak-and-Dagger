@@ -17,7 +17,7 @@ namespace BSI.Plots.CivilWar
 {
     public class CivilWar : Plot, IPlot
     {
-        internal static MySettings settings = new MySettings();
+        private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
         public CivilWar(Hero instigator, Goal endGoal, Goal initialGoal = null, Uniqueto uniqueto = Uniqueto.Kingdom) : base(instigator, endGoal, initialGoal)
         {
 
@@ -33,13 +33,8 @@ namespace BSI.Plots.CivilWar
 
         }
 
-        public CivilWar(bool ONLY_USE_FOR_API_LOAD = true) : base(ONLY_USE_FOR_API_LOAD)
-        {
-
-        }
-
         public static new readonly Trigger Trigger = new CivilWarT();
-        public override Uniqueto Uniqueto { get => this.Uniqueto; internal set => this.Uniqueto = value; }
+        public override Uniqueto Uniqueto { get;  internal set; }
 
     }
 }

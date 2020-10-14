@@ -13,7 +13,7 @@ namespace BSI.Plots.CivilWar
 {
     public sealed class RecruitforCivilWarB : BehaviorCore
     {
-        private static readonly MySettings settings = new MySettings();
+        private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
 
         private readonly Plot ThisPlot;
         public RecruitforCivilWarB(Goal goal)
