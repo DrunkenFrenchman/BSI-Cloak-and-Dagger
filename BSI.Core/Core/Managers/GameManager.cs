@@ -34,10 +34,10 @@ namespace BSI.Core.Managers
             foreach (Kingdom kingdom in Kingdom.All)
             {
                 FactionManager.Add(kingdom, new PlotManager());
-                foreach (Clan clan in kingdom.Clans)
-                {
-                    FactionManager.Add(clan, new PlotManager());
-                }
+            }
+            foreach (Clan clan in Clan.All)
+            {
+                FactionManager.Add(clan, new PlotManager());
             }
         }
 
@@ -99,13 +99,13 @@ namespace BSI.Core.Managers
                             foreach (Plot plot in GameManager.GlobalPlots.CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasGlobalPlot = true; break; }
                             break;
                         case Uniqueto.Kingdom:
-                            foreach (Kingdom faction in GameManager.FactionManager.Keys)
+                            foreach (IFaction faction in GameManager.FactionManager.Keys.Where(faction => faction.IsKingdomFaction))
                             {
                                 foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HavePlot.Add(faction); break; }
                             }
                             break;
                         case Uniqueto.Clan:
-                            foreach (Clan faction in GameManager.FactionManager.Keys)
+                            foreach (IFaction faction in GameManager.FactionManager.Keys.Where(faction => faction.IsClan))
                             {
                                 foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HavePlot.Add(faction); break; }
                             }
@@ -125,7 +125,7 @@ namespace BSI.Core.Managers
                             }
                             break;
                         case Uniqueto.Kingdom:
-                            foreach (Kingdom faction in GameManager.FactionManager.Keys.Where(faction => !HavePlot.Contains(faction)))
+                            foreach (IFaction faction in GameManager.FactionManager.Keys.Where(faction => faction.IsKingdomFaction && !HavePlot.Contains(faction)))
                             {
                                 foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
                                 {
@@ -134,7 +134,7 @@ namespace BSI.Core.Managers
                             }
                             break;
                         case Uniqueto.Clan:
-                            foreach (Clan faction in GameManager.FactionManager.Keys.Where(faction => !HavePlot.Contains(faction)))
+                            foreach (IFaction faction in GameManager.FactionManager.Keys.Where(faction => faction.IsClan && !HavePlot.Contains(faction)))
                             {
                                 foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
                                 {
@@ -143,20 +143,15 @@ namespace BSI.Core.Managers
                             }
                             break;
                     }
+                    
+                    Debug.AddEntry("Plots exist in " + HavePlot.Count.ToString() + " factions");
 
                     //Loop through those that do and do Recruitment Checks & appropriate new Leader checks
                     foreach (IFaction faction in HavePlot)
                     {
-                        foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType().Equals(trigger)))
+                        foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType().Equals(trigger.GetType())))
                         {
-                            foreach(Hero member in faction.Lords.Where(member => !plot.Members.Contains(member)))
-                            {
-                                if (plot.CurrentGoal.Behavior.DoPlot(member, plot))
-                                {
-                                    plot.CurrentGoal.Behavior.IsNewLeader(member, plot);
-                                }
-                                
-                            }
+                            plot.CurrentGoal.Behavior.OnDailyTick(plot);
                         }
                     }
 

@@ -34,13 +34,18 @@ namespace BSI.Plots.CivilWar
             double warPartyFactor
                 = Math.Pow((plot.WarParties / (plot.ParentFaction.WarParties.Count() - plot.WarParties)),
                 1 + HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Calc));
+            double warchance = settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
 
-            return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
+            Debug.AddEntry(plot.TargetFaction.Name.ToString() + " || " + warchance.ToString());
+
+            return tick < warchance;
+                
         }
 
         public override bool EndResult(Plot plot)
         {
             Debug.PrintMessage("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
+            Debug.AddEntry("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
             return true;
         }
 
