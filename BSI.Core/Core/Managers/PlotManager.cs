@@ -15,11 +15,13 @@ namespace BSI.Core.Manager
     public class PlotManager
     { 
         public bool IsPlotFaction { get; set; }
-        private Collection<Plot> FactionPlots { get; set; }
+        private List<Plot> FactionPlots { get; set; }
         public ReadOnlyCollection<Plot> CurrentPlots { get; internal set; }
-        public PlotManager()
+        public PlotManager(bool isPlotFaction = false)
         {
-
+            FactionPlots = new List<Plot>();
+            CurrentPlots = new ReadOnlyCollection<Plot>(FactionPlots);
+            IsPlotFaction = isPlotFaction;
         }
         public bool AddPlot(Plot plot)
         {

@@ -1,4 +1,6 @@
-﻿using BSI.Core.Managers;
+﻿using BSI.Core;
+using BSI.Core.Flags;
+using BSI.Core.Managers;
 using BSI.Core.Objects;
 using BSI.Core.Tools;
 using System;
@@ -10,8 +12,15 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.Plots.CivilWar
 {
+
     public class CivilWarTrigger : TriggerBase
     {
+        public CivilWarTrigger()
+        {
+            Uniqueto = Uniqueto.Kingdom;
+        }
+
+        public override Uniqueto Uniqueto { get; internal set ; }
 
         private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
         public override bool CanPlot(Hero hero)
@@ -33,7 +42,7 @@ namespace BSI.Plots.CivilWar
         {
             if (CanPlot(hero) && WantPlot(hero))
             {
-                BSIManager.GameManager[hero.Clan.Kingdom].AddPlot(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom)));
+                GameManager.FactionManager[hero.Clan.Kingdom].AddPlot(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom), hero.Clan.Kingdom));
                 return true;
             }
 

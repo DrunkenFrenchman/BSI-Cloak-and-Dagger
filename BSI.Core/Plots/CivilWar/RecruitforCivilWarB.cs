@@ -13,103 +13,101 @@ namespace BSI.Plots.CivilWar
 {
     public sealed class RecruitforCivilWarB : Behavior
     {
-        private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
-
-        private readonly Plot ThisPlot;
+        private static readonly MySettings settings = MySettings.Instance;
 
         public RecruitforCivilWarB()
         {
 
         }
 
-        public override bool EndCondition()
+        public override bool EndCondition(Plot plot)
         {
             int tick = new Random().Next(100);
             double warPersonality 
-                = HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Generosity)
-                + HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Mercy)
-                + HeroTools.GetTraitLevel(ThisPlot.ParentFaction.Leader, HeroTools.HeroTraits.Generosity)
-                + HeroTools.GetTraitLevel(ThisPlot.ParentFaction.Leader, HeroTools.HeroTraits.Mercy);
+                = HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Generosity)
+                + HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Mercy)
+                + HeroTools.GetTraitLevel(plot.ParentFaction.Leader, HeroTools.HeroTraits.Generosity)
+                + HeroTools.GetTraitLevel(plot.ParentFaction.Leader, HeroTools.HeroTraits.Mercy);
             double valorFactor
-                = Math.Pow((ThisPlot.TotalStrength / (ThisPlot.ParentFaction.TotalStrength - ThisPlot.TotalStrength)),
-                HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Valor) == 0 ? 1 : 2 * HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Valor));
+                = Math.Pow((plot.TotalStrength / (plot.ParentFaction.TotalStrength - plot.TotalStrength)),
+                HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Valor) == 0 ? 1 : 2 * HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Valor));
             double warPartyFactor
-                = Math.Pow((ThisPlot.WarParties / (ThisPlot.ParentFaction.WarParties.Count() - ThisPlot.WarParties)),
-                1 + HeroTools.GetTraitLevel(ThisPlot.Leader, HeroTools.HeroTraits.Calc));
+                = Math.Pow((plot.WarParties / (plot.ParentFaction.WarParties.Count() - plot.WarParties)),
+                1 + HeroTools.GetTraitLevel(plot.Leader, HeroTools.HeroTraits.Calc));
 
             return tick < settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
         }
 
-        public override bool EndResult()
+        public override bool EndResult(Plot plot)
         {
             Debug.PrintMessage("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
             return true;
         }
 
-        public override bool OnDailyTick()
+        public override bool OnDailyTick(Plot plot)
         {
-            foreach (Hero hero in ThisPlot.ParentFaction.Heroes)
+            foreach (Hero hero in plot.ParentFaction.Heroes)
             {
-                DoPlot(hero);
+                DoPlot(hero, plot);
             }
 
-            foreach (Hero plotter in ThisPlot.ClanLeaders)
+            foreach (Hero plotter in plot.ClanLeaders)
             {
-                LeaveCondition(plotter);
-                IsNewLeader(plotter);
+                LeaveCondition(plotter, plot);
+                IsNewLeader(plotter, plot);
             }
 
-            if (EndCondition() && !ThisPlot.CurrentGoal.IsEndGoal)
+            if (EndCondition(plot) && !plot.CurrentGoal.IsEndGoal)
             {
-                ThisPlot.CurrentGoal = ThisPlot.CurrentGoal.NextGoal;
+                plot.CurrentGoal = plot.CurrentGoal.NextGoal;
             }
-            else { EndResult(); }
+            else { EndResult(plot); }
             return true;
         }
 
-        internal override bool CanPlot(Hero hero)
+        public override bool CanPlot(Hero hero, Plot plot)
         {
             return (!hero.Clan.Kingdom.Leader.Equals(hero) 
                 && (hero.GetRelation(hero.Clan.Kingdom.Leader) < settings.NegativeRelationThreshold)
-                && !ThisPlot.Members.Contains(hero));
+                && !plot.Members.Contains(hero));
         }
 
-        public override bool WantPlot(Hero hero)
+        public override bool WantPlot(Hero hero, Plot plot)
         {
             int tick = new Random().Next(100);
             int honorScore = -(HeroTools.GetTraitLevel(hero, HeroTools.HeroTraits.Honor) + HeroTools.GetTraitLevel(hero.Clan.Kingdom.Leader, HeroTools.HeroTraits.Honor));
-            int plottingFriends = HeroTools.GetPlottingFriends(hero, ThisPlot).Count();
+            int plottingFriends = HeroTools.GetPlottingFriends(hero, plot).Count();
             double plottingChance = settings.BasePlotChance * Math.Pow(settings.PlotPersonalityMult, honorScore) * Math.Pow(settings.PlotFriendMult, plottingFriends);
             return plottingChance > tick;
         }
 
-        public override bool DoPlot(Hero hero)
+        public override bool DoPlot(Hero hero, Plot plot)
         {
-            if (HeroTools.IsClanLeader(hero) && CanPlot(hero) && WantPlot(hero)) 
+            if (HeroTools.IsClanLeader(hero) && CanPlot(hero, plot) && WantPlot(hero, plot)) 
             {
-                if (ThisPlot != null) { return ThisPlot.AddMember(hero); }
+                if (plot != null) { return plot.AddMember(hero); }
                 return false; 
             }
             return false;
         }
 
-        public override bool IsNewLeader(Hero hero)
+        public override bool IsNewLeader(Hero hero, Plot plot)
         {
-            if (ThisPlot.Leader is null) { ThisPlot.Leader = hero; return true; }
-            else if (hero.Clan.Tier >= this.ThisPlot.Leader.Clan.Tier && HeroTools.GetPlottingFriends(hero, ThisPlot).Count() > HeroTools.GetPlottingFriends(ThisPlot.Leader, ThisPlot).Count())
+            if (plot.Leader is null) { plot.Leader = hero; return true; }
+            else if (hero.Clan.Tier >= plot.Leader.Clan.Tier && HeroTools.GetPlottingFriends(hero, plot).Count() > HeroTools.GetPlottingFriends(plot.Leader, plot).Count())
             {
-                ThisPlot.Leader = hero;
+                plot.Leader = hero;
                 return true;
             }
             return false;
         }
 
-        public override bool LeaveCondition(Hero hero)
+        public override bool LeaveCondition(Hero hero, Plot plot)
         {
-            if ((hero.GetRelation(ThisPlot.ParentFaction.Leader) > settings.PositiveRelationThreshold
-                && hero.GetRelation(ThisPlot.ParentFaction.Leader) > hero.GetRelation(ThisPlot.Leader)))
+            if ((hero.GetRelation(plot.ParentFaction.Leader) > settings.PositiveRelationThreshold
+                && hero.GetRelation(plot.ParentFaction.Leader) > hero.GetRelation(plot.Leader)))
             {
-                return ThisPlot.RemoveMember(hero);
+                return plot.RemoveMember(hero);
             }
             return false;
         }

@@ -18,6 +18,7 @@ namespace BSI.Core
             if (game.GameType is Campaign)
             {
                 Debug.AddEntry("New Game Started");
+                GameManager.NewGame();
                 Debug.AddEntry("Civil War Loaded");
             }
         }
@@ -29,7 +30,7 @@ namespace BSI.Core
             {
                 Debug.AddEntry("Adding Behavior");
                 CampaignGameStarter cgs = gameStarterObject as CampaignGameStarter;
-                cgs.AddBehavior(new BSIManager.BSIConnector());
+                cgs.AddBehavior(new GameManager.BSIConnector());
                 Debug.AddEntry("Success!");
             }
         }

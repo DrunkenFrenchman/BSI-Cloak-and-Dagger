@@ -22,7 +22,7 @@ namespace BSI.Core.Objects
         public bool IsEndGoal { get => this.NextGoal.Equals(this); }
         public Goal NextGoal { get; internal set; }
         public virtual string Name { get => this.Name; }
-        public bool EndCondition { get => this.Behavior.EndCondition(); }
+        public bool EndCondition { get => this.Behavior.EndCondition(Plot); }
         public virtual string Manifesto { get => this.Manifesto; }
 
 

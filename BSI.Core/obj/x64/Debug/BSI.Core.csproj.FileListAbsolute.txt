@@ -7,3 +7,4 @@ D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSIC
 D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\BloodShitandIron.pdb
 D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\bin\Win64_Shipping_Client\BloodShitandIron.dll
 D:\Program Files\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSICloakandDagger\bin\Win64_Shipping_Client\BloodShitandIron.pdb
+D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Debug\BSI.Core.csprojAssemblyReference.cache

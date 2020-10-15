@@ -15,20 +15,20 @@ namespace BSI.Core.Objects
 
         }
 
-        public abstract bool EndCondition();
+        public abstract bool EndCondition(Plot plot);
 
-        public abstract bool EndResult();
+        public abstract bool EndResult(Plot plot);
 
-        public abstract bool OnDailyTick();
+        public abstract bool OnDailyTick(Plot plot);
 
-        internal abstract bool CanPlot(Hero hero);
+        public abstract bool CanPlot(Hero hero, Plot plot);
 
-        public abstract bool WantPlot(Hero hero);
+        public abstract bool WantPlot(Hero hero, Plot plot);
 
-        public abstract bool DoPlot(Hero hero);
+        public abstract bool DoPlot(Hero hero, Plot plot);
 
-        public abstract bool IsNewLeader(Hero hero);
+        public abstract bool IsNewLeader(Hero hero, Plot plot);
 
-        public abstract bool LeaveCondition(Hero hero);
+        public abstract bool LeaveCondition(Hero hero, Plot plot);
     }
 }

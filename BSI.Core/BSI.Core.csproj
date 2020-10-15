@@ -238,8 +238,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Flags\PlotAttribute.cs" />
     <Compile Include="Core\Flags\UniqueTo.cs" />
-    <Compile Include="Core\Managers\BSIManager.cs" />
+    <Compile Include="Core\Managers\GameManager.cs" />
     <Compile Include="Core\Managers\PlotManager.cs" />
     <Compile Include="Core\Objects\Behavior.cs" />
     <Compile Include="Core\Objects\TriggerBase.cs" />

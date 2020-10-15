@@ -14,12 +14,13 @@ using static TaleWorlds.CampaignSystem.Hero;
 
 namespace BSI.Core.Objects
 {
+
     public abstract class Plot
     {
-        public abstract TriggerBase Trigger { get; }
         public Plot(
            Hero instigator,
            Goal initialGoal,
+           IFaction target,
            Goal endGoal = null,
            Uniqueto unique = 0
            )
@@ -31,18 +32,17 @@ namespace BSI.Core.Objects
                 if (initialGoal is null) { this.CurrentGoal = initialGoal; }
                 else { this.CurrentGoal = this.EndGoal; }
                 this.Uniqueto = unique;
+                this.TargetFaction = target;
                 switch (unique)
                 {
                     case Uniqueto.Clan:
-                        this.TargetFaction = instigator.Clan;
-                        BSIManager.GameManager[this.TargetFaction].AddPlot(this);
+                        GameManager.FactionManager[instigator.Clan].AddPlot(this);
                         return;
                     case Uniqueto.Kingdom:
-                        this.TargetFaction = instigator.Clan.Kingdom;
-                        BSIManager.GameManager[this.TargetFaction].AddPlot(this);
+                        GameManager.FactionManager[instigator.Clan.Kingdom].AddPlot(this);
                         return;
                     case Uniqueto.Global:
-                        BSIManager.GlobalPlots.AddPlot(this);
+                        GameManager.GlobalPlots.AddPlot(this);
                         return;
                 }
                 this.Name = this.EndGoal.Manifesto;
@@ -70,22 +70,23 @@ namespace BSI.Core.Objects
             }
             return temp;
         }
-        public virtual double TotalStrength { get; internal set; }
+        public virtual double TotalStrength { get => this.GetStrength(); internal set => this.TotalStrength = value; }
 
-        private void GetWarParties()
+        private List<MobileParty> GetWarParties()
         {
-            CurrentWarParties.Clear();
+            List<MobileParty> temp = new List<MobileParty>();
 
             foreach (Hero hero in this.ClanLeaders)
             {
                 foreach (MobileParty party in hero.Clan.WarParties)
                 {
-                    this.CurrentWarParties.Add(party);
+                    temp.Add(party);
                 }
             }
+            return temp;
         }
         public int WarParties { get => this.CurrentWarParties.Count; }
-        private List<MobileParty> CurrentWarParties { get; set; }
+        private List<MobileParty> CurrentWarParties { get=> this.GetWarParties(); set => this.CurrentWarParties = value; }
         private List<Hero> GetClanLeaders()
         {
             List<Hero> clanLeaders = new List<Hero>();
@@ -120,6 +121,21 @@ namespace BSI.Core.Objects
         public void End()
         {
 
+        }
+
+        public static bool CanPlot(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool DoPlot(Hero hero)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool WantPlot(Hero hero)
+        {
+            throw new NotImplementedException();
         }
     }
 }

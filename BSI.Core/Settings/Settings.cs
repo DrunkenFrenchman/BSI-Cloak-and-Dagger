@@ -22,39 +22,39 @@ namespace BSI.Core
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War", GroupOrder = 0, IsMainToggle = true)]
         public bool CivilWarToggle { get; set; } = true;
 
-        [SettingPropertyInteger("{=BSIPLOTS_SETTING_02}1. Civil War", 1, 100, HintText = "{=BSIPLOTS_SETTING_DESC_02}Base Chance for a Lord to plot against his Liege if he meets the requirements", Order = 0, RequireRestart = false)]
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_02}Base Daily Plot Chance", 1, 100, HintText = "{=BSIPLOTS_SETTING_DESC_02}Base Chance for a Lord to plot against his Liege if he meets the requirements", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
         public int BasePlotChance{ get; set; } = 10;
 
-        [SettingPropertyInteger("{=BSIPLOTS_SETTING_03}1. Civil War", -100, 100, HintText = "{=BSIPLOTS_SETTING_DESC_03}Threshold at which a Lord can start Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_03}Negative Relation Threshold", -100, 100, HintText = "{=BSIPLOTS_SETTING_DESC_03}Threshold at which a Lord can start Plotting", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
         public int NegativeRelationThreshold { get; set; } = -10;
 
-        [SettingPropertyInteger("{=BSIPLOTS_SETTING_04}1. Civil War", -100, 100, HintText = "{=BSIPLOTS_SETTING_DESC_04}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_04}Positive Relation Threshold", -100, 100, HintText = "{=BSIPLOTS_SETTING_DESC_04}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
         public int PositiveRelationThreshold { get; set; } = 10;
 
-        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_05}1. Civil War", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_05}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_05}Plotting Personality Multiplier", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_05}Base Weight given to Lord's individual propensity to engage in a plot", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
         public float PlotPersonalityMult { get; set; } = 2f;
 
-        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_06}1. Civil War", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_06}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_06}Plotting Friend Mult", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_06}Base weight given to how likely a lord is to be convinced by a friend to start plotting", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
         public float PlotFriendMult { get; set; } = 2f;
 
-        [SettingPropertyInteger("{=BSIPLOTS_SETTING_07}1. Civil War", 0, 100, HintText = "{=BSIPLOTS_SETTING_DESC_07}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_07}Base War Chance", 0, 100, HintText = "{=BSIPLOTS_SETTING_DESC_07}Base Chance for a Plot to Declare War", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarBaseChance { get; set; } = 5;
 
-        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_08}1. Civil War", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_08}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_08}War Personality Weight", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_08}Base Weight given to Plot Leader's individual propensity to start a war", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarPersonalityMult { get; set; } = 2f;
 
-        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_09}1. Civil War", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_09}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_09}War Valor Factor", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_09}Base Weight given to Plot Leader's individual propensity to start a risky war", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarValorFactor { get; set; } = 2f;
 
-        [SettingPropertyFloatingInteger("{==BSIPLOTS_SETTING_10}1. Civil War", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_10}Threshold at which a Lord will stop Plotting", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{==BSIPLOTS_SETTING_10}War Calculating Weight", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_10}Base Weight given to Plot Leader's individual propensity to start a war with fewer allies", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarLeaderCalculatingMult { get; set; } = 2f;
 

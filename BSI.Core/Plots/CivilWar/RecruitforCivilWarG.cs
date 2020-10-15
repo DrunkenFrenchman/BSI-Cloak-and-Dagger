@@ -16,6 +16,7 @@ namespace BSI.Plots.CivilWar
             this.Behavior = new RecruitforCivilWarB();
         }
 
+
         public override string Name => base.Name;
 
         public override string Manifesto => base.Manifesto;
