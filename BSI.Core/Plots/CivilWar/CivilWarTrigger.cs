@@ -43,7 +43,7 @@ namespace BSI.Plots.CivilWar
         {
             if (CanPlot(hero) && WantPlot(hero))
             {
-                GameManager.FactionManager[hero.Clan.Kingdom].AddPlot(new CivilWar(hero, new RecruitforCivilWarG(hero.Clan.Kingdom), hero.Clan.Kingdom));
+                GameManager.FactionManager[hero.Clan.Kingdom].AddPlot(new CivilWar(hero, AvailableGoals.RecuitforCivilWar, hero.Clan.Kingdom));
                 return true;
             }
 

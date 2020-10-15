@@ -53,13 +53,13 @@ namespace BSI.Plots.CivilWar
 
             foreach (Hero plotter in plot.ClanLeaders)
             {
-                LeaveCondition(plotter, plot);
                 IsNewLeader(plotter, plot);
+                LeaveCondition(plotter, plot);
             }
 
             if (EndCondition(plot) && !plot.CurrentGoal.IsEndGoal)
             {
-                plot.CurrentGoal = plot.CurrentGoal.NextGoal;
+                plot.NextGoal();
             }
             else { EndResult(plot); }
             return true;
@@ -85,8 +85,11 @@ namespace BSI.Plots.CivilWar
         {
             if (HeroTools.IsClanLeader(hero) && CanPlot(hero, plot) && WantPlot(hero, plot)) 
             {
-                if (plot != null) { return plot.AddMember(hero); }
-                return false; 
+                foreach (Hero member in hero.Clan.Lords)
+                {
+                    plot.AddMember(member);
+                }
+                return true;
             }
             return false;
         }
@@ -104,10 +107,14 @@ namespace BSI.Plots.CivilWar
 
         public override bool LeaveCondition(Hero hero, Plot plot)
         {
-            if ((hero.GetRelation(plot.ParentFaction.Leader) > settings.PositiveRelationThreshold
+            if (HeroTools.IsClanLeader(hero) && (hero.GetRelation(plot.ParentFaction.Leader) > settings.PositiveRelationThreshold
                 && hero.GetRelation(plot.ParentFaction.Leader) > hero.GetRelation(plot.Leader)))
             {
-                return plot.RemoveMember(hero);
+                foreach (Hero member in plot.Members.Where(member => member.Clan == hero.Clan))
+                {
+                    plot.RemoveMember(member);
+                }
+                return !plot.Members.Contains(hero);
             }
             return false;
         }

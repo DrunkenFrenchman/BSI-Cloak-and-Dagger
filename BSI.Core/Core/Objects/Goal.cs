@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSI.Core.Flags;
+using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 
@@ -9,21 +10,21 @@ namespace BSI.Core.Objects
     {
         public Goal(
             IFaction target,
-            Goal nextGoal = null
+            AvailableGoals nextGoal = 0
             )
         {
             this.Target = target;
-            this.NextGoal = nextGoal is null ? this : nextGoal;
+            this.NextGoal = nextGoal;
         }
 
         public IFaction Target { get; internal set; }
         public Plot Plot { get; internal set; }
         public abstract Behavior Behavior { get; internal set; }
         public bool IsEndGoal { get => this.NextGoal.Equals(this); }
-        public Goal NextGoal { get; internal set; }
-        public virtual string Name { get => this.Name; }
+        public AvailableGoals NextGoal { get; internal set; }
+        public virtual string Name { get => "Plot to " + this.Manifesto; }
         public bool EndCondition { get => this.Behavior.EndCondition(Plot); }
-        public virtual string Manifesto { get => this.Manifesto; }
+        public abstract string Manifesto { get; }
 
 
     }

@@ -19,6 +19,7 @@ namespace BSI.Core
             {
                 Debug.AddEntry("New Game Started");
                 GameManager.NewGame();
+                Debug.AddEntry("New Game Method done");
                 GameManager.LoadTrigger(new CivilWarTrigger());
                 Debug.AddEntry("Civil War Loaded");
             }
@@ -38,7 +39,7 @@ namespace BSI.Core
 
         protected override void OnSubModuleLoad()
         {
-            Debug.AddEntry("Module Loaded");
+            Debug.AddEntry("\n\nNewSession Start: Module Loaded");
         }
 
     }

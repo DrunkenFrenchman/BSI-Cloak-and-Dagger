@@ -62,31 +62,37 @@ namespace BSI.Core.Managers
                     Debug.AddEntry(faction.Name.ToString() + " || " + GameManager.FactionManager[faction].CurrentPlots.Count.ToString());
                 }
 
-                DailyTriggerCheck();
+                DailyRecruitmentCheck();
+
+                foreach (IFaction faction in GameManager.FactionManager.Keys)
+                {
+                    Debug.AddEntry(faction.Name.ToString() + " || " + GameManager.FactionManager[faction].CurrentPlots.Count.ToString());
+                }
 
 
-
-                
-                        //REWORK ALL THIS SHIT
+                //REWORK ALL THIS SHIT
                 //Step 1: Find Plot Types
                 //Step 2: Foreach Plot Type
                 //Step 3: switch case for UniqueTo
                 //Step 4: loop through relevant faction
                 //Step 5: Check Trigger OR Join && Apply result
 
-                
+
 
 
 
 
             }
 
-            internal void DailyTriggerCheck()
+            internal void DailyRecruitmentCheck()
             {
                 foreach (TriggerBase trigger in TriggerManager)
                 {
-                    List<IFaction> HasPlots = new List<IFaction>();
+                    Debug.AddEntry("Entered Trigger Loop");
+
+                    List<IFaction> HavePlot = new List<IFaction>();
                     bool HasGlobalPlot = false;
+                    //Find Faction/Scopes with an already existing Plot of this type
                     switch (trigger.Uniqueto)
                     {
                         case Uniqueto.Global:
@@ -95,17 +101,18 @@ namespace BSI.Core.Managers
                         case Uniqueto.Kingdom:
                             foreach (Kingdom faction in GameManager.FactionManager.Keys)
                             {
-                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasPlots.Add(faction); break; }
+                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HavePlot.Add(faction); break; }
                             }
                             break;
                         case Uniqueto.Clan:
                             foreach (Clan faction in GameManager.FactionManager.Keys)
                             {
-                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasPlots.Add(faction); break; }
+                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HavePlot.Add(faction); break; }
                             }
                             break;
                     }
-
+                    
+                    // Loop through those that don't and start a plot if needed
                     switch (trigger.Uniqueto)
                     {
                         case Uniqueto.Global:
@@ -113,28 +120,44 @@ namespace BSI.Core.Managers
                             {
                                 foreach (Hero hero in Hero.All.Where(hero => HeroTools.IsClanLeader(hero)))
                                 {
-                                    trigger.DoPlot(hero);
+                                    if (trigger.DoPlot(hero)) { HasGlobalPlot = true; break; }
                                 }
                             }
                             break;
                         case Uniqueto.Kingdom:
-                            foreach (Kingdom faction in GameManager.FactionManager.Keys.Where(faction => !HasPlots.Contains(faction)))
+                            foreach (Kingdom faction in GameManager.FactionManager.Keys.Where(faction => !HavePlot.Contains(faction)))
                             {
                                 foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
                                 {
-                                    trigger.DoPlot(hero);
+                                    if (trigger.DoPlot(hero)) { HavePlot.Add(faction); break; }
                                 }
                             }
                             break;
                         case Uniqueto.Clan:
-                            foreach (Clan faction in GameManager.FactionManager.Keys.Where(faction => !HasPlots.Contains(faction)))
+                            foreach (Clan faction in GameManager.FactionManager.Keys.Where(faction => !HavePlot.Contains(faction)))
                             {
                                 foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
                                 {
-                                    trigger.DoPlot(hero);
+                                    if (trigger.DoPlot(hero)) { HavePlot.Add(faction); break; }
                                 }
                             }
                             break;
+                    }
+
+                    //Loop through those that do and do Recruitment Checks & appropriate new Leader checks
+                    foreach (IFaction faction in HavePlot)
+                    {
+                        foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType().Equals(trigger)))
+                        {
+                            foreach(Hero member in faction.Lords.Where(member => !plot.Members.Contains(member)))
+                            {
+                                if (plot.CurrentGoal.Behavior.DoPlot(member, plot))
+                                {
+                                    plot.CurrentGoal.Behavior.IsNewLeader(member, plot);
+                                }
+                                
+                            }
+                        }
                     }
 
                 }

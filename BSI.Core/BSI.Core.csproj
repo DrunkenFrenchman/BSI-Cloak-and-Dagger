@@ -238,6 +238,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Flags\AvailableGoals.cs" />
     <Compile Include="Core\Flags\PlotAttribute.cs" />
     <Compile Include="Core\Flags\UniqueTo.cs" />
     <Compile Include="Core\Managers\GameManager.cs" />
@@ -253,6 +254,8 @@
     <Compile Include="Plots\CivilWar\CivilWarTrigger.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarB.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarG.cs" />
+    <Compile Include="Plots\Default\DefaultB.cs" />
+    <Compile Include="Plots\Default\DefaultG.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

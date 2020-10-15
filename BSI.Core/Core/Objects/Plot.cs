@@ -1,4 +1,5 @@
-﻿using BSI.Core.Managers;
+﻿using BSI.Core.Flags;
+using BSI.Core.Managers;
 using BSI.Core.Tools;
 using System;
 using System.Collections.Generic;
@@ -19,9 +20,9 @@ namespace BSI.Core.Objects
     {
         public Plot(
            Hero instigator,
-           Goal initialGoal,
+           AvailableGoals endGoal,
            IFaction target,
-           Goal endGoal = null,
+           AvailableGoals initialGoal = 0,
            Uniqueto unique = 0
            )
         {
@@ -29,23 +30,28 @@ namespace BSI.Core.Objects
             {
                 this.Leader = instigator;
                 this.EndGoal = endGoal;
-                if (initialGoal is null) { this.CurrentGoal = initialGoal; }
-                else { this.CurrentGoal = this.EndGoal; }
+                this.EndGoal = endGoal;
+
+                new PlotTools().GetGoal(endGoal, target, out Goal newGoal);
+                this.CurrentGoal = newGoal;
+
                 this.Uniqueto = unique;
                 this.TargetFaction = target;
                 switch (unique)
                 {
                     case Uniqueto.Clan:
                         GameManager.FactionManager[instigator.Clan].AddPlot(this);
-                        return;
+                        break;
                     case Uniqueto.Kingdom:
                         GameManager.FactionManager[instigator.Clan.Kingdom].AddPlot(this);
-                        return;
+                        break;
                     case Uniqueto.Global:
                         GameManager.GlobalPlots.AddPlot(this);
-                        return;
+                        break;
                 }
-                this.Name = this.EndGoal.Manifesto;
+                Name = PlotDescription.Get(this.EndGoal);
+
+                Debug.AddEntry("Plot created || " + this.Name + " || " + this.Leader.Name.ToString());
             }
 
             else throw new ArgumentException();
@@ -59,7 +65,7 @@ namespace BSI.Core.Objects
         public virtual Type PlotType { get => this.GetType(); }
         public virtual Hero Leader { get; internal set; }
         public virtual Goal CurrentGoal { get; internal set; }
-        public virtual Goal EndGoal { get; internal set; }
+        public virtual AvailableGoals EndGoal { get; internal set; }
         private List<Hero> CurrentMembers { get; set; }
         public ReadOnlyCollection<Hero> Members { get; internal set; }
         private double GetStrength()
@@ -123,20 +129,14 @@ namespace BSI.Core.Objects
         {
 
         }
-
-        public static bool CanPlot(Hero hero)
+        
+        public void NextGoal()
         {
-            throw new NotImplementedException();
-        }
-
-        public static bool DoPlot(Hero hero)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static bool WantPlot(Hero hero)
-        {
-            throw new NotImplementedException();
+            if (!CurrentGoal.IsEndGoal)
+            {
+                new PlotTools().GetGoal(this.CurrentGoal.NextGoal, this.TargetFaction, out Goal newGoal);
+                this.CurrentGoal = newGoal;
+            }
         }
     }
 }
