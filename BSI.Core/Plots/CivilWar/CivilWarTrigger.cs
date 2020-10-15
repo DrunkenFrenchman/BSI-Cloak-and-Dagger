@@ -5,6 +5,7 @@ using BSI.Core.Objects;
 using BSI.Core.Tools;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace BSI.Plots.CivilWar
         {
             Uniqueto = Uniqueto.Kingdom;
         }
-
+        //public override ReadOnlyCollection<Goal> PotentialEndGoals { get; internal set; }
         public override Uniqueto Uniqueto { get; internal set ; }
 
         private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;

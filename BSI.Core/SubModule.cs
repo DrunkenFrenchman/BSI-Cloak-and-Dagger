@@ -19,6 +19,7 @@ namespace BSI.Core
             {
                 Debug.AddEntry("New Game Started");
                 GameManager.NewGame();
+                GameManager.LoadTrigger(new CivilWarTrigger());
                 Debug.AddEntry("Civil War Loaded");
             }
         }

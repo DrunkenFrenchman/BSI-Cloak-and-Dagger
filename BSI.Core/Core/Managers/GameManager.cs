@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BSI.Core.Manager;
 using BSI.Core.Objects;
-using TaleWorlds.Core;
-using TaleWorlds.CampaignSystem;
-using BSI.Core.Manager;
+using BSI.Core.Tools;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
-using System.Runtime.Remoting.Messaging;
-using BSI.Core.Flags;
+using TaleWorlds.Core;
 
 namespace BSI.Core.Managers
 {
@@ -23,14 +19,14 @@ namespace BSI.Core.Managers
 
         internal static readonly PlotManager GlobalPlots = new PlotManager();
 
-        private static readonly List<TriggerBase> TriggerManager = new List<TriggerBase>();
+        private static readonly List<TriggerBase> Triggers = new List<TriggerBase>();
 
-        internal static ReadOnlyCollection<TriggerBase> Triggers { get; set; }
+        internal static ReadOnlyCollection<TriggerBase> TriggerManager { get; set; }
         
         public static void LoadTrigger(TriggerBase trigger)
         {
-            if (!TriggerManager.Contains(trigger)) { TriggerManager.Add(trigger); }
-            Triggers = new ReadOnlyCollection<TriggerBase>(TriggerManager);
+            if (!Triggers.Contains(trigger)) { Triggers.Add(trigger); }
+            TriggerManager = new ReadOnlyCollection<TriggerBase>(Triggers);
         }
           
         public static void NewGame()
@@ -65,8 +61,10 @@ namespace BSI.Core.Managers
                 {
                     Debug.AddEntry(faction.Name.ToString() + " || " + GameManager.FactionManager[faction].CurrentPlots.Count.ToString());
                 }
-                
-                Debug.AddEntry("New Game Complete");
+
+                DailyTriggerCheck();
+
+
 
                 
                         //REWORK ALL THIS SHIT
@@ -76,34 +74,71 @@ namespace BSI.Core.Managers
                 //Step 4: loop through relevant faction
                 //Step 5: Check Trigger OR Join && Apply result
 
+                
 
-                //if (!BSIManager.GameManager[kingdom].CurrentPlots.IsEmpty())
-                //{
-                //    foreach (Hero lord in kingdom.Lords)
-                //    {
-                //        bool temp = trigger.DoPlot(lord);
-                //        Debug.AddEntry(lord.Clan.Kingdom.ToString() + " || " + lord.Clan.ToString() + " || " + lord.Name.ToString() + " || " + temp.ToString());
-                //    }
-
-                //}
-                //else
-                //{
-                //    foreach (Plot factionPlot in BSIManager.GameManager[kingdom].CurrentPlots)
-                //    {
-                //        if (factionPlot.Trigger.Equals(trigger)) { factionPlot.CurrentGoal.Behavior.OnDailyTick(); }
-                //        Debug.AddEntry(factionPlot.Name.ToString() + "\n\n" + factionPlot.Members.ToString());
-                //    }
-                //}
 
 
 
             }
-        }
-        //internal static class PlotCollector
-        //{
-        //    static PlotCollector() { }
 
-        //    public static ReadOnlyCollection<Plot> PlotTypes = new ReadOnlyCollection<Plot>((IList<Plot>)Assembly.GetAssembly(typeof(Plot)).GetTypes().Where(t => t.IsSubclassOf(typeof(Plot))));
-        //}
+            internal void DailyTriggerCheck()
+            {
+                foreach (TriggerBase trigger in TriggerManager)
+                {
+                    List<IFaction> HasPlots = new List<IFaction>();
+                    bool HasGlobalPlot = false;
+                    switch (trigger.Uniqueto)
+                    {
+                        case Uniqueto.Global:
+                            foreach (Plot plot in GameManager.GlobalPlots.CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasGlobalPlot = true; break; }
+                            break;
+                        case Uniqueto.Kingdom:
+                            foreach (Kingdom faction in GameManager.FactionManager.Keys)
+                            {
+                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasPlots.Add(faction); break; }
+                            }
+                            break;
+                        case Uniqueto.Clan:
+                            foreach (Clan faction in GameManager.FactionManager.Keys)
+                            {
+                                foreach (Plot plot in GameManager.FactionManager[faction].CurrentPlots.Where(plot => plot.Trigger.GetType() == trigger.GetType())) { HasPlots.Add(faction); break; }
+                            }
+                            break;
+                    }
+
+                    switch (trigger.Uniqueto)
+                    {
+                        case Uniqueto.Global:
+                            if (!HasGlobalPlot)
+                            {
+                                foreach (Hero hero in Hero.All.Where(hero => HeroTools.IsClanLeader(hero)))
+                                {
+                                    trigger.DoPlot(hero);
+                                }
+                            }
+                            break;
+                        case Uniqueto.Kingdom:
+                            foreach (Kingdom faction in GameManager.FactionManager.Keys.Where(faction => !HasPlots.Contains(faction)))
+                            {
+                                foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
+                                {
+                                    trigger.DoPlot(hero);
+                                }
+                            }
+                            break;
+                        case Uniqueto.Clan:
+                            foreach (Clan faction in GameManager.FactionManager.Keys.Where(faction => !HasPlots.Contains(faction)))
+                            {
+                                foreach (Hero hero in faction.Lords.Where(hero => HeroTools.IsClanLeader(hero)))
+                                {
+                                    trigger.DoPlot(hero);
+                                }
+                            }
+                            break;
+                    }
+
+                }
+            }
+        }
     } 
 }

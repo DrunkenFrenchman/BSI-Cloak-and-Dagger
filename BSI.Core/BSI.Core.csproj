@@ -246,6 +246,7 @@
     <Compile Include="Core\Objects\TriggerBase.cs" />
     <Compile Include="Core\Objects\Goal.cs" />
     <Compile Include="Core\Objects\Plot.cs" />
+    <Compile Include="Core\Tools\PlotTools.cs" />
     <Compile Include="Core\Tools\HeroTools.cs" />
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Plots\CivilWar\CivilWar.cs" />

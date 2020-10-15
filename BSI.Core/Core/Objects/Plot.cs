@@ -51,6 +51,7 @@ namespace BSI.Core.Objects
             else throw new ArgumentException();
         }
         public virtual String Name { get; internal set; }
+        public abstract TriggerBase Trigger { get; }
         public virtual Uniqueto Uniqueto { get; internal set; }
         public virtual bool PlayerInvited { get; set; }
         public virtual IFaction ParentFaction { get; internal set; }

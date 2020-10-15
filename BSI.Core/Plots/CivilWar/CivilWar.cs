@@ -26,7 +26,7 @@ namespace BSI.Plots.CivilWar
             else throw new ArgumentException();
 
         }
-
+        public override TriggerBase Trigger { get => new CivilWarTrigger(); }
         public override Uniqueto Uniqueto { get;  internal set; }
         public override string Name { get => throw new NotImplementedException(); internal set => throw new NotImplementedException(); }
 
