@@ -45,7 +45,11 @@ namespace BSI.Plots.CivilWar
         public override bool EndResult(Plot plot)
         {
             Debug.PrintMessage("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
-            Debug.AddEntry("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
+            Debug.AddEntry("\nEND OF PLOTTING REACHED in " + plot.TargetFaction.Name.ToString());
+
+
+            
+
             return true;
         }
 
@@ -64,6 +68,7 @@ namespace BSI.Plots.CivilWar
 
             if (EndCondition(plot) && !plot.CurrentGoal.IsEndGoal)
             {
+                EndResult(plot);
                 plot.NextGoal();
             }
             else { EndResult(plot); }
@@ -74,7 +79,8 @@ namespace BSI.Plots.CivilWar
         {
             return (!hero.Clan.Kingdom.Leader.Equals(hero) 
                 && (hero.GetRelation(hero.Clan.Kingdom.Leader) < settings.NegativeRelationThreshold)
-                && !plot.Members.Contains(hero));
+                && !plot.Members.Contains(hero) 
+                && !hero.Clan.IsMinorFaction);
         }
 
         public override bool WantPlot(Hero hero, Plot plot)
@@ -115,9 +121,14 @@ namespace BSI.Plots.CivilWar
             if (HeroTools.IsClanLeader(hero) && (hero.GetRelation(plot.ParentFaction.Leader) > settings.PositiveRelationThreshold
                 && hero.GetRelation(plot.ParentFaction.Leader) > hero.GetRelation(plot.Leader)))
             {
-                foreach (Hero member in plot.Members.Where(member => member.Clan == hero.Clan))
+                List<Hero> leavers = new List<Hero>();
+                foreach (Hero member in plot.Members.Where(member => member.Clan.Equals(hero.Clan)))
                 {
-                    plot.RemoveMember(member);
+                   leavers.Add(member);
+                }
+                foreach (Hero leaver in leavers)
+                {
+                    plot.RemoveMember(leaver);
                 }
                 return !plot.Members.Contains(hero);
             }

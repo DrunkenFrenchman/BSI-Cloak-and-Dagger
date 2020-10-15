@@ -252,8 +252,10 @@
     <Compile Include="Debug\Debug.cs" />
     <Compile Include="Plots\CivilWar\CivilWar.cs" />
     <Compile Include="Plots\CivilWar\CivilWarTrigger.cs" />
+    <Compile Include="Plots\CivilWar\WarforIndependenceB.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarB.cs" />
     <Compile Include="Plots\CivilWar\RecruitforCivilWarG.cs" />
+    <Compile Include="Plots\CivilWar\WarforIndependenceG.cs" />
     <Compile Include="Plots\Default\DefaultB.cs" />
     <Compile Include="Plots\Default\DefaultG.cs" />
     <Compile Include="Settings\Settings.cs" />

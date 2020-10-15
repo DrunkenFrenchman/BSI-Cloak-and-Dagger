@@ -41,13 +41,36 @@ namespace BSI.Core.Managers
             }
         }
 
-        public class BSIConnector : CampaignBehaviorBase
+        public class EventManager : CampaignBehaviorBase
         {
             public override void RegisterEvents()
             {
                 CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
+                //CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => AddFaction(kingdom));
+                CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, (clan, oldkingdom, newkingdom, rebel, other) => ClanChangeKingdom(clan, oldkingdom, newkingdom, rebel, other));
+                CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => RemoveFaction(kingdom));
+                CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => RemoveFaction(clan));
             }
 
+            private void ClanChangeKingdom(Clan clan, Kingdom oldkingdom, Kingdom newKingdom, bool byRebellion = true, bool other = false)
+            {
+                foreach (Plot plot in GameManager.FactionManager[oldkingdom].CurrentPlots)
+                {
+                    if (plot.Members.Contains(clan.Leader) && !GameManager.FactionManager[newKingdom].IsPlotFaction)
+                    {
+                        plot.RemoveMember(clan.Leader);
+                    }
+                }
+            }
+            private void AddFaction(IFaction faction)
+            {
+                GameManager.FactionManager.Add(faction, new PlotManager());
+            }
+
+            private void RemoveFaction(IFaction faction)
+            {
+                GameManager.FactionManager.Remove(faction);
+            }
             public override void SyncData(IDataStore dataStore)
             {
 
@@ -64,7 +87,7 @@ namespace BSI.Core.Managers
 
                 DailyRecruitmentCheck();
 
-                foreach (IFaction faction in GameManager.FactionManager.Keys)
+                foreach (IFaction faction in GameManager.FactionManager.Keys.Where(faction => GameManager.FactionManager[faction].CurrentPlots.Count() > 0))
                 {
                     Debug.AddEntry(faction.Name.ToString() + " || " + GameManager.FactionManager[faction].CurrentPlots.Count.ToString());
                 }
@@ -158,5 +181,7 @@ namespace BSI.Core.Managers
                 }
             }
         }
+
+        
     } 
 }

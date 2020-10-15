@@ -32,7 +32,7 @@ namespace BSI.Core
             {
                 Debug.AddEntry("Adding Behavior");
                 CampaignGameStarter cgs = gameStarterObject as CampaignGameStarter;
-                cgs.AddBehavior(new GameManager.BSIConnector());
+                cgs.AddBehavior(new GameManager.EventManager());
                 Debug.AddEntry("Success!");
             }
         }

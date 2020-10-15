@@ -29,7 +29,10 @@ namespace BSI.Core.Objects
             if (instigator.Clan.Leader.Equals(instigator))
             {
                 this.Leader = instigator;
-                this.EndGoal = endGoal;
+
+                this.CurrentMembers = new List<Hero>();
+                AddMember(instigator);
+
                 this.EndGoal = endGoal;
 
                 new PlotTools().GetGoal(endGoal, target, out Goal newGoal);
@@ -37,6 +40,7 @@ namespace BSI.Core.Objects
 
                 this.Uniqueto = unique;
                 this.TargetFaction = target;
+                this.ParentFaction = target;
                 switch (unique)
                 {
                     case Uniqueto.Clan:
@@ -106,24 +110,30 @@ namespace BSI.Core.Objects
         public virtual List<Hero> ClanLeaders => this.GetClanLeaders();
         public bool AddMember(Hero hero)
         {
-            if (!this.Members.Contains(hero))
+            if (HeroTools.IsClanLeader(hero) && !this.CurrentMembers.Contains(hero))
             {
-                this.CurrentMembers.Add(hero);
-                this.Members = new ReadOnlyCollection<Hero>(CurrentMembers);
-                return true;
+                foreach (Hero member in hero.Clan.Lords)
+                {
+                    CurrentMembers.Add(member);
+                }
+
             }
-            return false;
+            this.Members = new ReadOnlyCollection<Hero>(CurrentMembers);
+            return true;
         }
 
         public bool RemoveMember(Hero hero)
         {
-            if (this.Members.Contains(hero))
+            if (HeroTools.IsClanLeader(hero) && this.CurrentMembers.Contains(hero))
             {
-                this.CurrentMembers.Remove(hero);
-                this.Members = new ReadOnlyCollection<Hero>(CurrentMembers);
-                return true;
+                foreach (Hero member in hero.Clan.Lords)
+                {
+                    CurrentMembers.Remove(member);
+                }
+
             }
-            return false;
+            this.Members = new ReadOnlyCollection<Hero>(CurrentMembers);
+            return true;
         }
         public void End()
         {

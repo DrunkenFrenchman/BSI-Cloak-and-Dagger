@@ -28,7 +28,7 @@ namespace BSI.Plots.CivilWar
         {
             return (!hero.Clan.Kingdom.Leader.Equals(hero)
                 && (hero.GetRelation(hero.Clan.Kingdom.Leader) < settings.NegativeRelationThreshold)
-                && hero.Clan.Leader.Equals(hero));
+                && hero.Clan.Leader.Equals(hero) && !hero.Clan.IsMinorFaction);
         }
 
         public override bool WantPlot(Hero hero)

@@ -15,6 +15,7 @@ namespace BSI.Plots.CivilWar
         public RecruitforCivilWarG(IFaction target, AvailableGoals nextGoal = 0) : base(target, nextGoal)
         {
             this.Behavior = new RecruitforCivilWarB();
+            
         }
 
 
