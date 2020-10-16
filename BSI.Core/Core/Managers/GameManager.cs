@@ -46,7 +46,7 @@ namespace BSI.Core.Managers
             public override void RegisterEvents()
             {
                 CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
-                //CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => AddFaction(kingdom));
+                CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => AddFaction(kingdom));
                 CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, (clan, oldkingdom, newkingdom, rebel, other) => ClanChangeKingdom(clan, oldkingdom, newkingdom, rebel, other));
                 CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => RemoveFaction(kingdom));
                 CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => RemoveFaction(clan));
@@ -62,12 +62,18 @@ namespace BSI.Core.Managers
                     }
                 }
             }
-            private void AddFaction(IFaction faction)
+            public static void AddFaction(IFaction faction, bool rebel = false)
             {
-                GameManager.FactionManager.Add(faction, new PlotManager());
+                if (!GameManager.FactionManager.ContainsKey(faction))
+                {
+                    GameManager.FactionManager.Add(faction, new PlotManager());
+                }
+                if (faction.GetType() == typeof(Kingdom)) { KingdomTools.UpdateKingdomList(); }
+
+                GameManager.FactionManager[faction].IsPlotFaction = rebel;
             }
 
-            private void RemoveFaction(IFaction faction)
+            public static void RemoveFaction(IFaction faction)
             {
                 GameManager.FactionManager.Remove(faction);
             }

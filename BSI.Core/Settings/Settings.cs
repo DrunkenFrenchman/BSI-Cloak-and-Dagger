@@ -54,12 +54,25 @@ namespace BSI.Core
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarValorFactor { get; set; } = 2f;
 
-        [SettingPropertyFloatingInteger("{==BSIPLOTS_SETTING_10}War Calculating Weight", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_10}Base Weight given to Plot Leader's individual propensity to start a war with fewer allies", Order = 0, RequireRestart = false)]
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_10}War Calculating Weight", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_10}Base Weight given to Plot Leader's individual propensity to start a war with fewer allies", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
         public float WarLeaderCalculatingMult { get; set; } = 2f;
 
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_11}Relationship Change between Faction Member", -100, 0, HintText = "{=BSIPLOTS_SETTING_DESC_07}Relationship change between the members of the resulting faction split", Order = 0, RequireRestart = false)]
+        [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
+        public float WarRelationshipChange { get; set; } = -10;
+
+        [SettingPropertyInteger("{=BSIPLOTS_SETTING_11}Relationship Change between Faction Member", 0, 100, HintText = "{=BSIPLOTS_SETTING_DESC_07}Relationship change between the members of the opposing factions", Order = 0, RequireRestart = false)]
+        [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
+        public float AllyRelationshipChange { get; set; } = 10;
+
+
+        [SettingPropertyFloatingInteger("{=BSIPLOTS_SETTING_12}War Calculating Weight", 0f, 5f, HintText = "{=BSIPLOTS_SETTING_DESC_10}Base Weight given to Plot Leader's individual propensity to start a war with fewer allies", Order = 0, RequireRestart = false)]
+        [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/2.War Phase", GroupOrder = 0)]
+        public float LeaderRelationshipChangeFactor { get; set; } = 2f;
+
         //Debug Toggle
-        [SettingPropertyBool("{=BSIWM_SETTING_DEBUG}Debug Toggle", HintText = "{=BSIWM_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
+        [SettingPropertyBool("{=BSIPLOTS_SETTING_DEBUG}Debug Toggle", HintText = "{=BSIPLOTS_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_02}2. Debug", GroupOrder = 3)]
         public bool BSIPlotsDebug { get; set; } = true;
 

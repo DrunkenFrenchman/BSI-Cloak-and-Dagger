@@ -8,6 +8,8 @@ using BSI.Core.Objects;
 using BSI.Core.Tools;
 using Messages.FromLobbyServer.ToClient;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.Localization;
 
 namespace BSI.Plots.CivilWar
 {
@@ -47,9 +49,17 @@ namespace BSI.Plots.CivilWar
             Debug.PrintMessage("END OF PLOTTING REACHED\nEND OF PLOTTING REACHED\nEND OF PLOTTING REACHED\n");
             Debug.AddEntry("\nEND OF PLOTTING REACHED in " + plot.TargetFaction.Name.ToString());
 
+            TextObject name = KingdomTools.NameGenerator(plot.Leader);
+            TextObject informalname = new TextObject(plot.Leader.Clan.InformalName.ToString());
 
-            
+            Kingdom rebel = KingdomTools.CreateKingdom(plot.Leader, name, informalname, plot.Leader.Clan.Banner, true);
 
+            foreach (Hero member in plot.ClanLeaders.Where(member => !member.Clan.Kingdom.Equals(rebel)))
+            {
+                ChangeKingdomAction.ApplyByJoinToKingdom(member.Clan, rebel, true);
+            }
+
+            Debug.AddEntry("Successful Revolt created " + rebel.Name.ToString());
             return true;
         }
 

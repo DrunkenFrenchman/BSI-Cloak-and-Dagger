@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Flags\AvailableGoals.cs" />
+    <Compile Include="Core\Flags\KingdomTitles.cs" />
     <Compile Include="Core\Flags\PlotAttribute.cs" />
     <Compile Include="Core\Flags\UniqueTo.cs" />
     <Compile Include="Core\Managers\GameManager.cs" />
@@ -247,6 +248,8 @@
     <Compile Include="Core\Objects\TriggerBase.cs" />
     <Compile Include="Core\Objects\Goal.cs" />
     <Compile Include="Core\Objects\Plot.cs" />
+    <Compile Include="Core\Tools\Colors.cs" />
+    <Compile Include="Core\Tools\KingdomTools.cs" />
     <Compile Include="Core\Tools\PlotTools.cs" />
     <Compile Include="Core\Tools\HeroTools.cs" />
     <Compile Include="Debug\Debug.cs" />
