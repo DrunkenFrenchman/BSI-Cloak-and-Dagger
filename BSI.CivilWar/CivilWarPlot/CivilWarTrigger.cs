@@ -1,9 +1,11 @@
 ﻿using BSI.CivilWar.Goals;
+using BSI.CivilWar.Goals.WarForIndependence;
 using BSI.Core;
 using BSI.Core.Enumerations;
 using BSI.Core.Extensions;
 using BSI.Core.Objects;
 using System;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
@@ -43,10 +45,13 @@ namespace BSI.CivilWar
 
         public override Plot Start(MBObjectBase gameObject)
         {
-            var hero = (Hero)gameObject;
-
+            var hero = HeroExtension.ConvertToHero(gameObject);
+            
             var goal = new RecruitForWarGoal((Kingdom)gameObject, new RecruitForWarBehavior());
-            return new CivilWarPlot(hero.Clan.Kingdom, hero, goal, goal, UniqueTo.NotSet);
+            var endGoal = new WarForIndependenceGoal(HeroExtension.ConvertToKingdom(gameObject), new WarForIndependenceBehavior());
+            var nextGoals = new List<Goal>();
+            nextGoals.Add(endGoal);
+            return new CivilWarPlot(hero.Clan.Kingdom, hero, goal, endGoal, UniqueTo.NotSet);
         }
     }
 }

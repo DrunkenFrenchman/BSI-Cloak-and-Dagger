@@ -1,4 +1,5 @@
 ﻿using BSI.Core.Enumerations;
+using BSI.Core.Extensions;
 using BSI.Core.Helpers;
 using BSI.Core.Objects;
 using System;
@@ -25,10 +26,16 @@ namespace BSI.CloakDagger
             this.Triggers = new List<Trigger>();
             this.GamePlots = new Dictionary<MBObjectBase, PlotManager>();
         }
-
+        public void ClosePlot(Plot plot)
+        {
+            this.GamePlots[plot.Parent].RemovePlot(plot);
+        }
         public override void RegisterEvents()
         {
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
+            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => this.GamePlots.Add(kingdom, new PlotManager()));
+            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => this.GamePlots.Remove(kingdom));
+            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => this.GamePlots.Remove(clan));
         }
 
         public override void SyncData(IDataStore dataStore)

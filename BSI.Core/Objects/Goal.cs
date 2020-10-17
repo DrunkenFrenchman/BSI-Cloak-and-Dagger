@@ -8,8 +8,10 @@ namespace BSI.Core.Objects
 {
     public abstract class Goal
     {
-        public Goal(MBObjectBase target, Behavior behavior, String manifesto = "Plot against ")
-        { 
+        public Goal(MBObjectBase target, Behavior behavior, List<Goal> goals = null, String manifesto = "Plot against ")
+        {
+            if (!(goals is null)) { this.NextGoals = goals; }
+            else { this.NextGoals = new List<Goal>(); }
             this.Target = target;
             this.Behavior = behavior;
             if (manifesto == "Plot against ") { Manifesto = "Plot against " + Target.GetName().ToString(); }
@@ -21,5 +23,6 @@ namespace BSI.Core.Objects
         public Behavior Behavior { get; internal set; }
         public abstract bool EndCondition { get; }
         public virtual String Manifesto { get; internal set; }
+        public List<Goal> NextGoals { get; internal set; }
     }
 }

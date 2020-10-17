@@ -1,4 +1,5 @@
-﻿using BSI.Core;
+﻿using BSI.CivilWar.Goals.WarForIndependence;
+using BSI.Core;
 using BSI.Core.Enumerations;
 using BSI.Core.Extensions;
 using BSI.Core.Objects;
@@ -40,7 +41,7 @@ namespace BSI.CivilWar.Goals
 
         public override bool DoEnd(Plot plot)
         {
-            TextObject name = BSI.Core.Managers.KingdomManager.NameGenerator(HeroExtension.ConvertToHero(plot.Leader));
+            TextObject name = new TextObject(HeroExtension.ConvertToKingdom(plot.Target).InformalName.ToString() + " Seperatists");
             TextObject informalname = new TextObject(HeroExtension.ConvertToHero(plot.Leader).Clan.InformalName.ToString());
 
             Kingdom rebel = Core.Managers.KingdomManager.CreateKingdom(HeroExtension.ConvertToHero(plot.Leader), name, informalname, HeroExtension.ConvertToHero(plot.Leader).Clan.Banner, true);
@@ -57,9 +58,32 @@ namespace BSI.CivilWar.Goals
 
             DeclareWarAction.Apply(rebel, oldKingdom);
 
+            foreach (Hero hero in oldKingdom.Lords)
+            {
+                float warRelationChange = settings.WarRelationshipChange;
+                float allyRelationChange = settings.AllyRelationshipChange / 2;
+                if (HeroExtension.IsFactionLeader(hero)) { warRelationChange *= settings.LeaderRelationshipChangeFactor; allyRelationChange *= settings.LeaderRelationshipChangeFactor; }
+                foreach (Hero ally in oldKingdom.Lords)
+                {
+                    ChangeRelationAction.ApplyRelationChangeBetweenHeroes(hero, ally, (int)allyRelationChange);
+                }
+
+                foreach (Hero enemy in rebel.Lords)
+                {
+                    ChangeRelationAction.ApplyRelationChangeBetweenHeroes(hero, enemy, (int)warRelationChange);
+                }
+
+                foreach (Hero ally in rebel.Lords)
+                {
+                    ChangeRelationAction.ApplyRelationChangeBetweenHeroes(hero, ally, (int)allyRelationChange);
+                }
+            }
+
             InformationManager.AddNotice(new WarMapNotification(rebel, oldKingdom, new TextObject("Civil War breaks out in " + oldKingdom.Name + "!!!")));
 
             Debug.AddEntry("Successful Revolt created: " + rebel.Name.ToString());
+
+            plot.CurrentGoal = plot.CurrentGoal.NextGoals.FirstOrDefault(goal => goal.GetType().Equals(typeof(WarForIndependenceGoal)));
 
             return true;
         }

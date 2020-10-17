@@ -5,6 +5,7 @@ namespace BSI.CloakDagger
 {
     internal class PlotManager
     {
+        internal bool IsPlotMapFaction { get; set; }
         public PlotManager()
         {
             this.Plots = new List<Plot>();
