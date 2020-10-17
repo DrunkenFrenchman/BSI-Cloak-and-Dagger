@@ -7,13 +7,13 @@ namespace BSI.Core
 
     public class Debug
     {
-        private static readonly BSI.Core.MySettings settings = BSI.Core.MySettings.Instance;
+        private static readonly MySettings settings = MySettings.Instance;
         private static readonly string fileName = typeof(Debug).Namespace + ".debug.log";
 
         //Print Message in Game Helper
         public static void PrintMessage(string message)
         {
-            if (settings.BSIPlotsDebug is true)
+            if (settings.BSICORE_DEBUG is true)
             {
                 if (message != null) { InformationManager.DisplayMessage(new InformationMessage(message)); }
                 else { InformationManager.DisplayMessage(new InformationMessage(typeof(Debug).Namespace + " tried printing null message!")); }
@@ -38,7 +38,7 @@ namespace BSI.Core
         //Add Log Helper
         public static void AddEntry(string entry)
         {
-            if (settings.BSIPlotsDebug is false) { return; }
+            if (settings.BSICORE_DEBUG is false) { return; }
 
             //Create Directory
             string path = GetDirectory();

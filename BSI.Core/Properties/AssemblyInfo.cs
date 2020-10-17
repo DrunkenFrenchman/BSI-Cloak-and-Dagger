@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Blood Shit and Iron Core")]
+[assembly: AssemblyTitle("BullshitBloodIron.Core")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DrunkenFrenchman")]
-[assembly: AssemblyProduct("BSI - Core")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("BullshitBloodIron.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1b849401-926e-4d5c-bff8-dfcc1dedfd41")]
+[assembly: Guid("5c4ea1a9-9b2d-4847-8999-87587e7f9c4e")]
 
 // Version information for an assembly consists of the following four values:
 //

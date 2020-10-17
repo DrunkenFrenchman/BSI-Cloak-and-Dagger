@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "p7NYanPW4+r0EupleQ1DnV0EThKF2dhO6OEBZkUyPfPD1uwJIZe3PX2czu254O/VfROulKEmsdSZZ7hE4POYeg==",
+  "success": true,
+  "projectFilePath": "D:\\Program Files\\GitHub\\BSI-Cloak-and-Dagger\\BSI.CoreTests\\BSI.CoreTests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wills\\.nuget\\packages\\mstest.testadapter\\2.1.1\\mstest.testadapter.2.1.1.nupkg.sha512",
+    "C:\\Users\\wills\\.nuget\\packages\\mstest.testframework\\2.1.1\\mstest.testframework.2.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}

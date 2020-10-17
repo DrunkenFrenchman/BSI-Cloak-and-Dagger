@@ -1,0 +1,7 @@
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CloakDagger\obj\Debug\BSI.CloakDagger.csprojAssemblyReference.cache
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CloakDagger\obj\Debug\BSI.CloakDagger.csproj.CoreCompileInputs.cache
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CloakDagger\bin\Win64_Shipping_Client\BSI.CloakDagger.dll
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CloakDagger\bin\Win64_Shipping_Client\BSI.CloakDagger.pdb
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CloakDagger\obj\Debug\BSI.CloakDagger.csproj.CopyComplete
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CloakDagger\obj\Debug\BSI.CloakDagger.dll
+D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CloakDagger\obj\Debug\BSI.CloakDagger.pdb
