@@ -16,6 +16,7 @@ namespace BSI.Core.Objects
             this.CurrentGoal = currentGoal;
             this.EndGoal = endGoal;
             this.UniqueTo = uniqueTo;
+            this.CurrentGoal.GetPlot = this;
         }
 
         public MBObjectBase Parent { get; internal set; }
