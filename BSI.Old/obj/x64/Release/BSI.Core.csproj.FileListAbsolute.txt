@@ -1,6 +1,0 @@
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\bin\x64\Release\BloodShitandIron.dll
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\bin\x64\Release\BloodShitandIron.pdb
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Release\BSI.Core.csprojAssemblyReference.cache
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Release\BSI.Core.csproj.CoreCompileInputs.cache
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Release\BloodShitandIron.dll
-D:\Program Files\GitHub\BSI-Cloak-and-Dagger\BSI.Core\obj\x64\Release\BloodShitandIron.pdb
