@@ -14,6 +14,7 @@ namespace BSI.CivilWar
     public class CivilWarTrigger : Trigger
     {
         private static readonly MySettings settings = MySettings.Instance;
+
         public CivilWarTrigger()
         {
             base.UniqueTo = UniqueTo.Kingdom;
@@ -45,12 +46,10 @@ namespace BSI.CivilWar
 
         public override Plot Start(MBObjectBase gameObject)
         {
-            var hero = HeroExtension.ConvertToHero(gameObject);
+            var hero = gameObject.ConvertToHero();
             
             var goal = new RecruitForWarGoal((Kingdom)gameObject, new RecruitForWarBehavior());
-            var endGoal = new WarForIndependenceGoal(HeroExtension.ConvertToKingdom(gameObject), new WarForIndependenceBehavior());
-            var nextGoals = new List<Goal>();
-            nextGoals.Add(endGoal);
+            var endGoal = new WarForIndependenceGoal(gameObject.ConvertToKingdom(), new WarForIndependenceBehavior());
             return new CivilWarPlot(hero.Clan.Kingdom, hero, goal, endGoal, UniqueTo.NotSet);
         }
     }

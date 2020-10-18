@@ -106,6 +106,7 @@
     <Compile Include="Events\PlotEvent.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Extensions\HeroExtension.cs" />
+    <Compile Include="Extensions\MBObjectBaseExtension.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Managers\KingdomManager.cs" />
     <Compile Include="Objects\Behavior.cs" />
