@@ -1,11 +1,6 @@
 ﻿using BSI.Core.Extensions;
 using BSI.Core.Objects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
 namespace BSI.CivilWar.Goals.WarForIndependence
@@ -22,9 +17,9 @@ namespace BSI.CivilWar.Goals.WarForIndependence
 
         }
 
-        public override bool EndCondition => !HeroExtension.ConvertToHero(this.GetPlot.Leader).MapFaction.Equals(HeroExtension.ConvertToHero(GetPlot.Target).MapFaction)
-            && !HeroExtension.ConvertToHero(this.GetPlot.Leader).MapFaction.IsAtWarWith(HeroExtension.ConvertToHero(GetPlot.Target).MapFaction);
+        public override bool EndCondition => !this.GetPlot.Leader.ConvertToHero().MapFaction.Equals(GetPlot.Target.ConvertToHero().MapFaction)
+            && !this.GetPlot.Leader.ConvertToHero().MapFaction.IsAtWarWith(GetPlot.Target.ConvertToHero().MapFaction);
 
-        public override string Manifesto => "War of Independence from " + HeroExtension.ConvertToKingdom(GetPlot.Target);
+        public override string Manifesto => "War of Independence from " + GetPlot.Target.ConvertToKingdom();
     }
 }

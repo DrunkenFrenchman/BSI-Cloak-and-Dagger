@@ -3,8 +3,6 @@ using BSI.Core.Objects;
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Localization;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.CivilWar.Goals
 {
@@ -20,7 +18,7 @@ namespace BSI.CivilWar.Goals
         }
         public override string Manifesto => base.Manifesto;
 
-        public override bool EndCondition => !HeroExtension.ConvertToHero(GetPlot.Leader).MapFaction.Equals(HeroExtension.ConvertToHero(GetPlot.Target).MapFaction)
-            && FactionManager.GetEnemyKingdoms(HeroExtension.ConvertToKingdom(GetPlot.Leader)).Contains(HeroExtension.ConvertToKingdom(GetPlot.Target));
+        public override bool EndCondition => !GetPlot.Leader.ConvertToHero().MapFaction.Equals(GetPlot.Target.ConvertToHero().MapFaction)
+            && FactionManager.GetEnemyKingdoms(GetPlot.Leader.ConvertToKingdom()).Contains(GetPlot.Target.ConvertToKingdom());
     }
 }
