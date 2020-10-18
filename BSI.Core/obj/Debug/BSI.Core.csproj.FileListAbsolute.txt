@@ -1,9 +1,0 @@
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\bin\Debug\BSI.Core.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\bin\Debug\BSI.Core.pdb
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\obj\Debug\BSI.Core.csproj.CoreCompileInputs.cache
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\obj\Debug\BSI.Core.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\obj\Debug\BSI.Core.pdb
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\bin\Debug\0Harmony.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\bin\Debug\0Harmony.xml
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\obj\Debug\BSI.Core.csproj.CopyComplete
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.Core\obj\Debug\BSI.Core.csprojAssemblyReference.cache

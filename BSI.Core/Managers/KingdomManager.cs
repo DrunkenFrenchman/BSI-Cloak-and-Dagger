@@ -1,4 +1,5 @@
-﻿using BSI.Core.Helpers;
+﻿using BSI.Core.Extensions;
+using BSI.Core.Helpers;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -16,15 +17,16 @@ namespace BSI.Core.Managers
     {
         public static Kingdom CreateKingdom(Hero leader, TextObject name, TextObject informalName, Banner banner = null, bool showNotification = false)
         {
+            var mainColor = ColorHelper.GetRandomColor();
+            var altColor = ColorHelper.GetRandomColor();
+
             var kingdom = MBObjectManager.Instance.CreateObject<Kingdom>();
-            Color MainColor = ColorGenerator.Random;
-            Color AltColor = ColorGenerator.Random;
-            kingdom.InitializeKingdom(name, informalName, leader.Culture, banner ?? Banner.CreateRandomClanBanner(leader.StringId.GetDeterministicHashCode()), MainColor.ToUnsignedInteger(), ColorGenerator.OpposingColor(MainColor).ToUnsignedInteger(), leader.Clan.InitialPosition);
+            kingdom.InitializeKingdom(name, informalName, leader.Culture, banner ?? Banner.CreateRandomClanBanner(leader.StringId.GetDeterministicHashCode()), mainColor.ToUnsignedInteger(), mainColor.GetOpposingColor().ToUnsignedInteger(), leader.Clan.InitialPosition);
 
             ChangeKingdomAction.ApplyByCreateKingdom(leader.Clan, kingdom, showNotification);
 
-            AccessTools.Property(typeof(Kingdom), "AlternativeColor").SetValue(kingdom, AltColor.ToUnsignedInteger());
-            AccessTools.Property(typeof(Kingdom), "AlternativeColor2").SetValue(kingdom, ColorGenerator.OpposingColor(MainColor).ToUnsignedInteger());
+            AccessTools.Property(typeof(Kingdom), "AlternativeColor").SetValue(kingdom, altColor.ToUnsignedInteger());
+            AccessTools.Property(typeof(Kingdom), "AlternativeColor2").SetValue(kingdom, mainColor.GetOpposingColor().ToUnsignedInteger());
 
             return kingdom;
         }

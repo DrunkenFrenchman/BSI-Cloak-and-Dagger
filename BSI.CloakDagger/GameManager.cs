@@ -17,13 +17,14 @@ namespace BSI.CloakDagger
     {
         private List<Trigger> Triggers { get; set; }
 
-        private Dictionary<MBObjectBase, PlotManager> GamePlots { get; set; }
-
         private PlotManager GlobalPlots { get; set; }
+
+        private Dictionary<MBObjectBase, PlotManager> GamePlots { get; set; }
 
         public GameManager()
         {
             this.Triggers = new List<Trigger>();
+            this.GlobalPlots = new PlotManager();
             this.GamePlots = new Dictionary<MBObjectBase, PlotManager>();
         }
         public void ClosePlot(Plot plot)
@@ -43,7 +44,7 @@ namespace BSI.CloakDagger
 
         }
 
-        public void InitializeTrigger()
+        public void InitializeTriggers()
         {
             var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
             var path = Path.Combine(fileInfo.Directory.Parent.Parent.FullName, "Plots");
@@ -63,12 +64,12 @@ namespace BSI.CloakDagger
                 }
                 catch (Exception)
                 {
-                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Red));
+                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Colors.Red));
                 }
             }
         }
 
-        public void InitializeGamePlots()
+        public void InitializeGameObjects()
         {
             foreach (var kingdom in Campaign.Current.Kingdoms)
             {
@@ -108,6 +109,13 @@ namespace BSI.CloakDagger
                                 var plot = trigger.Start(character);
                                 this.GamePlots[character].AddPlot(plot);
                                 relevantGameObjects.Add(character);
+                            }
+                            else
+                            {
+                                foreach (var plot in this.GamePlots[gameObject].Plots.Where(plot => plot.TriggerType == trigger.GetType()))
+                                {
+
+                                }
                             }
                         }
                         break;

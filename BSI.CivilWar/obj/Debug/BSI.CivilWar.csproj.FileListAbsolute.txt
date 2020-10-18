@@ -1,9 +1,0 @@
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\bin\Debug\BSI.CivilWar.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\bin\Debug\BSI.CivilWar.pdb
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\obj\Debug\BSI.CivilWar.csprojAssemblyReference.cache
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\obj\Debug\BSI.CivilWar.csproj.CoreCompileInputs.cache
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\obj\Debug\BSI.CivilWar.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\obj\Debug\BSI.CivilWar.pdb
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CloakDagger\Plots\BSI.CivilWar.dll
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BSI.CloakDagger\Plots\BSI.CivilWar.pdb
-D:\Games\Steam\steamapps\common\Mount & Blade II Bannerlord\Modules\BullshitBloodIron\BSI.CivilWar\obj\Debug\BSI.CivilWar.csproj.CopyComplete

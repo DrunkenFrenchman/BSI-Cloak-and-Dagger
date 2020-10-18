@@ -22,4 +22,7 @@
     <StartAction>Program</StartAction>
     <StartArguments />
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+  </PropertyGroup>
 </Project>
