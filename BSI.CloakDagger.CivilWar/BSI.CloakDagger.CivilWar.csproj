@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BD535D95-FD82-4AE2-A1A7-B669D58FCE8E}</ProjectGuid>
+    <ProjectGuid>{0988B2E5-4B0B-4BDD-84AA-D272D1F07E9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BSI.CloakDager</RootNamespace>
-    <AssemblyName>BSI.CloakDager</AssemblyName>
+    <RootNamespace>BSI.CloakDager.CivilWar</RootNamespace>
+    <AssemblyName>BSI.CloakDager.CivilWar</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\BSI.CloakDagger\bin\Win64_Shipping_Client\</OutputPath>
+    <OutputPath>..\..\BSI.CloakDagger.CivilWar\bin\Win64_Shipping_Client\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\BSI.CloakDagger\bin\Win64_Shipping_Client\</OutputPath>
+    <OutputPath>..\..\BSI.CloakDagger.CivilWar\bin\Win64_Shipping_Client\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -90,25 +90,19 @@
   </ItemGroup>
   <!-- Mod Programming Files -->
   <ItemGroup>
-    <Compile Include="Commands.cs" />
-    <Compile Include="Debug.cs" />
-    <Compile Include="Debug\Debug.cs" />
-    <Compile Include="Enumerations\CharacterTrait.cs" />
-    <Compile Include="Enumerations\Culture.cs" />
-    <Compile Include="Enumerations\KingdomTitle.cs" />
-    <Compile Include="Enumerations\UniqueTo.cs" />
-    <Compile Include="Events\PlotEvent.cs" />
-    <Compile Include="Extensions\ColorExtension.cs" />
-    <Compile Include="Extensions\HeroExtension.cs" />
-    <Compile Include="Extensions\MBObjectBaseExtension.cs" />
-    <Compile Include="Managers\GameManager.cs" />
-    <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Managers\KingdomManager.cs" />
-    <Compile Include="Objects\Behavior.cs" />
-    <Compile Include="Objects\Goal.cs" />
-    <Compile Include="Objects\Plot.cs" />
-    <Compile Include="Objects\Trigger.cs" />
-    <Compile Include="Managers\PlotManager.cs" />
+    <ProjectReference Include="..\BSI.CloakDagger\BSI.CloakDagger.csproj">
+      <Project>{BD535D95-FD82-4AE2-A1A7-B669D58FCE8E}</Project>
+      <Name>BSI.CloakDagger</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Plots\CivilWar\CivilWarPlot.cs" />
+    <Compile Include="Plots\CivilWar\CivilWarTrigger.cs" />
+    <Compile Include="Plots\CivilWar\Goals\RecruitForWar\RecruitForWarBehavior.cs" />
+    <Compile Include="Plots\CivilWar\Goals\RecruitForWar\RecruitForWarGoal.cs" />
+    <Compile Include="Plots\CivilWar\Goals\WarForIndependence\WarForIndependenceBehavior.cs" />
+    <Compile Include="Plots\CivilWar\Goals\WarForIndependence\WarForIndependenceGoal.cs" />
+    <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ModuleData\Languages\" />
@@ -116,7 +110,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /d /y /i /r "$(MSBuildProjectDirectory)\SubModule.xml" "$(SolutionDir)..\BSI.CloakDagger\"
-xcopy /d /y /i /r /e "$(MSBuildProjectDirectory)\ModuleData" "$(SolutionDir)..\BSI.CloakDagger\ModuleData\"</PostBuildEvent>
+    <PostBuildEvent>xcopy /d /y /i /r "$(MSBuildProjectDirectory)\SubModule.xml" "$(SolutionDir)..\BSI.CloakDagger.CivilWar\"
+xcopy /d /y /i /r /e "$(MSBuildProjectDirectory)\ModuleData" "$(SolutionDir)..\BSI.CloakDagger.CivilWar\ModuleData\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

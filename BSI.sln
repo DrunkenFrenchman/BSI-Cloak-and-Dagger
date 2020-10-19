@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.Core", "BSI.Core\BSI.Core.csproj", "{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.CloakDagger", "BSI.CloakDagger\BSI.CloakDagger.csproj", "{0C97D849-164D-40B6-93C3-33FC6519FBBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.CivilWar", "BSI.CivilWar\BSI.CivilWar.csproj", "{0988B2E5-4B0B-4BDD-84AA-D272D1F07E9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSI.CloakDagger.CivilWar", "BSI.CloakDagger.CivilWar\BSI.CloakDagger.CivilWar.csproj", "{0988B2E5-4B0B-4BDD-84AA-D272D1F07E9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,14 +15,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Debug|x64.ActiveCfg = Debug|x64
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Debug|x64.Build.0 = Debug|x64
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Release|x64.ActiveCfg = Release|Any CPU
-		{5C4EA1A9-9B2D-4847-8999-87587E7F9C4E}.Release|x64.Build.0 = Release|Any CPU
 		{0C97D849-164D-40B6-93C3-33FC6519FBBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0C97D849-164D-40B6-93C3-33FC6519FBBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C97D849-164D-40B6-93C3-33FC6519FBBF}.Debug|x64.ActiveCfg = Debug|x64

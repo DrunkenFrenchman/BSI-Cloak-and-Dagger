@@ -4,17 +4,17 @@ using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using BSI.CloakDager.Managers;
+using BSI.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
+using BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 
 namespace BSI.CloakDagger
 {
     public class SubModule : MBSubModuleBase
     {
-        private GameManager _gameManager { get; set; }
 
         protected override void OnSubModuleLoad()
         {
-            InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded Engine!", ColorHelper.Colors.Green));
+            InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger CivilWar: Loaded Mod!", ColorHelper.Colors.Green));
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
@@ -27,17 +27,15 @@ namespace BSI.CloakDagger
 
                 try
                 {
-                    this._gameManager = new GameManager();
-                    this._gameManager.InitializeTriggers();
+                    campaignGameStarter.AddBehavior(new RecruitForWarBehavior());
+                    campaignGameStarter.AddBehavior(new WarForIndependenceBehavior());
 
-                    campaignGameStarter.AddBehavior(this._gameManager);
-
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded Plots!", ColorHelper.Colors.Green));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded CivilWar!", ColorHelper.Colors.Green));
                 }
                 catch (Exception ex)
                 {
                     Debug.AddExceptionLog("OnGameStart", ex);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load plots!", ColorHelper.Colors.Red));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load CivilWar!", ColorHelper.Colors.Red));
                 }
             }
         }
@@ -48,14 +46,13 @@ namespace BSI.CloakDagger
             {
                 if (game.GameType is Campaign)
                 {
-                    this._gameManager.InitializeGameObjects();
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Initialized Engine!", ColorHelper.Colors.Green));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Initialized CivilWar!", ColorHelper.Colors.Green));
                 }
             }
             catch (Exception ex)
             {
                 Debug.AddExceptionLog("OnGameInitializationFinished", ex);
-                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize engine!", ColorHelper.Colors.Red));
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize CivilWar!", ColorHelper.Colors.Red));
             }
         }
     }
