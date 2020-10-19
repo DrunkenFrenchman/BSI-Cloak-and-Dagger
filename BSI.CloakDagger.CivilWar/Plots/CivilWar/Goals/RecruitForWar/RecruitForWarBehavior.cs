@@ -17,7 +17,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     public class RecruitForWarBehavior : Behavior
     {
-        private static readonly CloakDagger.CivilWar.Settings.CivilWarSettings settings = CloakDagger.CivilWar.Settings.CivilWarSettings.Instance;
+        private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
         public override void RegisterEvents()
         {
@@ -87,7 +87,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             var informalname = new TextObject(plot.Leader.ConvertToHero().Clan.InformalName.ToString());
 
             var oldKingdom = plot.Target.ConvertToKingdom();
-            var rebel = CloakDagger.Managers.KingdomManager.CreateKingdom(plot.Leader.ConvertToHero(), name, informalname, plot.Leader.ConvertToHero().Clan.Banner, true);
+            var rebel = Managers.KingdomManager.CreateKingdom(plot.Leader.ConvertToHero(), name, informalname, plot.Leader.ConvertToHero().Clan.Banner, true);
 
             foreach (var member in plot.Members)
             {
@@ -95,7 +95,6 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
                 {
                     ChangeKingdomAction.ApplyByJoinToKingdom(member.ConvertToHero().Clan, rebel, true);
                 }
-
             }
 
             DeclareWarAction.Apply(rebel, oldKingdom);

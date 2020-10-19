@@ -8,7 +8,7 @@ namespace BSI.CloakDagger.Helpers
     {
         public static Color GetRandomColor()
         {
-            return Color.FromUint(ColorHelper.Colors.All[new Random(Environment.TickCount).Next(ColorHelper.Colors.All.Count)]);
+            return Color.FromUint(Colors.All[new Random(Environment.TickCount).Next(Colors.All.Count)]);
         }
 
         public static class Colors

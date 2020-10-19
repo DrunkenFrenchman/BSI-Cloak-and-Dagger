@@ -42,7 +42,7 @@ namespace BSI.CloakDagger.Managers
 
         public static void AddKingdom(Kingdom kingdom)
         {
-            KingdomManager.ModifyKingdomList(kingdoms =>
+            ModifyKingdomList(kingdoms =>
             {
                 if (kingdoms.Contains(kingdom))
                 {
@@ -56,7 +56,7 @@ namespace BSI.CloakDagger.Managers
 
         public static void RemoveKingdom(Kingdom kingdom)
         {
-            KingdomManager.ModifyKingdomList(kingdoms =>
+            ModifyKingdomList(kingdoms =>
             {
                 return kingdoms.RemoveAll(k => k.StringId == kingdom.StringId) > 0 ? kingdoms : null;
             });

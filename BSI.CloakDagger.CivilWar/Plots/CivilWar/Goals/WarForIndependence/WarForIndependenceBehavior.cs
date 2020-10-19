@@ -43,7 +43,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
         {
             var plot = Goal.Plot;
 
-            var newName = CloakDagger.Managers.KingdomManager.NameGenerator(plot.Leader.ConvertToHero());
+            var newName = Managers.KingdomManager.NameGenerator(plot.Leader.ConvertToHero());
             plot.Leader.ConvertToKingdom().ChangeKingdomName(newName, plot.Leader.ConvertToClan().InformalName);
 
             InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ConvertToKingdom(), plot.Target.ConvertToKingdom(), new TextObject($"Civil War ended in {plot.Target.ConvertToKingdom().Name}")));
