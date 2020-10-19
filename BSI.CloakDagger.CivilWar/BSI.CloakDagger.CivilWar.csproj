@@ -70,11 +70,9 @@
     <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.2.0.2\lib\net48\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Bannerlord.UIExtenderEx, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bannerlord.UIExtenderEx.1.0.3\lib\net472\Bannerlord.UIExtenderEx.dll</HintPath>
-    </Reference>
     <Reference Include="MCMv3, Version=3.1.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bannerlord.MCM.3.1.9\lib\net472\MCMv3.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <!-- System Files -->
@@ -85,6 +83,10 @@
   </ItemGroup>
   <!-- Mod Resource Files -->
   <ItemGroup>
+    <Compile Include="Settings\Localization\Categories.cs" />
+    <Compile Include="Settings\Localization\Descriptions.cs" />
+    <Compile Include="Settings\Localization\Groups.cs" />
+    <Compile Include="Settings\Localization\Names.cs" />
     <Compile Include="SubModule.cs" />
     <Content Include="SubModule.xml" />
   </ItemGroup>
@@ -93,6 +95,7 @@
     <ProjectReference Include="..\BSI.CloakDagger\BSI.CloakDagger.csproj">
       <Project>{BD535D95-FD82-4AE2-A1A7-B669D58FCE8E}</Project>
       <Name>BSI.CloakDagger</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -102,7 +105,7 @@
     <Compile Include="Plots\CivilWar\Goals\RecruitForWar\RecruitForWarGoal.cs" />
     <Compile Include="Plots\CivilWar\Goals\WarForIndependence\WarForIndependenceBehavior.cs" />
     <Compile Include="Plots\CivilWar\Goals\WarForIndependence\WarForIndependenceGoal.cs" />
-    <Compile Include="Settings.cs" />
+    <Compile Include="Settings\CivilWarSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ModuleData\Languages\" />

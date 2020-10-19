@@ -10,11 +10,11 @@ namespace BSI.CloakDagger.Objects
     {
         public Goal(MBObjectBase target, Behavior behavior, string manifesto = null)
         {
-            this.Target = target;
-            this.Behavior = behavior;
-            this.Manifesto = string.IsNullOrEmpty(manifesto) ? $"Plot against {this.Target.GetName()}" : manifesto;
-            this.NextPossibleGoals = new List<Goal>();
-            this.IsActive = false;
+            Target = target;
+            Behavior = behavior;
+            Manifesto = string.IsNullOrEmpty(manifesto) ? $"Plot against {Target.GetName()}" : manifesto;
+            NextPossibleGoals = new List<Goal>();
+            IsActive = false;
         }
 
         public MBObjectBase Target { get; internal set; }
@@ -27,22 +27,22 @@ namespace BSI.CloakDagger.Objects
 
         public Plot Plot { get; internal set; }
 
-        public TextObject Name => new TextObject(this.Manifesto);
+        public TextObject Name => new TextObject(Manifesto);
 
         public bool IsActive { get; set; }
 
         public virtual void SetNextGoal(Type goalType)
         {
-            if(this.Plot.IsEndGoalReached())
+            if(Plot.IsEndGoalReached())
             {
                 return;
             }
 
-            this.Plot.CurrentGoal = this.NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType.GetType());
-            this.Plot.CurrentGoal.Plot = this.Plot;
-            this.Plot.CurrentGoal.IsActive = true;
+            Plot.CurrentGoal = NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType.GetType());
+            Plot.CurrentGoal.Plot = Plot;
+            Plot.CurrentGoal.IsActive = true;
 
-            this.IsActive = false;
+            IsActive = false;
         }
     }
 }

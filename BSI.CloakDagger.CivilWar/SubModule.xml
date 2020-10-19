@@ -1,5 +1,5 @@
 ﻿<Module>
-	<Name value="BSI CloakDagger: CivilWar"/>
+	<Name value="BSI Cloak and Dagger: CivilWar"/>
 	<Id value="BSI.CloakDagger.CivilWar"/>
 	<Version value="v0.1.0"/>
 	<Official value="false" />
@@ -7,23 +7,16 @@
 	<SingleplayerModule value="true"/>
 	<MultiplayerModule value="false"/>
 	<DependedModules>
-		<DependedModule Id="BSI.CloakDagger"/>
 		<DependedModule Id="Bannerlord.MBOptionScreen"/>
+		<DependedModule Id="Native"/>
+		<DependedModule Id="SandBoxCore"/>
+		<DependedModule Id="Sandbox"/>
+		<DependedModule Id="StoryMode" />
+		<DependedModule Id="BSI.CloakDagger"/>
 	</DependedModules>
-	<DependedModuleMetadatas>
-		<DependedModuleMetadata id="BSI.CloakDagger" order="LoadBeforeThis" version="v0.1.0" optional="false" incompatible="false" />
-
-		<DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v4.0.7" optional="false" incompatible="false" />
-
-		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="e1.5.3.*" optional="true" incompatible="false" />
-		<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="e1.5.3.*" optional="true" incompatible="false" />
-	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
-			<Name value="BSI CloakDagger: CivilWar"/>
+			<Name value="BSI Cloak and Dagger: CivilWar"/>
 			<DLLName value="BSI.CloakDagger.CivilWar.dll"/>
 			<SubModuleClassType value="BSI.CloakDagger.CivilWar.SubModule"/>
 			<Tags>

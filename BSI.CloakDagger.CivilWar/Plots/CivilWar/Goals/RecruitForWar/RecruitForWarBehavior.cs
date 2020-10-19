@@ -1,4 +1,5 @@
-﻿using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
+﻿using BSI.CloakDager.CivilWar.Settings;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
@@ -16,7 +17,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     public class RecruitForWarBehavior : Behavior
     {
-        private static readonly MySettings settings = MySettings.Instance;
+        private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
         public override void RegisterEvents()
         {
@@ -28,7 +29,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
         }
 
-        public void OnDailyTick()
+        private void OnDailyTick()
         {
             if (!Goal.IsActive)
             {

@@ -9,11 +9,11 @@ namespace BSI.CloakDagger.Objects
     {
         public Plot(MBObjectBase target, MBObjectBase leader, Goal startGoal, Goal endGoal)
         {
-            this.Target = target;
-            this.Leader = leader;
-            this.CurrentGoal = startGoal;
-            this.EndGoal = endGoal;
-            this.CurrentGoal.Plot = this;
+            Target = target;
+            Leader = leader;
+            CurrentGoal = startGoal;
+            EndGoal = endGoal;
+            CurrentGoal.Plot = this;
         }
 
         public Type TriggerType { get; set; }
@@ -30,6 +30,6 @@ namespace BSI.CloakDagger.Objects
 
         public UniqueTo UniqueTo { get; set; }
 
-        public bool IsEndGoalReached() => this.CurrentGoal == this.EndGoal;
+        public bool IsEndGoalReached() => CurrentGoal == EndGoal;
     }
 }

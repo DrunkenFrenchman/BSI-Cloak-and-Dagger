@@ -11,7 +11,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
     public class CivilWarTrigger : Trigger
     {
-        private static readonly MySettings settings = MySettings.Instance;
+        private static readonly Settings settings = Settings.Instance;
 
         public CivilWarTrigger()
         {

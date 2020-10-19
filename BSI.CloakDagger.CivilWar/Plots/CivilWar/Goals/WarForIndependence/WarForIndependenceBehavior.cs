@@ -20,7 +20,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 
         }
 
-        public void OnDailyTick()
+        private void OnDailyTick()
         {
             if (!Goal.IsActive)
             {

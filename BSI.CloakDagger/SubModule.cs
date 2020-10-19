@@ -11,11 +11,6 @@ namespace BSI.CloakDagger
     {
         private GameManager _gameManager { get; set; }
 
-        protected override void OnSubModuleLoad()
-        {
-            InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded Engine!", ColorHelper.Colors.Green));
-        }
-
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             base.OnGameStart(game, gameStarter);
@@ -26,12 +21,12 @@ namespace BSI.CloakDagger
 
                 try
                 {
-                    this._gameManager = new GameManager();
-                    this._gameManager.InitializeTriggers();
+                    _gameManager = new GameManager();
+                    var (success, total) = _gameManager.InitializeTriggers();
 
-                    campaignGameStarter.AddBehavior(this._gameManager);
+                    campaignGameStarter.AddBehavior(_gameManager);
 
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded Plots!", ColorHelper.Colors.Green));
+                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Loaded {success} of {total} plots.", ColorHelper.Colors.Green));
                 }
                 catch (Exception ex)
                 {
@@ -47,14 +42,14 @@ namespace BSI.CloakDagger
             {
                 if (game.GameType is Campaign)
                 {
-                    this._gameManager.InitializeGameObjects();
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Initialized Engine!", ColorHelper.Colors.Green));
+                    _gameManager.InitializeGameObjects();
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Successfully initialized.", ColorHelper.Colors.Green));
                 }
             }
             catch (Exception ex)
             {
                 Debug.AddExceptionLog("OnGameInitializationFinished", ex);
-                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize engine!", ColorHelper.Colors.Red));
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize!", ColorHelper.Colors.Red));
             }
         }
     }

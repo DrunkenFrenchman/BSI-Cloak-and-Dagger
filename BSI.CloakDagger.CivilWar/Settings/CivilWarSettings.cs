@@ -1,19 +1,20 @@
-﻿
-using MCM.Abstractions.Attributes;
+﻿using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Settings.Base.Global;
 using MCM.Abstractions.Settings.Base;
-
 using System;
 using System.Collections.Generic;
 
-namespace BSI.CloakDagger.CivilWar
+namespace BSI.CloakDager.CivilWar.Settings
 {
-    public class MySettings : AttributeGlobalSettings<MySettings>
+    public class CivilWarSettings : AttributeGlobalSettings<CivilWarSettings>
     {
-        public override string Id => "BSI.CivilWar";
-        public override string DisplayName => "BSI - Civil War";
-        public override string FolderName => "BSI.CivilWar";
+        public override string Id => "BSI.CloakDagger.CivilWar";
+
+        public override string DisplayName => "BSI - Cloak and Dagger: Civil War";
+
+        public override string FolderName => "BSI.CloakDagger.CivilWar";
+
         public override string Format => "json";
 
         //Main Settings for Wage Model
@@ -78,15 +79,15 @@ namespace BSI.CloakDagger.CivilWar
         public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
         {
             var basePresets = base.GetAvailablePresets();
-            basePresets.Add("Realistic Battle Mod", () => new MySettings()
+            basePresets.Add("Realistic Battle Mod", () => new CivilWarSettings()
             {
 
             }); ;
-            basePresets.Add("Native", () => new MySettings()
+            basePresets.Add("Native", () => new CivilWarSettings()
             {
 
             });
-            basePresets.Add("Debug", () => new MySettings()
+            basePresets.Add("Debug", () => new CivilWarSettings()
             {
                 CivilWarToggle = true,
                 BSIPlotsDebug = true,

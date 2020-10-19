@@ -8,9 +8,9 @@ namespace BSI.CloakDagger.Objects
     {
         public Trigger()
         {
-            this.Id = Guid.NewGuid();
-            this.UniqueTo = UniqueTo.NotSet;
-            this.AllowedInstancesPerGameObject = 0;
+            Id = Guid.NewGuid();
+            UniqueTo = UniqueTo.NotSet;
+            AllowedInstancesPerGameObject = 0;
         }
 
         public Guid Id { get; set; }

@@ -1,5 +1,5 @@
 ﻿<Module>
-	<Name value="BSI CloakDagger"/>
+	<Name value="BSI Cloak and Dagger"/>
 	<Id value="BSI.CloakDagger"/>
 	<Version value="v0.1.0"/>
 	<Official value="false" />
@@ -8,19 +8,14 @@
 	<MultiplayerModule value="false"/>
 	<DependedModules>
 		<DependedModule Id="Bannerlord.MBOptionScreen"/>
+		<DependedModule Id="Native"/>
+		<DependedModule Id="SandBoxCore"/>
+		<DependedModule Id="Sandbox"/>
+		<DependedModule Id="StoryMode" />
 	</DependedModules>
-	<DependedModuleMetadatas>
-		<DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v4.0.7" optional="false" incompatible="false" />
-
-		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="e1.5.3.*" optional="true" incompatible="false" />
-		<DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="e1.5.3.*" optional="true" incompatible="false" />
-	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
-			<Name value="BSI CloakDagger"/>
+			<Name value="BSI Cloak and Dagger"/>
 			<DLLName value="BSI.CloakDagger.dll"/>
 			<SubModuleClassType value="BSI.CloakDagger.SubModule"/>
 			<Tags>

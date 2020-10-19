@@ -70,11 +70,9 @@
     <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.2.0.2\lib\net48\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Bannerlord.UIExtenderEx, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Bannerlord.UIExtenderEx.1.0.3\lib\net472\Bannerlord.UIExtenderEx.dll</HintPath>
-    </Reference>
     <Reference Include="MCMv3, Version=3.1.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bannerlord.MCM.3.1.9\lib\net472\MCMv3.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <!-- System Files -->
@@ -85,14 +83,18 @@
   </ItemGroup>
   <!-- Mod Resource Files -->
   <ItemGroup>
+    <Compile Include="Settings\Localization\Categories.cs" />
+    <Compile Include="Settings\Localization\Descriptions.cs" />
+    <Compile Include="Settings\Localization\Groups.cs" />
+    <Compile Include="Settings\Localization\Names.cs" />
     <Compile Include="SubModule.cs" />
     <Content Include="SubModule.xml" />
   </ItemGroup>
   <!-- Mod Programming Files -->
   <ItemGroup>
     <Compile Include="Commands.cs" />
+    <Compile Include="Settings\CloakDaggerSettings.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="Debug\Debug.cs" />
     <Compile Include="Enumerations\CharacterTrait.cs" />
     <Compile Include="Enumerations\Culture.cs" />
     <Compile Include="Enumerations\KingdomTitle.cs" />

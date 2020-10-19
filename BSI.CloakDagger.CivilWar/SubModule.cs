@@ -10,11 +10,6 @@ namespace BSI.CloakDagger.CivilWar
 {
     public class SubModule : MBSubModuleBase
     {
-        protected override void OnSubModuleLoad()
-        {
-            InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger CivilWar: Loaded Mod!", ColorHelper.Colors.Green));
-        }
-
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             base.OnGameStart(game, gameStarter);
@@ -28,29 +23,13 @@ namespace BSI.CloakDagger.CivilWar
                     campaignGameStarter.AddBehavior(new RecruitForWarBehavior());
                     campaignGameStarter.AddBehavior(new WarForIndependenceBehavior());
 
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Loaded CivilWar!", ColorHelper.Colors.Green));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Civil War", ColorHelper.Colors.Green));
                 }
                 catch (Exception ex)
                 {
                     Debug.AddExceptionLog("OnGameStart", ex);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load CivilWar!", ColorHelper.Colors.Red));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Civil War", ColorHelper.Colors.Red));
                 }
-            }
-        }
-
-        public override void OnGameInitializationFinished(Game game)
-        {
-            try
-            {
-                if (game.GameType is Campaign)
-                {
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Initialized CivilWar!", ColorHelper.Colors.Green));
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.AddExceptionLog("OnGameInitializationFinished", ex);
-                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize CivilWar!", ColorHelper.Colors.Red));
             }
         }
     }

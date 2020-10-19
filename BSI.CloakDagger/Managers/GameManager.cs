@@ -39,18 +39,28 @@ namespace BSI.CloakDagger.Managers
 
         }
 
-        public void InitializeTriggers()
+        public (int success, int failed) InitializeTriggers()
         {
+            var failedCount = 0;
             var modulesPath = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent.Parent.Parent.FullName;
 
             var excludedDirectories = new List<string>
             {
+                //Native Modules
                 Path.Combine(modulesPath, "Native"),
                 Path.Combine(modulesPath, "SandBoxCore"),
                 Path.Combine(modulesPath, "Sandbox"),
                 Path.Combine(modulesPath, "StoryMode"),
                 Path.Combine(modulesPath, "CustomBattle"),
-                Path.Combine(modulesPath, "BloodShitIron")
+                //Development Environment
+                Path.Combine(modulesPath, "BloodShitIron"),
+                //Module Dependencies
+                Path.Combine(modulesPath, "Bannerlord.ButterLib"),
+                Path.Combine(modulesPath, "Bannerlord.Harmony"),
+                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen"),
+                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen.MCMv3"),
+                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen.ModLib"),
+                Path.Combine(modulesPath, "Bannerlord.UIExtenderEx")
             };
 
             foreach (var directory in Directory.GetDirectories(modulesPath).Except(excludedDirectories))
@@ -74,10 +84,13 @@ namespace BSI.CloakDagger.Managers
                     }
                     catch (Exception)
                     {
+                        failedCount++;
                         InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Colors.Red));
                     }
                 }
             }
+
+            return (Triggers.Count, Triggers.Count + failedCount);
         }
 
         public void InitializeGameObjects()
