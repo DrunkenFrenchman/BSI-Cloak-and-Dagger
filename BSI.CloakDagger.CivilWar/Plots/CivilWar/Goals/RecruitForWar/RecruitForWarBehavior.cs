@@ -1,4 +1,4 @@
-﻿using BSI.CloakDager.CivilWar.Settings;
+﻿using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
@@ -17,7 +17,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     public class RecruitForWarBehavior : Behavior
     {
-        private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
+        private static readonly CloakDagger.CivilWar.Settings.CivilWarSettings settings = CloakDagger.CivilWar.Settings.CivilWarSettings.Instance;
 
         public override void RegisterEvents()
         {

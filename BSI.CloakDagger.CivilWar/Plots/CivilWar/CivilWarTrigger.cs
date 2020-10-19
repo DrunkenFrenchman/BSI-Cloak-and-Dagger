@@ -1,4 +1,5 @@
-﻿using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
+﻿using BSI.CloakDagger.CivilWar.Settings;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
 using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
@@ -11,7 +12,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
     public class CivilWarTrigger : Trigger
     {
-        private static readonly Settings settings = Settings.Instance;
+        private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
         public CivilWarTrigger()
         {

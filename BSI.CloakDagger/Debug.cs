@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSI.CloakDager.Settings;
+using System;
 using System.IO;
 using TaleWorlds.Core;
 
@@ -12,7 +13,7 @@ namespace BSI.CloakDagger
         //Print Message in Game Helper
         public static void PrintMessage(string message)
         {
-            if (settings.BSICORE_DEBUG)
+            if (settings.EnableDebug)
             {
                 if (message != null)
                 {
@@ -40,7 +41,7 @@ namespace BSI.CloakDagger
         //Add Log Helper
         public static void AddEntry(string entry)
         {
-            if (!settings.BSICORE_DEBUG)
+            if (!settings.EnableDebug)
             {
                 return;
             }

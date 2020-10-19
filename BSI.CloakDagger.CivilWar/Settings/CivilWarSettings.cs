@@ -5,13 +5,13 @@ using MCM.Abstractions.Settings.Base;
 using System;
 using System.Collections.Generic;
 
-namespace BSI.CloakDager.CivilWar.Settings
+namespace BSI.CloakDagger.CivilWar.Settings
 {
     public class CivilWarSettings : AttributeGlobalSettings<CivilWarSettings>
     {
-        public override string Id => "BSI.CloakDagger.CivilWar";
+        public override string Id => $"BSI.CloakDagger.CivilWar_v{typeof(CivilWarSettings).Assembly.GetName().Version.ToString(3)}";
 
-        public override string DisplayName => "BSI - Cloak and Dagger: Civil War";
+        public override string DisplayName => $"BSI - Cloak and Dagger: Civil War";
 
         public override string FolderName => "BSI.CloakDagger.CivilWar";
 
