@@ -1,9 +1,7 @@
 ﻿using BSI.Core.Enumerations;
 using BSI.Core.Objects;
-using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.Core.Extensions
 {

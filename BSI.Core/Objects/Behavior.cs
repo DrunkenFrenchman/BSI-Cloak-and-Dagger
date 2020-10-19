@@ -1,6 +1,4 @@
-﻿using TaleWorlds.CampaignSystem;
-
-namespace BSI.Core.Objects
+﻿namespace BSI.Core.Objects
 {
     public abstract class Behavior
     {

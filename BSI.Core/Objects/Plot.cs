@@ -1,9 +1,7 @@
 ﻿using BSI.Core.Enumerations;
 using System;
 using System.Collections.Generic;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
-using BSI.Core.Managers;
 
 namespace BSI.Core.Objects
 {
@@ -16,7 +14,7 @@ namespace BSI.Core.Objects
             this.CurrentGoal = currentGoal;
             this.EndGoal = endGoal;
             this.UniqueTo = uniqueTo;
-            this.CurrentGoal.GetPlot = this;
+            this.CurrentGoal.Plot = this;
         }
 
         public MBObjectBase Parent { get; internal set; }

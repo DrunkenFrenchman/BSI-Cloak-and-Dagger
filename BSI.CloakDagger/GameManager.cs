@@ -1,6 +1,4 @@
-﻿using BSI.Core.Enumerations;
-using BSI.Core.Extensions;
-using BSI.Core.Helpers;
+﻿using BSI.Core.Helpers;
 using BSI.Core.Objects;
 using System;
 using System.Collections.Generic;
@@ -27,10 +25,7 @@ namespace BSI.CloakDagger
             this.GlobalPlots = new PlotManager();
             this.GamePlots = new Dictionary<MBObjectBase, PlotManager>();
         }
-        public void ClosePlot(Plot plot)
-        {
-            this.GamePlots[plot.Parent].RemovePlot(plot);
-        }
+
         public override void RegisterEvents()
         {
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
@@ -54,7 +49,7 @@ namespace BSI.CloakDagger
                 {
                     var assembly = Assembly.LoadFile(file);
                     var type = assembly.ExportedTypes.FirstOrDefault(t => t.IsSubclassOf(typeof(Trigger)));
-                    if(type == null)
+                    if (type == null)
                     {
                         continue;
                     }
@@ -93,63 +88,40 @@ namespace BSI.CloakDagger
             {
                 var relevantGameObjects = new List<MBObjectBase>();
 
-                //Check game objects with an active plot for current trigger
-                switch (trigger.UniqueTo)
+                foreach (var gameObject in this.GamePlots.Keys)
                 {
-                    case UniqueTo.NotSet:
-                        break;
-                    case UniqueTo.Global:
-                        break;
-                    case UniqueTo.Character:
-                        foreach (var gameObject in this.GamePlots.Keys.Where(gameObject => gameObject.GetType() == typeof(CharacterObject)))
-                        {
-                            var character = (CharacterObject)gameObject;
-                            if (trigger.CanStart(character))
-                            {
-                                var plot = trigger.Start(character);
-                                this.GamePlots[character].AddPlot(plot);
-                                relevantGameObjects.Add(character);
-                            }
-                            else
-                            {
-                                foreach (var plot in this.GamePlots[gameObject].Plots.Where(plot => plot.TriggerType == trigger.GetType()))
-                                {
+                    var existingPlotsCount = this.GamePlots[gameObject].Plots.Count(plot => plot.TriggerType == trigger.GetType());
 
-                                }
-                            }
-                        }
-                        break;
-                    case UniqueTo.Clan:
-                        foreach (var gameObject in this.GamePlots.Keys.Where(gameObject => gameObject.GetType() == typeof(Clan)))
-                        {
-                            var clan = (Kingdom)gameObject;
-                            if (trigger.CanStart(clan))
-                            {
-                                var plot = trigger.Start(clan);
-                                this.GamePlots[clan].AddPlot(plot);
-                                relevantGameObjects.Add(clan);
-                            }
-                        }
-                        break;
-                    case UniqueTo.Kingdom:
-                        foreach (var gameObject in this.GamePlots.Keys.Where(gameObject => gameObject.GetType() == typeof(Kingdom)))
-                        {
-                            var kingdom = (Kingdom)gameObject;
-                            if (trigger.CanStart(kingdom))
-                            {
-                                var plot = trigger.Start(kingdom);
-                                this.GamePlots[kingdom].AddPlot(plot);
-                                relevantGameObjects.Add(kingdom);
-                            }
-                        }
-                        break;
+                    if (existingPlotsCount > 0)
+                    {
+                        relevantGameObjects.Add(gameObject);
+                    }
+
+                    if (trigger.AllowedInstancesPerGameObject > existingPlotsCount && trigger.CanStart(gameObject))
+                    {
+                        var plot = trigger.Start(gameObject);
+                        this.GamePlots[gameObject].AddPlot(plot);
+                        relevantGameObjects.Add(gameObject);
+                    }
                 }
 
                 foreach (var gameObject in relevantGameObjects)
                 {
                     foreach (var plot in this.GamePlots[gameObject].Plots.Where(plot => plot.TriggerType == trigger.GetType()))
                     {
-                        plot.CurrentGoal.Behavior.OnDailyTick(plot);
+                        var behavior = plot.CurrentGoal.Behavior;
+
+                        behavior.OnDailyTick(plot);
+                        if (behavior.CanEnd(plot))
+                        {
+                            var isEndGoal = plot.IsEndGoal();
+                            behavior.DoEnd(plot);
+
+                            if (isEndGoal)
+                            {
+                                this.GamePlots[gameObject].RemovePlot(plot);
+                            }
+                        }
                     }
                 }
             }
