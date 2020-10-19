@@ -2,7 +2,7 @@
 using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
 
-namespace BSI.CivilWar.Plots.CivilWar
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
     public class CivilWarPlot : Plot
     {

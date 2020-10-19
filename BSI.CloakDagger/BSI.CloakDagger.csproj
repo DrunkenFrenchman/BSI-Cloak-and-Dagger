@@ -9,8 +9,8 @@
     <ProjectGuid>{BD535D95-FD82-4AE2-A1A7-B669D58FCE8E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BSI.CloakDager</RootNamespace>
-    <AssemblyName>BSI.CloakDager</AssemblyName>
+    <RootNamespace>BSI.CloakDagger</RootNamespace>
+    <AssemblyName>BSI.CloakDagger</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -9,8 +9,8 @@
     <ProjectGuid>{0988B2E5-4B0B-4BDD-84AA-D272D1F07E9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BSI.CloakDager.CivilWar</RootNamespace>
-    <AssemblyName>BSI.CloakDager.CivilWar</AssemblyName>
+    <RootNamespace>BSI.CloakDagger.CivilWar</RootNamespace>
+    <AssemblyName>BSI.CloakDagger.CivilWar</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

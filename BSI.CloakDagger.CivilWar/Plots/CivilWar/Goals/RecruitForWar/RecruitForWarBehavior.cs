@@ -1,5 +1,4 @@
-﻿using BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
-using BSI.CloakDagger;
+﻿using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
@@ -13,7 +12,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWar.Plots.CivilWar.Goals.RecruitForWar
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     public class RecruitForWarBehavior : Behavior
     {

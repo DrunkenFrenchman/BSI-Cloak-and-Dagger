@@ -1,7 +1,7 @@
 ﻿using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Settings.Base.Global;
 
-namespace BSI.CloakDager
+namespace BSI.CloakDagger
 {
     public class MySettings : AttributeGlobalSettings<MySettings>
     {

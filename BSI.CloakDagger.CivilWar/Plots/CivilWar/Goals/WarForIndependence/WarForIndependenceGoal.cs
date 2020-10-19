@@ -2,7 +2,7 @@
 using BSI.CloakDagger.Objects;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 {
     class WarForIndependenceGoal : Goal
     {

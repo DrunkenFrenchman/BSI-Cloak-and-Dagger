@@ -9,7 +9,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CloakDager.Managers
+namespace BSI.CloakDagger.Managers
 {
     public class GameManager : CampaignBehaviorBase
     {
@@ -41,25 +41,41 @@ namespace BSI.CloakDager.Managers
 
         public void InitializeTriggers()
         {
-            var fileInfo = new FileInfo(Assembly.GetExecutingAssembly().Location);
-            var path = fileInfo.Directory.Parent.Parent.Parent.FullName;
-            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
-            {
-                try
-                {
-                    var assembly = Assembly.LoadFile(file);
-                    var type = assembly.ExportedTypes.FirstOrDefault(t => t.IsSubclassOf(typeof(Trigger)));
-                    if (type == null)
-                    {
-                        continue;
-                    }
+            var modulesPath = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent.Parent.Parent.FullName;
 
-                    var trigger = (Trigger)Activator.CreateInstance(type);
-                    Triggers.Add(trigger);
-                }
-                catch (Exception)
+            var excludedDirectories = new List<string>
+            {
+                Path.Combine(modulesPath, "Native"),
+                Path.Combine(modulesPath, "SandBoxCore"),
+                Path.Combine(modulesPath, "Sandbox"),
+                Path.Combine(modulesPath, "StoryMode"),
+                Path.Combine(modulesPath, "CustomBattle"),
+                Path.Combine(modulesPath, "BloodShitIron")
+            };
+
+            foreach (var directory in Directory.GetDirectories(modulesPath).Except(excludedDirectories))
+            {
+                foreach (var file in Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories))
                 {
-                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Colors.Red));
+                    try
+                    {
+                        var type = Assembly.LoadFile(file).ExportedTypes.FirstOrDefault(t => t.IsSubclassOf(typeof(Trigger)));
+                        if (type == null)
+                        {
+                            continue;
+                        }
+
+                        if(Triggers.Any(t => t.GetType() == type))
+                        {
+                            continue;
+                        }
+
+                        Triggers.Add((Trigger)Activator.CreateInstance(type));
+                    }
+                    catch (Exception)
+                    {
+                        InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Colors.Red));
+                    }
                 }
             }
         }

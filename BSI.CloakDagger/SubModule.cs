@@ -1,10 +1,9 @@
 ﻿using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger;
 using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using BSI.CloakDager.Managers;
+using BSI.CloakDagger.Managers;
 
 namespace BSI.CloakDagger
 {

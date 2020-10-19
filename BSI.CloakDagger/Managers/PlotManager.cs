@@ -1,7 +1,7 @@
 ﻿using BSI.CloakDagger.Objects;
 using System.Collections.Generic;
 
-namespace BSI.CloakDager.Managers
+namespace BSI.CloakDagger.Managers
 {
     internal class PlotManager
     {

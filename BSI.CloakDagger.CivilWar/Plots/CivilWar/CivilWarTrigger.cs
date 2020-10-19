@@ -1,5 +1,5 @@
-﻿using BSI.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
-using BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
+﻿using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
@@ -7,7 +7,7 @@ using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CivilWar.Plots.CivilWar
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
     public class CivilWarTrigger : Trigger
     {

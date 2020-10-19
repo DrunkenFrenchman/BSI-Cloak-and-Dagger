@@ -7,7 +7,7 @@ using MCM.Abstractions.Settings.Base;
 using System;
 using System.Collections.Generic;
 
-namespace BSI.CivilWar
+namespace BSI.CloakDagger.CivilWar
 {
     public class MySettings : AttributeGlobalSettings<MySettings>
     {
@@ -23,7 +23,7 @@ namespace BSI.CivilWar
 
         [SettingPropertyInteger("{=BSIPLOTS_SETTING_02}Base Daily Plot Chance", 1, 100, HintText = "{=BSIPLOTS_SETTING_DESC_02}Base Chance for a Lord to plot against his Liege if he meets the requirements", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
-        public int BasePlotChance{ get; set; } = 10;
+        public int BasePlotChance { get; set; } = 10;
 
         [SettingPropertyInteger("{=BSIPLOTS_SETTING_03}Negative Relation Threshold", -100, 100, HintText = "{=BSIPLOTS_SETTING_DESC_03}Threshold at which a Lord can start Plotting", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War/1.Plotting Phase", GroupOrder = 0)]
@@ -80,11 +80,11 @@ namespace BSI.CivilWar
             var basePresets = base.GetAvailablePresets();
             basePresets.Add("Realistic Battle Mod", () => new MySettings()
             {
-               
+
             }); ;
             basePresets.Add("Native", () => new MySettings()
             {
-          
+
             });
             basePresets.Add("Debug", () => new MySettings()
             {

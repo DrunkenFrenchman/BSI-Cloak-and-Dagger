@@ -1,5 +1,4 @@
-﻿using BSI.CloakDager;
-using System;
+﻿using System;
 using System.IO;
 using TaleWorlds.Core;
 
@@ -30,10 +29,7 @@ namespace BSI.CloakDagger
         //Log File Direectory Helper
         public static string GetDirectory()
         {
-            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            filePath = System.IO.Path.Combine(filePath, "Mount and Blade II Bannerlord");
-            filePath = System.IO.Path.Combine(filePath, "Logs");
-            return filePath;
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Mount and Blade II Bannerlord", "Logs");
         }
 
         //Add Log Helper

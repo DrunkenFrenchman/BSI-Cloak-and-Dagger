@@ -1,7 +1,7 @@
 ﻿using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
 
-namespace BSI.CivilWar.Plots.CivilWar.Goals.RecruitForWar
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     public class RecruitForWarGoal : Goal
     {

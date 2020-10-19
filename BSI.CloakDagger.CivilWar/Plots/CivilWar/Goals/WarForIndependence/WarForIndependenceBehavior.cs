@@ -6,7 +6,7 @@ using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence
+namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 {
     public class WarForIndependenceBehavior : Behavior
     {

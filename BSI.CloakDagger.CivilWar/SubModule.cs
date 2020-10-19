@@ -1,17 +1,15 @@
 ﻿using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger;
 using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using BSI.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
-using BSI.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
 
-namespace BSI.CloakDagger
+namespace BSI.CloakDagger.CivilWar
 {
     public class SubModule : MBSubModuleBase
     {
-
         protected override void OnSubModuleLoad()
         {
             InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger CivilWar: Loaded Mod!", ColorHelper.Colors.Green));
