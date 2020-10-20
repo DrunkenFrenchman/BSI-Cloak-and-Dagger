@@ -10,11 +10,11 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
-    public class CivilWarTrigger : Trigger
+    internal class CivilWarTrigger : Trigger
     {
         private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
-        public CivilWarTrigger()
+        internal CivilWarTrigger()
         {
             UniqueTo = UniqueTo.Kingdom;
             AllowedInstancesPerGameObject = 1;

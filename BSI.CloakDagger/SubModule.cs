@@ -9,8 +9,6 @@ namespace BSI.CloakDagger
 {
     public class SubModule : MBSubModuleBase
     {
-        private GameManager _gameManager { get; set; }
-
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             base.OnGameStart(game, gameStarter);
@@ -21,35 +19,33 @@ namespace BSI.CloakDagger
 
                 try
                 {
-                    _gameManager = new GameManager();
-                    var (success, total) = _gameManager.InitializeTriggers();
-
-                    campaignGameStarter.AddBehavior(_gameManager);
-
-                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Loaded {success} of {total} plots.", ColorHelper.Colors.Green));
+                    campaignGameStarter.AddBehavior(GameManager.Instance);
+                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Successfully loaded.", ColorHelper.Colors.Green));
                 }
                 catch (Exception ex)
                 {
                     Debug.AddExceptionLog("OnGameStart", ex);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load plots!", ColorHelper.Colors.Red));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load!", ColorHelper.Colors.Red));
                 }
             }
         }
 
         public override void OnGameInitializationFinished(Game game)
         {
-            try
+            base.OnGameInitializationFinished(game);
+
+            if (game.GameType is Campaign)
             {
-                if (game.GameType is Campaign)
+                try
                 {
-                    _gameManager.InitializeGameObjects();
+                    GameManager.Instance.Initialize();
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Successfully initialized.", ColorHelper.Colors.Green));
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.AddExceptionLog("OnGameInitializationFinished", ex);
-                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize!", ColorHelper.Colors.Red));
+                catch (Exception ex)
+                {
+                    Debug.AddExceptionLog("OnGameInitializationFinished", ex);
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize!", ColorHelper.Colors.Red));
+                }
             }
         }
     }

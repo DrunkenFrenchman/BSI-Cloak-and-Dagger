@@ -15,7 +15,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
-    public class RecruitForWarBehavior : Behavior
+    internal class RecruitForWarBehavior : Behavior
     {
         private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
@@ -27,27 +27,6 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
         public override void SyncData(IDataStore dataStore)
         {
 
-        }
-
-        private void OnDailyTick()
-        {
-            if (!Goal.IsActive)
-            {
-                return;
-            }
-
-            var plot = Goal.Plot;
-
-            foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
-            {
-                CheckForEnter(clan, plot);
-            }
-
-            foreach (var plotter in plot.Members)
-            {
-                CheckForNewLeader(plotter, plot);
-                CheckForLeave(plotter, plot);
-            }
         }
 
         public override bool CanEnd()
@@ -132,6 +111,27 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
             plot.CurrentGoal.SetNextGoal(typeof(WarForIndependenceGoal));
             return true;
+        }
+
+        private void OnDailyTick()
+        {
+            if (!Goal.IsActive)
+            {
+                return;
+            }
+
+            var plot = Goal.Plot;
+
+            foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
+            {
+                CheckForEnter(clan, plot);
+            }
+
+            foreach (var plotter in plot.Members)
+            {
+                CheckForNewLeader(plotter, plot);
+                CheckForLeave(plotter, plot);
+            }
         }
 
         private bool CheckForEnter(Clan clan, Plot plot)

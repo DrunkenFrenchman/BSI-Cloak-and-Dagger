@@ -4,9 +4,9 @@ using TaleWorlds.CampaignSystem;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
-    public class CivilWarPlot : Plot
+    internal class CivilWarPlot : Plot
     {
-        public CivilWarPlot(Kingdom target, Hero leader, Goal currentGoal, Goal endGoal) : base(target, leader, currentGoal, endGoal)
+        internal CivilWarPlot(Kingdom target, Hero leader, Goal currentGoal, Goal endGoal) : base(target, leader, currentGoal, endGoal)
         {
             UniqueTo = UniqueTo.Kingdom;
             TriggerType = typeof(CivilWarTrigger);

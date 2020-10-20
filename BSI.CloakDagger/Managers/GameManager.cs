@@ -13,18 +13,44 @@ namespace BSI.CloakDagger.Managers
 {
     public class GameManager : CampaignBehaviorBase
     {
-        private List<Trigger> Triggers { get; set; }
+        #region Thread-Safe Singleton
 
-        private PlotManager GlobalPlots { get; set; }
+        private static volatile GameManager instance;
+        private static readonly object syncRoot = new object();
 
-        private Dictionary<MBObjectBase, PlotManager> GamePlots { get; set; }
-
-        public GameManager()
+        private GameManager()
         {
             Triggers = new List<Trigger>();
             GlobalPlots = new PlotManager();
             GamePlots = new Dictionary<MBObjectBase, PlotManager>();
         }
+
+        public static GameManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    lock (syncRoot)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new GameManager();
+                        }
+                    }
+                }
+
+                return instance;
+            }
+        }
+
+        #endregion
+
+        private List<Trigger> Triggers { get; set; }
+
+        private PlotManager GlobalPlots { get; set; }
+
+        private Dictionary<MBObjectBase, PlotManager> GamePlots { get; set; }
 
         public override void RegisterEvents()
         {
@@ -39,7 +65,19 @@ namespace BSI.CloakDagger.Managers
 
         }
 
-        public (int success, int failed) InitializeTriggers()
+        public bool AddTrigger(Trigger trigger)
+        {
+            if(Triggers.Any(t => t.GetType() == trigger.GetType()))
+            {
+                return false;
+            }
+
+            Triggers.Add(trigger);
+            return true;
+        }
+
+        [Obsolete]
+        public (int success, int failed) CollectTriggers()
         {
             var failedCount = 0;
             var modulesPath = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent.Parent.Parent.FullName;
@@ -75,7 +113,7 @@ namespace BSI.CloakDagger.Managers
                             continue;
                         }
 
-                        if(Triggers.Any(t => t.GetType() == type))
+                        if (Triggers.Any(t => t.GetType() == type))
                         {
                             continue;
                         }
@@ -93,7 +131,7 @@ namespace BSI.CloakDagger.Managers
             return (Triggers.Count, Triggers.Count + failedCount);
         }
 
-        public void InitializeGameObjects()
+        public void Initialize()
         {
             foreach (var kingdom in Campaign.Current.Kingdoms)
             {

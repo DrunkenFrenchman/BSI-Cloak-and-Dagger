@@ -5,6 +5,7 @@ using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar;
+using BSI.CloakDagger.CivilWar.Plots.CivilWar;
 
 namespace BSI.CloakDagger.CivilWar
 {
@@ -20,6 +21,7 @@ namespace BSI.CloakDagger.CivilWar
 
                 try
                 {
+                    campaignGameStarter.AddBehavior(new CivilWarBehavior());
                     campaignGameStarter.AddBehavior(new RecruitForWarBehavior());
                     campaignGameStarter.AddBehavior(new WarForIndependenceBehavior());
 

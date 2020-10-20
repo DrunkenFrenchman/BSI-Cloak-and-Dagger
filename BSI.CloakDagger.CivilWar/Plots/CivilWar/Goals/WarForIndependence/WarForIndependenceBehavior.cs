@@ -1,6 +1,5 @@
 ﻿using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
-using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
@@ -8,24 +7,16 @@ using TaleWorlds.Localization;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 {
-    public class WarForIndependenceBehavior : Behavior
+    internal class WarForIndependenceBehavior : Behavior
     {
         public override void RegisterEvents()
         {
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
+
         }
 
         public override void SyncData(IDataStore dataStore)
         {
 
-        }
-
-        private void OnDailyTick()
-        {
-            if (!Goal.IsActive)
-            {
-                return;
-            }
         }
 
         public override bool CanEnd()
