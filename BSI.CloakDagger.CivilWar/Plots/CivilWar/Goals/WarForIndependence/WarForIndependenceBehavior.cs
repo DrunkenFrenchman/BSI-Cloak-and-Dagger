@@ -45,7 +45,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 
         private void OnDailyTick()
         {
-            if (Goal?.Plot?.CurrentGoal != Goal)
+            if (Goal == null || Goal != Goal?.Plot?.CurrentGoal)
             {
                 return;
             }

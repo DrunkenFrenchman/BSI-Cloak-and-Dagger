@@ -127,7 +127,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             {
                 if(CheckForEnter(clan, plot))
                 {
-                    membersToAdd.Add(clan);
+                    membersToAdd.Add(clan.Leader);
                 }
             }
 
@@ -148,7 +148,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
         private bool CheckForEnter(Clan clan, Plot plot)
         {
-            if (!plot.Members.Contains(clan) && CanPlot(clan, plot) && WantPlot(clan, plot))
+            if (!plot.Members.Contains(clan.Leader) && CanPlot(clan, plot) && WantPlot(clan, plot))
             {
                 return true;
             }
@@ -166,7 +166,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
                 && memberLeader.GetRelation(plotTarget) > settings.PositiveRelationThreshold
                 && memberLeader.GetRelation(plotTarget) > memberLeader.GetRelation(plotLeader))
             {
-                return true; ;
+                return true;
             }
 
             return false;

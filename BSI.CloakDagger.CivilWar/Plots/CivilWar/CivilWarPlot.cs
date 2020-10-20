@@ -1,5 +1,4 @@
 ﻿using BSI.CloakDagger.Enumerations;
-using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
 using System.Collections.Generic;
 using TaleWorlds.ObjectSystem;
@@ -20,7 +19,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 
             Members = new List<MBObjectBase>
             {
-                leader.ConvertToClan()
+                leader
             };
         }
     }
