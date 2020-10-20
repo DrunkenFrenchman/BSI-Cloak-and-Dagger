@@ -23,16 +23,12 @@ namespace BSI.CloakDagger.Objects
 
         public bool IsEndGoalReached() => CurrentGoal == EndGoal;
 
-        public void Initialize(MBObjectBase target, MBObjectBase leader, Goal startGoal, Goal endGoal)
+        public virtual void Initialize(MBObjectBase target, MBObjectBase leader, Goal startGoal, Goal endGoal)
         {
             Target = target;
             Leader = leader;
             CurrentGoal = startGoal;
             EndGoal = endGoal;
-            Members = new List<MBObjectBase>
-            {
-                leader
-            };
         }
     }
 }

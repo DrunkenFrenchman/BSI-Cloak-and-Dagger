@@ -115,30 +115,41 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
         private void OnDailyTick()
         {
-            if (Goal?.Plot?.CurrentGoal != Goal)
+            if (Goal == null || Goal != Goal?.Plot?.CurrentGoal)
             {
                 return;
             }
 
             var plot = Goal.Plot;
 
+            var membersToAdd = new List<MBObjectBase>();
             foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
             {
-                CheckForEnter(clan, plot);
+                if(CheckForEnter(clan, plot))
+                {
+                    membersToAdd.Add(clan);
+                }
             }
 
+            plot.Members.AddRange(membersToAdd);
+
+            var membersToRemove = new List<MBObjectBase>();
             foreach (var plotter in plot.Members)
             {
                 CheckForNewLeader(plotter, plot);
-                CheckForLeave(plotter, plot);
+                if(CheckForLeave(plotter, plot))
+                {
+                    membersToRemove.Add(plotter);
+                }
             }
+
+            plot.Members = plot.Members.Except(membersToRemove).ToList();
         }
 
         private bool CheckForEnter(Clan clan, Plot plot)
         {
             if (!plot.Members.Contains(clan) && CanPlot(clan, plot) && WantPlot(clan, plot))
             {
-                plot.Members.Add(clan);
                 return true;
             }
 
@@ -155,7 +166,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
                 && memberLeader.GetRelation(plotTarget) > settings.PositiveRelationThreshold
                 && memberLeader.GetRelation(plotTarget) > memberLeader.GetRelation(plotLeader))
             {
-                return plot.Members.Remove(member);
+                return true; ;
             }
 
             return false;
