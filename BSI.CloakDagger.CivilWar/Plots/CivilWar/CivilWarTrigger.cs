@@ -22,7 +22,8 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 
         public override bool CanStart(MBObjectBase gameObject)
         {
-            if (!(gameObject is Hero hero))
+            var hero = gameObject.ConvertToHero();
+            if (hero == null)
             {
                 return false;
             }

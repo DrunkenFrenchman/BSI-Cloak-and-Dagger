@@ -1,5 +1,6 @@
 ﻿using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
+using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
@@ -11,7 +12,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
     {
         public override void RegisterEvents()
         {
-
+            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -40,6 +41,14 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
             InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ConvertToKingdom(), plot.Target.ConvertToKingdom(), new TextObject($"Civil War ended in {plot.Target.ConvertToKingdom().Name}")));
 
             return true;
+        }
+
+        private void OnDailyTick()
+        {
+            if (Goal?.IsActive != true)
+            {
+                return;
+            }
         }
     }
 }

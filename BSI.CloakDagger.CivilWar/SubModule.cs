@@ -11,6 +11,10 @@ namespace BSI.CloakDagger.CivilWar
 {
     public class SubModule : MBSubModuleBase
     {
+        internal RecruitForWarBehavior RecruitForWarBehavior { get; private set; }
+
+        internal WarForIndependenceBehavior WarForIndependenceBehavior { get; private set; }
+
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             base.OnGameStart(game, gameStarter);
@@ -22,8 +26,8 @@ namespace BSI.CloakDagger.CivilWar
                 try
                 {
                     campaignGameStarter.AddBehavior(new CivilWarBehavior());
-                    campaignGameStarter.AddBehavior(new RecruitForWarBehavior());
-                    campaignGameStarter.AddBehavior(new WarForIndependenceBehavior());
+                    campaignGameStarter.AddBehavior(RecruitForWarBehavior = new RecruitForWarBehavior());
+                    campaignGameStarter.AddBehavior(WarForIndependenceBehavior = new WarForIndependenceBehavior());
 
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Civil War", ColorHelper.Colors.Green));
                 }

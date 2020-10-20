@@ -1,5 +1,5 @@
 ﻿<Module>
-	<Name value="BSI Cloak and Dagger: CivilWar"/>
+	<Name value="BSI - Cloak and Dagger: CivilWar"/>
 	<Id value="BSI.CloakDagger.CivilWar"/>
 	<Version value="v0.1.0"/>
 	<Official value="false" />
@@ -22,7 +22,7 @@
 	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
-			<Name value="BSI Cloak and Dagger: CivilWar"/>
+			<Name value="BSI - Cloak and Dagger: CivilWar"/>
 			<DLLName value="BSI.CloakDagger.CivilWar.dll"/>
 			<SubModuleClassType value="BSI.CloakDagger.CivilWar.SubModule"/>
 			<Tags>

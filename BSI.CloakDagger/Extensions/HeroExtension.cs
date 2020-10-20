@@ -12,6 +12,11 @@ namespace BSI.CloakDagger.Extensions
             return hero.Clan?.Leader == hero;
         }
 
+        public static bool IsKingdomLeader(this Hero hero)
+        {
+            return hero.Clan?.Kingdom?.Leader == hero;
+        }
+
         public static bool IsFactionLeader(this Hero hero)
         {
             return hero.MapFaction.Leader == hero;
