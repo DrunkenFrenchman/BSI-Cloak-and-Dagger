@@ -8,13 +8,13 @@ namespace BSI.CloakDagger.Objects
 {
     public abstract class Goal
     {
-        public Goal(MBObjectBase target, Behavior behavior, string manifesto = null)
+        public Goal(Plot plot, MBObjectBase target, Behavior behavior, string manifesto = null)
         {
+            Plot = plot;
             Target = target;
             Behavior = behavior;
             Manifesto = string.IsNullOrEmpty(manifesto) ? $"Plot against {Target.GetName()}" : manifesto;
             NextPossibleGoals = new List<Goal>();
-            IsActive = false;
         }
 
         public MBObjectBase Target { get; internal set; }
@@ -29,8 +29,6 @@ namespace BSI.CloakDagger.Objects
 
         public TextObject Name => new TextObject(Manifesto);
 
-        public bool IsActive { get; set; }
-
         public virtual void SetNextGoal(Type goalType)
         {
             if(Plot.IsEndGoalReached())
@@ -39,10 +37,6 @@ namespace BSI.CloakDagger.Objects
             }
 
             Plot.CurrentGoal = NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType.GetType());
-            Plot.CurrentGoal.Plot = Plot;
-            Plot.CurrentGoal.IsActive = true;
-
-            IsActive = false;
         }
     }
 }

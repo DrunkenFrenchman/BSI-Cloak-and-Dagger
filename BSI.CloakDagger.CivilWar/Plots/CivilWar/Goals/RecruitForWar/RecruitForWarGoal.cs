@@ -5,7 +5,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 {
     internal class RecruitForWarGoal : Goal
     {
-        internal RecruitForWarGoal(Kingdom target, Behavior behavior) : base(target, behavior)
+        internal RecruitForWarGoal(CivilWarPlot plot, Kingdom target, Behavior behavior) : base(plot, target, behavior)
         {
             Behavior.Goal = this;
         }

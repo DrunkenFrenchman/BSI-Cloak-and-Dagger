@@ -7,15 +7,6 @@ namespace BSI.CloakDagger.Objects
 {
     public abstract class Plot
     {
-        public Plot(MBObjectBase target, MBObjectBase leader, Goal startGoal, Goal endGoal)
-        {
-            Target = target;
-            Leader = leader;
-            CurrentGoal = startGoal;
-            EndGoal = endGoal;
-            CurrentGoal.Plot = this;
-        }
-
         public Type TriggerType { get; set; }
 
         public MBObjectBase Target { get; set; }
@@ -31,5 +22,17 @@ namespace BSI.CloakDagger.Objects
         public UniqueTo UniqueTo { get; set; }
 
         public bool IsEndGoalReached() => CurrentGoal == EndGoal;
+
+        public void Initialize(MBObjectBase target, MBObjectBase leader, Goal startGoal, Goal endGoal)
+        {
+            Target = target;
+            Leader = leader;
+            CurrentGoal = startGoal;
+            EndGoal = endGoal;
+            Members = new List<MBObjectBase>
+            {
+                leader
+            };
+        }
     }
 }

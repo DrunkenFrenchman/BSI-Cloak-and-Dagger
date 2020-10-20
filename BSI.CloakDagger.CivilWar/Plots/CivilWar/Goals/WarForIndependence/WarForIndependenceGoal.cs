@@ -6,7 +6,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
 {
     internal class WarForIndependenceGoal : Goal
     {
-        internal WarForIndependenceGoal(MBObjectBase target, Behavior behavior) : base(target, behavior)
+        internal WarForIndependenceGoal(CivilWarPlot plot, MBObjectBase target, Behavior behavior) : base(plot, target, behavior)
         {
             Manifesto = $"War of Independence from {Plot.Target.ConvertToKingdom()}";
             Behavior.Goal = this;

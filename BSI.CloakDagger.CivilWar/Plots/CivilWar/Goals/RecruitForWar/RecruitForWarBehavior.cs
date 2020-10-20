@@ -115,7 +115,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
         private void OnDailyTick()
         {
-            if (Goal?.IsActive != true)
+            if (Goal?.Plot?.CurrentGoal != Goal)
             {
                 return;
             }

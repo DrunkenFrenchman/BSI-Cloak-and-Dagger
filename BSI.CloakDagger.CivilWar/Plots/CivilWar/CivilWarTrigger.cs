@@ -22,11 +22,12 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 
         public override bool CanStart(MBObjectBase gameObject)
         {
-            var hero = gameObject.ConvertToHero();
-            if (hero == null)
+            if (!(gameObject is CharacterObject character) || character?.HeroObject == null)
             {
                 return false;
             }
+
+            var hero = character.HeroObject;
 
             var isValidHero = hero.Clan != null
                 && hero.Clan.Kingdom != null
@@ -50,12 +51,15 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
             var target = gameObject.ConvertToKingdom();
             var leader = gameObject.ConvertToHero();
 
-            var goal = new RecruitForWarGoal(target, new RecruitForWarBehavior());
-            var endGoal = new WarForIndependenceGoal(target, new WarForIndependenceBehavior());
+            var plot = new CivilWarPlot();
+
+            var goal = new RecruitForWarGoal(plot, target, SubModule.RecruitForWarBehavior);
+            var endGoal = new WarForIndependenceGoal(plot, target, SubModule.WarForIndependenceBehavior);
 
             goal.NextPossibleGoals.Add(endGoal);
-
-            return new CivilWarPlot(target, leader, goal, endGoal);
+            
+            plot.Initialize(target, leader, goal, endGoal);
+            return plot;
         }
     }
 }

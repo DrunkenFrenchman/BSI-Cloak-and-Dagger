@@ -1,12 +1,14 @@
 ﻿using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Objects;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
     internal class CivilWarPlot : Plot
     {
-        internal CivilWarPlot(Kingdom target, Hero leader, Goal currentGoal, Goal endGoal) : base(target, leader, currentGoal, endGoal)
+        internal CivilWarPlot()
         {
             UniqueTo = UniqueTo.Kingdom;
             TriggerType = typeof(CivilWarTrigger);

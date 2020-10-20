@@ -11,9 +11,9 @@ namespace BSI.CloakDagger.CivilWar
 {
     public class SubModule : MBSubModuleBase
     {
-        internal RecruitForWarBehavior RecruitForWarBehavior { get; private set; }
+        internal static RecruitForWarBehavior RecruitForWarBehavior { get; private set; }
 
-        internal WarForIndependenceBehavior WarForIndependenceBehavior { get; private set; }
+        internal static WarForIndependenceBehavior WarForIndependenceBehavior { get; private set; }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
