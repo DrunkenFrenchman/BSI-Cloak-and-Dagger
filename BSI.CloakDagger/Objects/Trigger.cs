@@ -1,5 +1,6 @@
 ﻿using BSI.CloakDagger.Enumerations;
 using System;
+using System.Collections.Generic;
 using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Objects
@@ -19,7 +20,7 @@ namespace BSI.CloakDagger.Objects
 
         public int AllowedInstancesPerGameObject { get; set; }
 
-        public abstract bool CanStart(MBObjectBase gameObject);
+        public abstract bool CanStart(MBObjectBase gameObject, List<MBObjectBase> relevantGameObjects);
 
         public abstract Plot Start(MBObjectBase gameObject);
     }

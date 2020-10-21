@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSI.CloakDagger.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.Localization;
@@ -36,7 +37,7 @@ namespace BSI.CloakDagger.Objects
                 return;
             }
 
-            Plot.CurrentGoal = NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType.GetType());
+            Plot.CurrentGoal = NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType);
         }
     }
 }

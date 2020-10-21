@@ -19,43 +19,46 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
     {
         private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
 
-        public override void RegisterEvents()
-        {
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
-        }
-
-        public override void SyncData(IDataStore dataStore)
-        {
-
-        }
-
         public override bool CanEnd()
         {
             var plot = Goal.Plot;
 
-            var plotLeaderHero = plot.Leader.ConvertToHero();
-            var plotTargetHero = plot.Target.ConvertToHero();
-            var plotLeaderKingdom = plot.Leader.ConvertToKingdom();
-            var plotTargetKingdom = plot.Target.ConvertToKingdom();
+            var leaderHero = plot.Leader.ConvertToHero();
+            var targetHero = plot.Target.ConvertToHero();
+            var strength = GetStrength(plot);
+            var warPartiesCount = GetWarPartiesCount(plot);
 
-            double warPersonality
-                = plotLeaderHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
-                + plotLeaderHero.GetCharacterTraitLevel(CharacterTrait.Mercy)
-                + plotTargetHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
-                + plotTargetHero.GetCharacterTraitLevel(CharacterTrait.Mercy);
-            double valorFactor
-                = Math.Pow(GetStrength(plot) / (plotTargetHero.Clan.Kingdom.TotalStrength - GetStrength(plot)),
-                plotLeaderHero.GetCharacterTraitLevel(CharacterTrait.Valor) == 0 ? 1 : 2 * plotTargetHero.GetCharacterTraitLevel(CharacterTrait.Valor));
-            double warPartyFactor
-                = Math.Pow(GetWarPartiesCount(plot) / (plotTargetHero.Clan.Kingdom.WarParties.Count() - GetWarPartiesCount(plot)),
-                1 + plotLeaderHero.GetCharacterTraitLevel(CharacterTrait.Calculating));
-            double warchance = settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;
+            /*var warPersonality
+                = leaderHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
+                + leaderHero.GetCharacterTraitLevel(CharacterTrait.Mercy)
+                + targetHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
+                + targetHero.GetCharacterTraitLevel(CharacterTrait.Mercy);
+            var valorFactor
+                = Math.Pow(strength / (targetHero.Clan.Kingdom.TotalStrength - strength),
+                leaderHero.GetCharacterTraitLevel(CharacterTrait.Valor) == 0 ? 1 : 2 * targetHero.GetCharacterTraitLevel(CharacterTrait.Valor));
+            var warPartyFactor
+                = Math.Pow((double)warPartiesCount / (double)(targetHero.Clan.Kingdom.WarParties.Count() - warPartiesCount),
+                1 + leaderHero.GetCharacterTraitLevel(CharacterTrait.Calculating));
+            var warChance = settings.WarBaseChance * Math.Pow(settings.WarPersonalityMult, warPersonality) * valorFactor * warPartyFactor;*/
 
-            Debug.AddEntry($"War Chance in {plotTargetHero.Clan.Kingdom.Name} || {warchance}");
+            var personalityFactor
+                = Math.Pow(settings.WarPersonalityMult,
+                -(leaderHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
+                + leaderHero.GetCharacterTraitLevel(CharacterTrait.Mercy)
+                + targetHero.GetCharacterTraitLevel(CharacterTrait.Generosity)
+                + targetHero.GetCharacterTraitLevel(CharacterTrait.Mercy)));
+            var strengthFactor = strength / (targetHero.Clan.Kingdom.TotalStrength - strength);
+            var valorFactor
+                = 1 + (leaderHero.GetCharacterTraitLevel(CharacterTrait.Valor) <= 0 ? 1 : leaderHero.GetCharacterTraitLevel(CharacterTrait.Valor) * 2);
+            var partiesFactor
+                = Math.Pow((double)warPartiesCount / (double)(targetHero.Clan.Kingdom.WarParties.Count() - warPartiesCount),
+                1 + (leaderHero.GetCharacterTraitLevel(CharacterTrait.Calculating) <= 0 ? 1 : leaderHero.GetCharacterTraitLevel(CharacterTrait.Calculating)));
 
-            return new Random().Next(100) < warchance
-                && plotLeaderHero.MapFaction != plotTargetHero.MapFaction
-                && FactionManager.GetEnemyKingdoms(plotLeaderKingdom).Contains(plotTargetKingdom);
+            var warChance = settings.WarBaseChance * personalityFactor * (strengthFactor * valorFactor) * partiesFactor;
+
+            Debug.AddEntry($"War Chance in {targetHero.Clan.Kingdom.Name}: {warChance}");
+
+            return new Random().Next(100) < warChance;
         }
 
         public override bool DoEnd()
@@ -109,11 +112,11 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
             Debug.AddEntry("Successful Revolt created: " + rebel.Name.ToString());
 
-            plot.CurrentGoal.SetNextGoal(typeof(WarForIndependenceGoal));
+            Goal.SetNextGoal(typeof(WarForIndependenceGoal));
             return true;
         }
 
-        private void OnDailyTick()
+        public override void DailyTick()
         {
             if (Goal == null || Goal != Goal?.Plot?.CurrentGoal)
             {
@@ -125,7 +128,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             var membersToAdd = new List<MBObjectBase>();
             foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
             {
-                if(CheckForEnter(clan, plot))
+                if (CheckForEnter(clan, plot))
                 {
                     membersToAdd.Add(clan.Leader);
                 }
@@ -137,7 +140,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             foreach (var plotter in plot.Members)
             {
                 CheckForNewLeader(plotter, plot);
-                if(CheckForLeave(plotter, plot))
+                if (CheckForLeave(plotter, plot))
                 {
                     membersToRemove.Add(plotter);
                 }

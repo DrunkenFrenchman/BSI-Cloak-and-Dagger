@@ -7,6 +7,8 @@ using BSI.CloakDagger.Objects;
 using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 {
@@ -20,7 +22,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
             AllowedInstancesPerGameObject = 1;
         }
 
-        public override bool CanStart(MBObjectBase gameObject)
+        public override bool CanStart(MBObjectBase gameObject, List<MBObjectBase> relevantGameObjects)
         {
             if (!(gameObject is CharacterObject character) || character?.HeroObject == null)
             {
@@ -40,6 +42,11 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
                 return false;
             }
 
+            if (relevantGameObjects.Any(h => ((CharacterObject)h).HeroObject.Clan.Kingdom == hero.Clan.Kingdom))
+            {
+                return false;
+            }
+
             var tick = new Random().Next(100);
             var honorScore = -(hero.GetCharacterTraitLevel(CharacterTrait.Honor) + hero.Clan.Kingdom.Leader.GetCharacterTraitLevel(CharacterTrait.Honor));
             var plottingChance = 10 * Math.Pow(2f, honorScore);
@@ -53,8 +60,8 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar
 
             var plot = new CivilWarPlot();
 
-            var goal = new RecruitForWarGoal(plot, target, SubModule.RecruitForWarBehavior);
-            var endGoal = new WarForIndependenceGoal(plot, target, SubModule.WarForIndependenceBehavior);
+            var goal = new RecruitForWarGoal(plot, target, new RecruitForWarBehavior());
+            var endGoal = new WarForIndependenceGoal(plot, target, new WarForIndependenceBehavior());
 
             goal.NextPossibleGoals.Add(endGoal);
             

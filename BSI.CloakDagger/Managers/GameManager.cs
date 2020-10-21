@@ -67,7 +67,7 @@ namespace BSI.CloakDagger.Managers
 
         public bool AddTrigger(Trigger trigger)
         {
-            if(Triggers.Any(t => t.GetType() == trigger.GetType()))
+            if (Triggers.Any(t => t.GetType() == trigger.GetType()))
             {
                 return false;
             }
@@ -164,7 +164,7 @@ namespace BSI.CloakDagger.Managers
                         relevantGameObjects.Add(gameObject);
                     }
 
-                    if (trigger.AllowedInstancesPerGameObject > existingPlotsCount && trigger.CanStart(gameObject))
+                    if (trigger.AllowedInstancesPerGameObject > existingPlotsCount && !relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject, relevantGameObjects))
                     {
                         var plot = trigger.Start(gameObject);
                         GamePlots[gameObject].AddPlot(plot);
@@ -174,19 +174,25 @@ namespace BSI.CloakDagger.Managers
 
                 foreach (var gameObject in relevantGameObjects)
                 {
-                    foreach (var plot in GamePlots[gameObject].Plots.Where(plot => plot.TriggerType == trigger.GetType()))
+                    foreach (var plot in GamePlots[gameObject].Plots.Where(p => p.TriggerType == trigger.GetType()))
                     {
                         var behavior = plot.CurrentGoal.Behavior;
+                        behavior.DailyTick();
 
                         if (behavior.CanEnd())
                         {
-                            var isEndGoal = plot.IsEndGoalReached();
-                            behavior.DoEnd();
-
-                            if (isEndGoal)
+                            if (plot.IsEndGoalReached())
                             {
                                 GamePlots[gameObject].RemovePlot(plot);
                             }
+
+                            behavior.DoEnd();
+                        }
+
+                        if (behavior.CanAbort())
+                        {
+                            behavior.Abort();
+                            GamePlots[gameObject].RemovePlot(plot);
                         }
                     }
                 }
