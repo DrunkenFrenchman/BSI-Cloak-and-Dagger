@@ -174,26 +174,33 @@ namespace BSI.CloakDagger.Managers
 
                 foreach (var gameObject in relevantGameObjects)
                 {
+                    var plotsToRemove = new List<Plot>();
+
                     foreach (var plot in GamePlots[gameObject].Plots.Where(p => p.TriggerType == trigger.GetType()))
                     {
                         var behavior = plot.CurrentGoal.Behavior;
                         behavior.DailyTick();
-
-                        if (behavior.CanEnd())
-                        {
-                            if (plot.IsEndGoalReached())
-                            {
-                                GamePlots[gameObject].RemovePlot(plot);
-                            }
-
-                            behavior.DoEnd();
-                        }
 
                         if (behavior.CanAbort())
                         {
                             behavior.Abort();
                             GamePlots[gameObject].RemovePlot(plot);
                         }
+
+                        if (behavior.CanEnd())
+                        {
+                            if (plot.IsEndGoalReached())
+                            {
+                                plotsToRemove.Add(plot);
+                            }
+
+                            behavior.DoEnd();
+                        }
+                    }
+
+                    foreach (var plot in plotsToRemove)
+                    {
+                        GamePlots[gameObject].RemovePlot(plot);
                     }
                 }
             }
