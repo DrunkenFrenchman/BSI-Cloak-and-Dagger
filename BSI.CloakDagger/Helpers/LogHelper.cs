@@ -29,7 +29,7 @@ namespace BSI.CloakDagger.Helpers
                     Initialize();
                 }
                 
-                File.AppendAllText(Path.Combine(FolderPath, FileName), $"{DateTime.Now} | {message}");
+                File.AppendAllText(Path.Combine(FolderPath, FileName), $"{DateTime.Now} | {message}{Environment.NewLine}");
             }
             catch (Exception exception)
             {

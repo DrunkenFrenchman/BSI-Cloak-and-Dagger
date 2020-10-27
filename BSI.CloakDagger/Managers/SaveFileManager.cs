@@ -44,12 +44,16 @@ namespace BSI.CloakDagger.Managers
 
         public string ActiveSaveSlotName { get; internal set; }
 
-        public string SaveFilePath => Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Saves", $"{ActiveSaveSlotName}.json");
+        public string SavePath => Path.Combine(SaveFolderPath, SaveFileName);
+
+        public string SaveFolderPath => Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Saves");
+
+        public string SaveFileName => $"{ActiveSaveSlotName}.json";
 
         public void SaveData()
         {
-            Directory.CreateDirectory(SaveFilePath);
-            File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager,new JsonSerializerSettings
+            Directory.CreateDirectory(SaveFolderPath);
+            File.WriteAllText(SavePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager,new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -58,12 +62,12 @@ namespace BSI.CloakDagger.Managers
 
         public void LoadData()
         {
-            if (!File.Exists(SaveFilePath))
+            if (!File.Exists(SavePath))
             {
                 return;
             }
 
-            GameManager.Instance.PlotManager = JsonConvert.DeserializeObject<Dictionary<string, List<Plot>>>(File.ReadAllText(SaveFilePath));
+            GameManager.Instance.PlotManager = JsonConvert.DeserializeObject<Dictionary<string, List<Plot>>>(File.ReadAllText(SavePath));
         }
     }
 }

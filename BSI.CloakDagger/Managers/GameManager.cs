@@ -97,7 +97,7 @@ namespace BSI.CloakDagger.Managers
             stringIds.AddRange(Campaign.Current.Kingdoms.Select(k => k.StringId));
             stringIds.AddRange(Campaign.Current.Clans.Select(c => c.StringId));
             stringIds.AddRange(Campaign.Current.Heroes.Select(h => h.StringId));
-            stringIds.AddRange(Campaign.Current.Characters.Select(c => c.StringId));
+            stringIds.AddRange(Campaign.Current.Characters.Where(c => !c.IsTemplate && !c.IsChildTemplate).Select(c => c.StringId));
 
             foreach (var stringId in stringIds.Except(PlotManager.Keys))
             {
