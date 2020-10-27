@@ -1,43 +1,28 @@
-﻿using BSI.CloakDagger.Managers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TaleWorlds.Localization;
-using TaleWorlds.ObjectSystem;
+﻿using System;
 
 namespace BSI.CloakDagger.Objects
 {
     public abstract class Goal
     {
-        public Goal(Plot plot, MBObjectBase target, Behavior behavior, string manifesto = null)
+        public string Id { get; set; }
+
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public Behavior Behavior { get; set; }
+
+        public Goal NextGoal { get; set; }
+
+        public Plot Plot { get; set; }
+
+        public virtual void Initialize(string title, string description, Goal nextGoal, Plot plot)
         {
+            Id = Guid.NewGuid().ToString();
+            Title = title;
+            Description = description;
+            NextGoal = nextGoal;
             Plot = plot;
-            Target = target;
-            Behavior = behavior;
-            Manifesto = string.IsNullOrEmpty(manifesto) ? $"Plot against {Target.GetName()}" : manifesto;
-            NextPossibleGoals = new List<Goal>();
-        }
-
-        public MBObjectBase Target { get; internal set; }
-
-        public Behavior Behavior { get; internal set; }
-
-        public string Manifesto { get; set; }
-
-        public List<Goal> NextPossibleGoals { get; internal set; }
-
-        public Plot Plot { get; internal set; }
-
-        public TextObject Name => new TextObject(Manifesto);
-
-        public virtual void SetNextGoal(Type goalType)
-        {
-            if(Plot.IsEndGoalReached())
-            {
-                return;
-            }
-
-            Plot.CurrentGoal = NextPossibleGoals.FirstOrDefault(goal => goal.GetType() == goalType);
         }
     }
 }

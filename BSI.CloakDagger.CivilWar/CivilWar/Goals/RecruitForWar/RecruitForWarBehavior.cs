@@ -1,5 +1,4 @@
 ﻿using BSI.CloakDagger.CivilWar.Settings;
-using BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
@@ -13,11 +12,39 @@ using TaleWorlds.Core;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
+namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 {
-    internal class RecruitForWarBehavior : Behavior
+    public class RecruitForWarBehavior : Behavior
     {
         private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
+
+        internal void DailyTick()
+        {
+            var plot = Goal.Plot;
+
+            var membersToAdd = new List<MBObjectBase>();
+            foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
+            {
+                if (CheckForEnter(clan, plot))
+                {
+                    membersToAdd.Add(clan.Leader);
+                }
+            }
+
+            plot.MemberIds.AddRange(membersToAdd.Select(m => m.StringId));
+
+            var membersToRemove = new List<MBObjectBase>();
+            foreach (var plotter in plot.Members)
+            {
+                CheckForNewLeader(plotter, plot);
+                if (CheckForLeave(plotter, plot))
+                {
+                    membersToRemove.Add(plotter);
+                }
+            }
+
+            plot.MemberIds = plot.Members.Except(membersToRemove).Select(m => m.StringId).ToList();
+        }
 
         public override bool CanEnd()
         {
@@ -61,7 +88,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             return new Random().Next(100) < warChance;
         }
 
-        public override bool DoEnd()
+        public override void DoEnd()
         {
             var plot = Goal.Plot;
 
@@ -111,42 +138,6 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
             InformationManager.AddNotice(new WarMapNotification(rebel, oldKingdom, new TextObject($"Civil War breaks out in {oldKingdom.Name}")));
 
             Debug.AddEntry("Successful Revolt created: " + rebel.Name.ToString());
-
-            Goal.SetNextGoal(typeof(WarForIndependenceGoal));
-            return true;
-        }
-
-        public override void DailyTick()
-        {
-            if (Goal == null || Goal != Goal?.Plot?.CurrentGoal)
-            {
-                return;
-            }
-
-            var plot = Goal.Plot;
-
-            var membersToAdd = new List<MBObjectBase>();
-            foreach (var clan in plot.Target.ConvertToKingdom()?.Clans)
-            {
-                if (CheckForEnter(clan, plot))
-                {
-                    membersToAdd.Add(clan.Leader);
-                }
-            }
-
-            plot.Members.AddRange(membersToAdd);
-
-            var membersToRemove = new List<MBObjectBase>();
-            foreach (var plotter in plot.Members)
-            {
-                CheckForNewLeader(plotter, plot);
-                if (CheckForLeave(plotter, plot))
-                {
-                    membersToRemove.Add(plotter);
-                }
-            }
-
-            plot.Members = plot.Members.Except(membersToRemove).ToList();
         }
 
         private bool CheckForEnter(Clan clan, Plot plot)
@@ -182,13 +173,13 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.RecruitForWar
 
             if (plot.Leader is null)
             {
-                plot.Leader = member;
+                plot.LeaderId = member.StringId;
                 return true;
             }
 
             if (memberLeader.Clan.Tier >= plotLeader.Clan.Tier && memberLeader.GetPlottingFriends(plot).Count > plotLeader.GetPlottingFriends(plot).Count)
             {
-                plot.Leader = member;
+                plot.LeaderId = member.StringId;
                 return true;
             }
 

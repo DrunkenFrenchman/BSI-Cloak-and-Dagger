@@ -2,22 +2,15 @@
 {
     public abstract class Behavior
     {
-        public Goal Goal { get; set; }
-
-        public abstract void DailyTick();
-
         public abstract bool CanEnd();
 
-        public abstract bool DoEnd();
+        public abstract void DoEnd();
 
-        public virtual bool CanAbort()
+        public Goal Goal { get; set; }
+
+        public virtual void Initialize(Goal goal)
         {
-            return Goal.Plot.Members.Count == 0;
-        }
-
-        public virtual void Abort()
-        {
-
+            Goal = goal;
         }
     }
 }

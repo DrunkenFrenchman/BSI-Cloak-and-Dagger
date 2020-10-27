@@ -20,12 +20,11 @@ namespace BSI.CloakDagger
                 try
                 {
                     campaignGameStarter.AddBehavior(GameManager.Instance);
-                    InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Successfully loaded.", ColorHelper.Colors.Green));
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("OnGameStart", ex);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to load!", ColorHelper.Colors.Red));
+                    Debug.AddExceptionLog("OnGameStart", exception);
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
         }
@@ -39,12 +38,12 @@ namespace BSI.CloakDagger
                 try
                 {
                     GameManager.Instance.Initialize();
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Successfully initialized.", ColorHelper.Colors.Green));
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Green));
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("OnGameInitializationFinished", ex);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Failed to initialize!", ColorHelper.Colors.Red));
+                    Debug.AddExceptionLog("OnGameInitializationFinished", exception);
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
         }

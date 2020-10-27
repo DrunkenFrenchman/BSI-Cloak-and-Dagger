@@ -15,11 +15,11 @@ namespace BSI.CloakDagger.CivilWar.Settings
 
         public override string FolderName => "BSI.CloakDagger.CivilWar";
 
-        public override string Format => "json";
+        public override string FormatType => "json2";
 
         //Main Settings for Wage Model
         [SettingPropertyBool("{=BSIPLOTS_SETTING_01}1. Civil War", HintText = "{=BSIPLOTS_SETTING_DESC_01}Check this to enable Civil Wars", Order = 0, RequireRestart = true)]
-        [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War", GroupOrder = 0, IsMainToggle = true)]
+        [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_01}1. Civil War", GroupOrder = 0)]
         public bool CivilWarToggle { get; set; } = true;
 
         [SettingPropertyInteger("{=BSIPLOTS_SETTING_02}Base Daily Plot Chance", 1, 100, HintText = "{=BSIPLOTS_SETTING_DESC_02}Base Chance for a Lord to plot against his Liege if he meets the requirements", Order = 0, RequireRestart = false)]

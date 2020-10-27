@@ -4,16 +4,13 @@ using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
+namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
 {
-    internal class WarForIndependenceBehavior : Behavior
+    public class WarForIndependenceBehavior : Behavior
     {
-        public override void DailyTick()
+        internal void DailyTick()
         {
-            if (Goal == null || Goal != Goal?.Plot?.CurrentGoal)
-            {
-                return;
-            }
+
         }
 
         public override bool CanEnd()
@@ -27,7 +24,7 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
                && !plotLeaderMapFaction.IsAtWarWith(plotTargetMapFaction);
         }
 
-        public override bool DoEnd()
+        public override void DoEnd()
         {
             var plot = Goal.Plot;
 
@@ -35,8 +32,6 @@ namespace BSI.CloakDagger.CivilWar.Plots.CivilWar.Goals.WarForIndependence
             plot.Leader.ConvertToKingdom().ChangeKingdomName(newName, plot.Leader.ConvertToClan().InformalName);
 
             InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ConvertToKingdom(), plot.Target.ConvertToKingdom(), new TextObject($"Civil War ended in {plot.Target.ConvertToKingdom().Name}")));
-
-            return true;
         }
     }
 }

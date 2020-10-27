@@ -13,11 +13,11 @@ namespace BSI.CloakDager.Settings
 
         public override string FolderName => "BSI.CloakDagger";
 
-        public override string Format => "json";
+        public override string FormatType => "json2";
 
         #region DEBUG
 
-        [SettingPropertyGroup(groupName: Categories.DEBUG, GroupOrder = 1, IsMainToggle = true)]
+        [SettingPropertyGroup(groupName: Categories.DEBUG, GroupOrder = 1)]
         [SettingPropertyBool(displayName: Categories.DEBUG, Order = 0, HintText = Descriptions.DEBUG, RequireRestart = false)]
         public bool EnableDebug { get; set; } = true;
 

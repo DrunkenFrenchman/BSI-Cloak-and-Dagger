@@ -7,24 +7,24 @@ namespace BSI.CloakDagger.Extensions
 {
     public static class HeroExtension
     {
-        public static bool IsClanLeader(this Hero hero)
+        public static bool IsFactionLeader(this Hero hero)
         {
-            return hero.Clan?.Leader == hero;
+            return hero == hero.MapFaction?.Leader;
         }
 
         public static bool IsKingdomLeader(this Hero hero)
         {
-            return hero.Clan?.Kingdom?.Leader == hero;
+            return hero == hero.Clan?.Kingdom?.Leader;
         }
 
-        public static bool IsFactionLeader(this Hero hero)
+        public static bool IsClanLeader(this Hero hero)
         {
-            return hero.MapFaction.Leader == hero;
+            return hero == hero.Clan?.Leader;
         }
 
         public static bool IsPlotLeader(this Hero hero, Plot plot)
         {
-            return hero == plot.Leader;
+            return hero == plot?.Leader;
         }
 
         public static List<Hero> GetPlottingFriends(this Hero hero, Plot plot)

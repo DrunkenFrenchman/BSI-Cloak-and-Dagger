@@ -26,11 +26,6 @@ namespace BSI.CloakDagger.Managers
 
         public void RemovePlot(Plot plot)
         {
-            if (!Plots.Contains(plot))
-            {
-                return;
-            }
-
             Plots.Remove(plot);
         }
     }

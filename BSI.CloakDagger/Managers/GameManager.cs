@@ -2,11 +2,8 @@
 using BSI.CloakDagger.Objects;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Managers
@@ -21,8 +18,7 @@ namespace BSI.CloakDagger.Managers
         private GameManager()
         {
             Triggers = new List<Trigger>();
-            GlobalPlots = new PlotManager();
-            GamePlots = new Dictionary<MBObjectBase, PlotManager>();
+            Plots = new Dictionary<string, List<Plot>>();
         }
 
         public static GameManager Instance
@@ -48,16 +44,14 @@ namespace BSI.CloakDagger.Managers
 
         private List<Trigger> Triggers { get; set; }
 
-        private PlotManager GlobalPlots { get; set; }
-
-        private Dictionary<MBObjectBase, PlotManager> GamePlots { get; set; }
+        public Dictionary<string, List<Plot>> Plots { get; set; }
 
         public override void RegisterEvents()
         {
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
-            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => GamePlots.Add(kingdom, new PlotManager()));
-            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => GamePlots.Remove(kingdom));
-            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => GamePlots.Remove(clan));
+            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => Plots.Add(kingdom.StringId, new List<Plot>()));
+            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => Plots.Remove(kingdom.StringId));
+            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => Plots.Remove(clan.StringId));
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -76,76 +70,29 @@ namespace BSI.CloakDagger.Managers
             return true;
         }
 
-        [Obsolete]
-        public (int success, int failed) CollectTriggers()
-        {
-            var failedCount = 0;
-            var modulesPath = new FileInfo(Assembly.GetExecutingAssembly().Location).Directory.Parent.Parent.Parent.FullName;
-
-            var excludedDirectories = new List<string>
-            {
-                //Native Modules
-                Path.Combine(modulesPath, "Native"),
-                Path.Combine(modulesPath, "SandBoxCore"),
-                Path.Combine(modulesPath, "Sandbox"),
-                Path.Combine(modulesPath, "StoryMode"),
-                Path.Combine(modulesPath, "CustomBattle"),
-                //Development Environment
-                Path.Combine(modulesPath, "BloodShitIron"),
-                //Module Dependencies
-                Path.Combine(modulesPath, "Bannerlord.ButterLib"),
-                Path.Combine(modulesPath, "Bannerlord.Harmony"),
-                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen"),
-                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen.MCMv3"),
-                Path.Combine(modulesPath, "Bannerlord.MBOptionScreen.ModLib"),
-                Path.Combine(modulesPath, "Bannerlord.UIExtenderEx")
-            };
-
-            foreach (var directory in Directory.GetDirectories(modulesPath).Except(excludedDirectories))
-            {
-                foreach (var file in Directory.GetFiles(directory, "*.dll", SearchOption.AllDirectories))
-                {
-                    try
-                    {
-                        var type = Assembly.LoadFile(file).ExportedTypes.FirstOrDefault(t => t.IsSubclassOf(typeof(Trigger)));
-                        if (type == null)
-                        {
-                            continue;
-                        }
-
-                        if (Triggers.Any(t => t.GetType() == type))
-                        {
-                            continue;
-                        }
-
-                        Triggers.Add((Trigger)Activator.CreateInstance(type));
-                    }
-                    catch (Exception)
-                    {
-                        failedCount++;
-                        InformationManager.DisplayMessage(new InformationMessage($"Cloak and Dagger: Failed to initialize plot!", ColorHelper.Colors.Red));
-                    }
-                }
-            }
-
-            return (Triggers.Count, Triggers.Count + failedCount);
-        }
-
         public void Initialize()
         {
-            foreach (var kingdom in Campaign.Current.Kingdoms)
+            SaveFileManager.LoadData();
+            foreach (var plot in Plots.SelectMany(p => p.Value))
             {
-                GamePlots.Add(kingdom, new PlotManager());
+                plot.Initialize(plot.Title, plot.Description, plot.Target, plot.Leader, plot.MemberIds, plot.ActiveGoal, plot.EndGoal, plot.TriggerTypeName);
+
+                var activeGoal = plot.ActiveGoal;
+                plot.ActiveGoal.Initialize(activeGoal.Title, activeGoal.Description, activeGoal.NextGoal, plot);
+
+                var endGoal = plot.EndGoal;
+                plot.EndGoal.Initialize(endGoal.Title, endGoal.Description, endGoal.NextGoal, plot);
             }
 
-            foreach (var clan in Campaign.Current.Clans)
-            {
-                GamePlots.Add(clan, new PlotManager());
-            }
+            var stringIds = new List<string>();
+            stringIds.AddRange(Campaign.Current.Kingdoms.Select(k => k.StringId));
+            stringIds.AddRange(Campaign.Current.Clans.Select(c => c.StringId));
+            stringIds.AddRange(Campaign.Current.Heroes.Select(h => h.StringId));
+            stringIds.AddRange(Campaign.Current.Characters.Select(c => c.StringId));
 
-            foreach (var character in Campaign.Current.Characters)
+            foreach (var stringId in stringIds.Except(Plots.Keys))
             {
-                GamePlots.Add(character, new PlotManager());
+                Plots.Add(stringId, new List<Plot>());
             }
         }
 
@@ -155,19 +102,20 @@ namespace BSI.CloakDagger.Managers
             {
                 var relevantGameObjects = new List<MBObjectBase>();
 
-                foreach (var gameObject in GamePlots.Keys)
+                foreach (var gameObject in GameObjectHelper.GetGameObjectsByStringIds(Plots.Keys.ToList()))
                 {
-                    var existingPlotsCount = GamePlots[gameObject].Plots.Count(plot => plot.TriggerType == trigger.GetType());
+                    var existingPlotsCount = Plots[gameObject.StringId].Count(plot => plot.TriggerTypeName == trigger.GetType().Name);
 
                     if (existingPlotsCount > 0)
                     {
                         relevantGameObjects.Add(gameObject);
                     }
 
-                    if (trigger.AllowedInstancesPerGameObject > existingPlotsCount && !relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject, relevantGameObjects))
+                    if (trigger.AllowedInstances > existingPlotsCount && !relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject))
                     {
-                        var plot = trigger.Start(gameObject);
-                        GamePlots[gameObject].AddPlot(plot);
+                        var plot = trigger.DoStart(gameObject);
+
+                        Plots[gameObject.StringId].Add(plot);
                         relevantGameObjects.Add(gameObject);
                     }
                 }
@@ -176,31 +124,35 @@ namespace BSI.CloakDagger.Managers
                 {
                     var plotsToRemove = new List<Plot>();
 
-                    foreach (var plot in GamePlots[gameObject].Plots.Where(p => p.TriggerType == trigger.GetType()))
+                    foreach (var plot in Plots[gameObject.StringId].Where(p => p.TriggerTypeName == trigger.GetType().Name))
                     {
-                        var behavior = plot.CurrentGoal.Behavior;
-                        behavior.DailyTick();
-
-                        if (behavior.CanAbort())
+                        if (plot.CanAbort())
                         {
-                            behavior.Abort();
-                            GamePlots[gameObject].RemovePlot(plot);
+                            plot.DoAbort();
+                            plotsToRemove.Add(plot);
                         }
-
-                        if (behavior.CanEnd())
+                        else
                         {
-                            if (plot.IsEndGoalReached())
+                            var behavior = plot.ActiveGoal.Behavior;
+                            if (behavior.CanEnd())
                             {
-                                plotsToRemove.Add(plot);
-                            }
+                                behavior.DoEnd();
 
-                            behavior.DoEnd();
+                                if (plot.IsEndGoal())
+                                {
+                                    plotsToRemove.Add(plot);
+                                }
+                                else
+                                {
+                                    plot.SetNextGoal();
+                                }
+                            }
                         }
                     }
 
                     foreach (var plot in plotsToRemove)
                     {
-                        GamePlots[gameObject].RemovePlot(plot);
+                        Plots[gameObject.StringId].Remove(plot);
                     }
                 }
             }

@@ -1,14 +1,17 @@
 ﻿using BSI.CloakDager.Settings;
+using BSI.CloakDagger.Managers;
 using System;
 using System.IO;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
+using Path = System.IO.Path;
 
 namespace BSI.CloakDagger
 {
     public class Debug
     {
         private static readonly CloakDaggerSettings settings = CloakDaggerSettings.Instance;
-        private static readonly string fileName = typeof(Debug).Namespace + ".debug.log";
+        private static readonly string fileName = $"{(string.IsNullOrEmpty(SaveFileManager.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.ActiveSaveSlotName)}.log";
 
         //Print Message in Game Helper
         public static void PrintMessage(string message)
@@ -35,7 +38,7 @@ namespace BSI.CloakDagger
         //Log File Direectory Helper
         public static string GetDirectory()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Mount and Blade II Bannerlord", "Logs");
+            return Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Logs");
         }
 
         //Add Log Helper
