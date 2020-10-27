@@ -34,11 +34,9 @@ namespace BSI.CloakDagger
                 return;
             }
 
-            var campaignGameStarter = (CampaignGameStarter) gameStarter;
-
             try
             {
-                campaignGameStarter.AddBehavior(GameManager.Instance);
+                ((CampaignGameStarter)gameStarter).AddBehavior(GameManager.Instance);
             }
             catch (Exception exception)
             {
@@ -58,7 +56,7 @@ namespace BSI.CloakDagger
 
             try
             {
-                GameManager.Instance.Initialize();
+                SaveFileManager.Instance.LoadData();
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Green));
             }
             catch (Exception exception)

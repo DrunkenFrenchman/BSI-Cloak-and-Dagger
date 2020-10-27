@@ -171,9 +171,11 @@
   </ItemGroup>
   <!-- Mod Files -->
   <ItemGroup>
+    <Compile Include="Extensions\GameObjectExtensions.cs" />
     <Compile Include="Helpers\GameObjectHelper.cs" />
     <Compile Include="Helpers\KingdomHelper.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
+    <Compile Include="Objects\GameObject.cs" />
     <Compile Include="Patches\SaveFilePatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Localization\Categories.cs" />
@@ -188,7 +190,7 @@
     <Compile Include="Enumerations\CharacterTrait.cs" />
     <Compile Include="Enumerations\Culture.cs" />
     <Compile Include="Enumerations\KingdomTitle.cs" />
-    <Compile Include="Enumerations\UniqueTo.cs" />
+    <Compile Include="Enumerations\GameObjectType.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Extensions\HeroExtension.cs" />
     <Compile Include="Extensions\MBObjectBaseExtension.cs" />

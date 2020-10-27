@@ -106,25 +106,33 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
         {
             var plot = Goal.Plot;
 
-            var membersToAdd = (from clan in plot.Target.ToKingdom()?.Clans where CheckForEnter(clan, plot) select clan.Leader).Cast<MBObjectBase>().ToList();
-            plot.MemberIds.AddRange(membersToAdd.Select(m => m.StringId));
+            var membersToAdd = plot.Target.ToKingdom()
+                                   .Clans.Where(c => CheckForEnter(c, plot))
+                                   .Select(clan => new GameObject
+                                   {
+                                       GameObjectType = GameObjectType.Clan,
+                                       StringId = clan.StringId
+                                   })
+                                   .ToList();
 
-            var membersToRemove = new List<MBObjectBase>();
+            plot.Members.AddRange(membersToAdd);
+
+            var membersToRemove = new List<GameObject>();
             foreach (var plotter in plot.Members)
             {
-                CheckForNewLeader(plotter, plot);
-                if (CheckForLeave(plotter, plot))
+                CheckForNewLeader(plotter.ToClan(), plot);
+                if (CheckForLeave(plotter.ToClan(), plot))
                 {
                     membersToRemove.Add(plotter);
                 }
             }
 
-            plot.MemberIds = plot.Members.Except(membersToRemove).Select(m => m.StringId).ToList();
+            plot.Members = plot.Members.Except(membersToRemove).ToList();
         }
 
         private static bool CheckForEnter(Clan clan, Plot plot)
         {
-            return !plot.Members.Contains(clan.Leader) && CanPlot(clan, plot) && WantPlot(clan, plot);
+            return !plot.Members.ToClans().Contains(clan) && CanPlot(clan, plot) && WantPlot(clan, plot);
         }
 
         private static bool CheckForLeave(MBObjectBase member, Plot plot)
@@ -143,9 +151,9 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var memberLeader = member.ToHero();
             var plotLeader = plot.Leader.ToHero();
 
-            if (plot.Leader is null)
+            if (!plot.Members.Contains(plot.Leader))
             {
-                plot.LeaderId = member.StringId;
+                plot.Leader.StringId = member.StringId;
                 return;
             }
 
@@ -154,7 +162,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
                 return;
             }
 
-            plot.LeaderId = member.StringId;
+            plot.Leader.StringId = member.StringId;
         }
 
         private static bool CanPlot(Clan clan, Plot plot)

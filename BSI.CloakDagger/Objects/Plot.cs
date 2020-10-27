@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BSI.CloakDagger.Helpers;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Objects
 {
@@ -13,36 +11,30 @@ namespace BSI.CloakDagger.Objects
 
         public string Description { get; set; }
 
-        public string TargetId { get; set; }
+        public GameObject Target { get; set; }
 
-        public MBObjectBase Target => GameObjectHelper.GetGameObjectByStringId(TargetId);
+        public GameObject Leader { get; set; }
 
-        public string LeaderId { get; set; }
-
-        public MBObjectBase Leader => GameObjectHelper.GetGameObjectByStringId(LeaderId);
-
-        public List<string> MemberIds { get; set; }
-
-        public List<MBObjectBase> Members => GameObjectHelper.GetGameObjectsByStringIds(MemberIds);
+        public List<GameObject> Members { get; set; }
 
         public Goal ActiveGoal { get; set; }
 
         public Goal EndGoal { get; set; }
 
-        public string TriggerTypeName { get; set; }
+        public string TriggerType { get; set; }
 
-        public virtual void Initialize(string title, string description, MBObjectBase target, MBObjectBase leader, List<string> memberIds, Goal activeGoal, Goal endGoal, string triggerTypeName)
+        public virtual void Initialize(string title, string description, GameObject target, GameObject leader, List<GameObject> members, Goal activeGoal, Goal endGoal, string triggerType)
         {
             Id = Guid.NewGuid().ToString();
             Title = title;
             Description = description;
-            TargetId = target.StringId;
-            LeaderId = leader.StringId;
-            MemberIds = new List<string>();
-            MemberIds.AddRange(memberIds);
+            Target = target;
+            Leader = leader;
+            Members = new List<GameObject>();
+            Members.AddRange(members);
             ActiveGoal = activeGoal;
             EndGoal = endGoal;
-            TriggerTypeName = triggerTypeName;
+            TriggerType = triggerType;
         }
 
         public bool IsEndGoal()

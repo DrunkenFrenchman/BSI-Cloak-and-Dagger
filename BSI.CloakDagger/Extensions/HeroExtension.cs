@@ -25,12 +25,12 @@ namespace BSI.CloakDagger.Extensions
 
         public static bool IsPlotLeader(this Hero hero, Plot plot)
         {
-            return hero == plot?.Leader;
+            return hero == plot.Leader.ToHero();
         }
 
         public static List<Hero> GetPlottingFriends(this Hero hero, Plot plot)
         {
-            return plot.Members.Cast<Hero>().Where(hero.IsFriend).ToList();
+            return plot.Members.ToHeroes().Where(hero.IsFriend).ToList();
         }
 
         public static Culture GetCultureCode(this Hero hero)
