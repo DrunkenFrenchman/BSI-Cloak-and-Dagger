@@ -1,6 +1,7 @@
-﻿using BSI.CloakDagger.Enumerations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Objects;
-using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.CloakDagger.Extensions
@@ -29,21 +30,12 @@ namespace BSI.CloakDagger.Extensions
 
         public static List<Hero> GetPlottingFriends(this Hero hero, Plot plot)
         {
-            var plottingFriends = new List<Hero>();
-            foreach (Hero plotter in plot.Members)
-            {
-                if (hero.IsFriend(plotter))
-                {
-                    plottingFriends.Add(plotter);
-                }
-            }
-
-            return plottingFriends;
+            return plot.Members.Cast<Hero>().Where(hero.IsFriend).ToList();
         }
 
         public static Culture GetCultureCode(this Hero hero)
         {
-            return (Culture)hero.Culture.GetCultureCode();
+            return (Culture) hero.Culture.GetCultureCode();
         }
 
 

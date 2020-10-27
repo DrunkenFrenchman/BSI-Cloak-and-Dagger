@@ -1,12 +1,11 @@
-﻿using BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar;
+﻿using System;
+using System.Collections.Generic;
+using BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar;
 using BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
@@ -14,18 +13,18 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
 {
     public class CivilWarTrigger : Trigger
     {
-        private static readonly CivilWarSettings settings = CivilWarSettings.Instance;
+        private static readonly CivilWarSettings Settings = CivilWarSettings.Instance;
 
         public override bool CanStart(MBObjectBase gameObject)
         {
-            if (!(gameObject is CharacterObject character) || character?.HeroObject == null)
+            if (!(gameObject is CharacterObject character) || character.HeroObject == null)
             {
                 return false;
             }
 
             var hero = character.HeroObject;
 
-            if (hero.Clan == null || hero.Clan.Kingdom == null || hero.Clan.Kingdom.Leader == hero || !hero.IsClanLeader() || hero.GetRelation(hero.Clan.Kingdom.Leader) > settings.NegativeRelationThreshold || hero.Clan.IsMinorFaction)
+            if (hero.Clan?.Kingdom == null || hero.Clan.Kingdom.Leader == hero || !hero.IsClanLeader() || hero.GetRelation(hero.Clan.Kingdom.Leader) > Settings.NegativeRelationThreshold || hero.Clan.IsMinorFaction)
             {
                 return false;
             }

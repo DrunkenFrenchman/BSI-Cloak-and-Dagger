@@ -1,8 +1,9 @@
-﻿using BSI.CloakDagger.Extensions;
-using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BSI.CloakDagger.Enumerations;
+using BSI.CloakDagger.Extensions;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Core;
@@ -33,32 +34,31 @@ namespace BSI.CloakDagger.Helpers
 
         public static TextObject GenerateName(Hero hero)
         {
-            string name = " ";
-            Enumerations.Culture culture = (Enumerations.Culture)hero.Culture.GetCultureCode();
+            var name = " ";
+            var culture = (Culture) hero.Culture.GetCultureCode();
             switch (culture)
             {
-                case Enumerations.Culture.Aserai:
-                    name += Enumerations.KingdomTitle.Sultanate.ToString();
+                case Culture.Aserai:
+                    name += KingdomTitle.Sultanate.ToString();
                     break;
-                case Enumerations.Culture.Battania:
-                    name += Enumerations.KingdomTitle.Riocht.ToString();
+                case Culture.Battania:
+                    name += KingdomTitle.Riocht.ToString();
                     break;
-                case Enumerations.Culture.Empire:
-                    name += Enumerations.KingdomTitle.Vasileo.ToString();
+                case Culture.Empire:
+                    name += KingdomTitle.Vasileo.ToString();
                     break;
-                case Enumerations.Culture.Khuzait:
-                    name += Enumerations.KingdomTitle.Khaganate.ToString();
+                case Culture.Khuzait:
+                    name += KingdomTitle.Khaganate.ToString();
                     break;
-                case Enumerations.Culture.Sturgia:
-                    name += Enumerations.KingdomTitle.Storveldi.ToString();
+                case Culture.Sturgia:
+                    name += KingdomTitle.Storveldi.ToString();
                     break;
-                case Enumerations.Culture.Vlandia:
-                    name += Enumerations.KingdomTitle.Royaume.ToString();
+                case Culture.Vlandia:
+                    name += KingdomTitle.Royaume.ToString();
                     break;
             }
 
-            return new TextObject(hero.Clan.Name.ToString() + name);
-
+            return new TextObject(hero.Clan.Name + name);
         }
 
         public static void ModifyKingdomList(Func<List<Kingdom>, List<Kingdom>> modificator)

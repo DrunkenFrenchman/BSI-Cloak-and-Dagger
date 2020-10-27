@@ -1,5 +1,5 @@
-﻿using BSI.CloakDagger.Enumerations;
-using System;
+﻿using System;
+using BSI.CloakDagger.Enumerations;
 using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Objects

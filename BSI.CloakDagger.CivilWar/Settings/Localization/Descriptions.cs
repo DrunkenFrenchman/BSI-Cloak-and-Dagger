@@ -4,7 +4,7 @@
     {
         #region DEBUG
 
-        internal const string DEBUG = "{=CLOAKDAGGER_DESCRIPTIONS_DEBUG}Enables/Disables Debug Mode.";
+        internal const string Debug = "{=CLOAKDAGGER_DESCRIPTIONS_DEBUG}Enables/Disables Debug Mode.";
 
         #endregion
     }

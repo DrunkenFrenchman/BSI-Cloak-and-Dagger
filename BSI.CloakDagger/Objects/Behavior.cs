@@ -2,11 +2,10 @@
 {
     public abstract class Behavior
     {
+        public Goal Goal { get; set; }
         public abstract bool CanEnd();
 
         public abstract void DoEnd();
-
-        public Goal Goal { get; set; }
 
         public virtual void Initialize(Goal goal)
         {

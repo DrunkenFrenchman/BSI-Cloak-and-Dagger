@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("BSI Cloak and Dagger")]
+[assembly: AssemblyTitle("BSI - Cloak and Dagger")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BloodShitIron")]
+[assembly: AssemblyCompany("BSI - BloodShitIron")]
 [assembly: AssemblyProduct("BSI.CloakDagger")]
-[assembly: AssemblyCopyright("Copyright © 2020 DrunkenFrenchman and TH3UNKN0WN")]
+[assembly: AssemblyCopyright("Copyright © 2020 DrunkenFrenchman & TH3UNKN0WN")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

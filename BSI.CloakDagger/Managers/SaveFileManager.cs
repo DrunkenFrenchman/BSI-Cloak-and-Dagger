@@ -1,7 +1,7 @@
-﻿using BSI.CloakDagger.Objects;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using BSI.CloakDagger.Objects;
+using Newtonsoft.Json;
 using TaleWorlds.Engine;
 using Path = System.IO.Path;
 
@@ -16,12 +16,16 @@ namespace BSI.CloakDagger.Managers
         internal static void SaveData()
         {
             Directory.CreateDirectory(SaveFilePath);
-            File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager, new JsonSerializerSettings { Formatting = Formatting.Indented, ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager,new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }));
         }
 
         internal static void LoadData()
         {
-            if(!File.Exists(SaveFilePath))
+            if (!File.Exists(SaveFilePath))
             {
                 return;
             }

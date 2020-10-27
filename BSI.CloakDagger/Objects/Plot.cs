@@ -1,6 +1,6 @@
-﻿using BSI.CloakDagger.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using BSI.CloakDagger.Helpers;
 using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Objects
@@ -62,7 +62,6 @@ namespace BSI.CloakDagger.Objects
 
         public virtual void DoAbort()
         {
-
         }
     }
 }

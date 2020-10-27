@@ -1,7 +1,8 @@
-﻿using BSI.CloakDager.Settings;
-using BSI.CloakDagger.Managers;
-using System;
+﻿using System;
+using System.Globalization;
 using System.IO;
+using BSI.CloakDagger.Managers;
+using BSI.CloakDagger.Settings;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using Path = System.IO.Path;
@@ -10,29 +11,25 @@ namespace BSI.CloakDagger
 {
     public class Debug
     {
-        private static readonly CloakDaggerSettings settings = CloakDaggerSettings.Instance;
-        private static readonly string fileName = $"{(string.IsNullOrEmpty(SaveFileManager.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.ActiveSaveSlotName)}.log";
+        private static readonly CloakDaggerSettings Settings = CloakDaggerSettings.Instance;
+
+        private static readonly string FileName = $"{(string.IsNullOrEmpty(SaveFileManager.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.ActiveSaveSlotName)}.log";
 
         //Print Message in Game Helper
         public static void PrintMessage(string message)
         {
-            if (settings.EnableDebug)
+            if (!Settings.EnableDebug)
             {
-                if (message != null)
-                {
-                    InformationManager.DisplayMessage(new InformationMessage(message));
-                }
-                else
-                {
-                    InformationManager.DisplayMessage(new InformationMessage(typeof(Debug).Namespace + " tried printing null message!"));
-                }
+                return;
             }
+
+            InformationManager.DisplayMessage(message != null ? new InformationMessage(message) : new InformationMessage(typeof(Debug).Namespace + " tried printing null message!"));
         }
 
         //Return Date and Time helper
         public static string DateTime()
         {
-            return System.DateTime.Now.ToString();
+            return System.DateTime.Now.ToString(CultureInfo.CurrentCulture);
         }
 
         //Log File Direectory Helper
@@ -44,13 +41,13 @@ namespace BSI.CloakDagger
         //Add Log Helper
         public static void AddEntry(string entry)
         {
-            if (!settings.EnableDebug)
+            if (!Settings.EnableDebug)
             {
                 return;
             }
 
             //Create Directory
-            string path = GetDirectory();
+            var path = GetDirectory();
             if (!Directory.Exists(path))
             {
                 DebugStart();
@@ -72,7 +69,7 @@ namespace BSI.CloakDagger
                 AddExceptionLog("ERROR", ex);
             }
 
-            File.AppendAllText(Path.Combine(GetDirectory(), fileName), entry);
+            File.AppendAllText(Path.Combine(GetDirectory(), FileName), entry);
         }
 
         //Exception Log Helper

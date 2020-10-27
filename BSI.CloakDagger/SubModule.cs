@@ -1,10 +1,10 @@
-﻿using BSI.CloakDagger.Helpers;
-using System;
+﻿using System;
+using BSI.CloakDagger.Helpers;
+using BSI.CloakDagger.Managers;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using BSI.CloakDagger.Managers;
-using HarmonyLib;
 
 namespace BSI.CloakDagger
 {
@@ -29,19 +29,21 @@ namespace BSI.CloakDagger
         {
             base.OnGameStart(game, gameStarter);
 
-            if (game.GameType is Campaign)
+            if (!(game.GameType is Campaign))
             {
-                var campaignGameStarter = (CampaignGameStarter)gameStarter;
+                return;
+            }
 
-                try
-                {
-                    campaignGameStarter.AddBehavior(GameManager.Instance);
-                }
-                catch (Exception exception)
-                {
-                    Debug.AddExceptionLog("OnGameStart", exception);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
-                }
+            var campaignGameStarter = (CampaignGameStarter) gameStarter;
+
+            try
+            {
+                campaignGameStarter.AddBehavior(GameManager.Instance);
+            }
+            catch (Exception exception)
+            {
+                Debug.AddExceptionLog("OnGameStart", exception);
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
             }
         }
 
@@ -49,18 +51,20 @@ namespace BSI.CloakDagger
         {
             base.OnGameInitializationFinished(game);
 
-            if (game.GameType is Campaign)
+            if (!(game.GameType is Campaign))
             {
-                try
-                {
-                    GameManager.Instance.Initialize();
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Green));
-                }
-                catch (Exception exception)
-                {
-                    Debug.AddExceptionLog("OnGameInitializationFinished", exception);
-                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
-                }
+                return;
+            }
+
+            try
+            {
+                GameManager.Instance.Initialize();
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Green));
+            }
+            catch (Exception exception)
+            {
+                Debug.AddExceptionLog("OnGameInitializationFinished", exception);
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
             }
         }
     }

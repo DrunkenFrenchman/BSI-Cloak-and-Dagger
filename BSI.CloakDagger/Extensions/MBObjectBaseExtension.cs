@@ -4,7 +4,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Extensions
 {
-    public static class MBObjectBaseExtension
+    public static class MbObjectBaseExtension
     {
         public static Kingdom ConvertToKingdom(this MBObjectBase gameObject)
         {

@@ -1,9 +1,9 @@
-﻿using MCM.Abstractions.Attributes;
-using MCM.Abstractions.Attributes.v2;
-using MCM.Abstractions.Settings.Base.Global;
-using MCM.Abstractions.Settings.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using MCM.Abstractions.Attributes;
+using MCM.Abstractions.Attributes.v2;
+using MCM.Abstractions.Settings.Base;
+using MCM.Abstractions.Settings.Base.Global;
 
 namespace BSI.CloakDagger.CivilWar.Settings
 {
@@ -11,7 +11,7 @@ namespace BSI.CloakDagger.CivilWar.Settings
     {
         public override string Id => $"BSI.CloakDagger.CivilWar_v{typeof(CivilWarSettings).Assembly.GetName().Version.ToString(3)}";
 
-        public override string DisplayName => $"BSI - Cloak and Dagger: Civil War";
+        public override string DisplayName => "BSI - Cloak and Dagger: Civil War";
 
         public override string FolderName => "BSI.CloakDagger.CivilWar";
 
@@ -74,28 +74,20 @@ namespace BSI.CloakDagger.CivilWar.Settings
         //Debug Toggle
         [SettingPropertyBool("{=BSIPLOTS_SETTING_DEBUG}Debug Toggle", HintText = "{=BSIPLOTS_SETTING_DESC_DEBUG}Check this to enable Debug mode", Order = 0, RequireRestart = false)]
         [SettingPropertyGroup("{=BSIPLOTS_SETTING_GROUP_02}2. Debug", GroupOrder = 3)]
-        public bool BSIPlotsDebug { get; set; } = true;
+        public bool BsiPlotsDebug { get; set; } = true;
 
         public override IDictionary<string, Func<BaseSettings>> GetAvailablePresets()
         {
             var basePresets = base.GetAvailablePresets();
-            basePresets.Add("Realistic Battle Mod", () => new CivilWarSettings()
-            {
-
-            }); ;
-            basePresets.Add("Native", () => new CivilWarSettings()
-            {
-
-            });
-            basePresets.Add("Debug", () => new CivilWarSettings()
+            basePresets.Add("Realistic Battle Mod", () => new CivilWarSettings());
+            ;
+            basePresets.Add("Native", () => new CivilWarSettings());
+            basePresets.Add("Debug", () => new CivilWarSettings
             {
                 CivilWarToggle = true,
-                BSIPlotsDebug = true,
+                BsiPlotsDebug = true
             });
             return basePresets;
         }
-
-
-
     }
 }

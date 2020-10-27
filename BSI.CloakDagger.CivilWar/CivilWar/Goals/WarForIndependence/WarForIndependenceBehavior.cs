@@ -11,7 +11,6 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
     {
         internal void DailyTick()
         {
-
         }
 
         public override bool CanEnd()
@@ -21,8 +20,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
             var plotTargetMapFaction = plot.Target.ConvertToHero().MapFaction;
             var plotLeaderMapFaction = plot.Leader.ConvertToHero().MapFaction;
 
-            return plotLeaderMapFaction != plotTargetMapFaction
-               && !plotLeaderMapFaction.IsAtWarWith(plotTargetMapFaction);
+            return plotLeaderMapFaction != plotTargetMapFaction && !plotLeaderMapFaction.IsAtWarWith(plotTargetMapFaction);
         }
 
         public override void DoEnd()

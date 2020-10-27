@@ -1,23 +1,20 @@
-﻿using BSI.CloakDagger.CivilWar.CivilWar;
+﻿using System.Linq;
 using BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar;
 using BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.Managers;
-using System;
-using System.Linq;
 using TaleWorlds.CampaignSystem;
 
-namespace BSI.CloakDagger.CivilWar
+namespace BSI.CloakDagger.CivilWar.CivilWar
 {
     public class CivilWarBehavior : CampaignBehaviorBase
     {
         public override void RegisterEvents()
         {
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
+            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
         }
 
         public override void SyncData(IDataStore dataStore)
         {
-
         }
 
         private void OnDailyTick()
@@ -26,14 +23,14 @@ namespace BSI.CloakDagger.CivilWar
             {
                 var behavior = plot.ActiveGoal.Behavior;
 
-                if(behavior is RecruitForWarBehavior recruitForWarBehavior)
+                switch (behavior)
                 {
-                    recruitForWarBehavior.DailyTick();
-                }
-
-                if (behavior is WarForIndependenceBehavior warForIndependenceBehavior)
-                {
-                    warForIndependenceBehavior.DailyTick();
+                    case RecruitForWarBehavior recruitForWarBehavior:
+                        recruitForWarBehavior.DailyTick();
+                        break;
+                    case WarForIndependenceBehavior warForIndependenceBehavior:
+                        warForIndependenceBehavior.DailyTick();
+                        break;
                 }
             }
         }

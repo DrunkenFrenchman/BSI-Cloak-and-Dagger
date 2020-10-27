@@ -1,8 +1,7 @@
-﻿using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger.Objects;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BSI.CloakDagger.Helpers;
+using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
@@ -12,8 +11,8 @@ namespace BSI.CloakDagger.Managers
     {
         #region Thread-Safe Singleton
 
-        private static volatile GameManager instance;
-        private static readonly object syncRoot = new object();
+        private static volatile GameManager _instance;
+        private static readonly object SyncRoot = new object();
 
         private GameManager()
         {
@@ -25,40 +24,42 @@ namespace BSI.CloakDagger.Managers
         {
             get
             {
-                if (instance == null)
+                if (_instance != null)
                 {
-                    lock (syncRoot)
+                    return _instance;
+                }
+
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
                     {
-                        if (instance == null)
-                        {
-                            instance = new GameManager();
-                        }
+                        _instance = new GameManager();
                     }
                 }
 
-                return instance;
+                return _instance;
             }
         }
 
         #endregion
 
-        private List<Trigger> Triggers { get; set; }
+        private List<Trigger> Triggers { get; }
 
         public Dictionary<string, List<Plot>> PlotManager { get; set; }
 
         public override void RegisterEvents()
         {
-            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
-            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) =>
+            CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, kingdom =>
             {
                 PlotManager.Add(kingdom.StringId, new List<Plot>());
             });
-            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) =>
+            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, kingdom =>
             {
                 PlotManager.Remove(kingdom.StringId);
                 KingdomHelper.RemoveKingdom(kingdom);
             });
-            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) =>
+            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, clan =>
             {
                 PlotManager.Remove(clan.StringId);
             });
@@ -66,18 +67,16 @@ namespace BSI.CloakDagger.Managers
 
         public override void SyncData(IDataStore dataStore)
         {
-
         }
 
-        public bool AddTrigger(Trigger trigger)
+        public void AddTrigger(Trigger trigger)
         {
             if (Triggers.Any(t => t.GetType() == trigger.GetType()))
             {
-                return false;
+                return;
             }
 
             Triggers.Add(trigger);
-            return true;
         }
 
         public void Initialize()
@@ -114,25 +113,26 @@ namespace BSI.CloakDagger.Managers
 
                 foreach (var gameObject in GameObjectHelper.GetGameObjectsByStringIds(PlotManager.Keys.ToList()))
                 {
-                    var existingPlotsCount = PlotManager[gameObject.StringId].Count(plot => plot.TriggerTypeName == trigger.GetType().Name);
+                    var existingPlotsCount = PlotManager[gameObject.StringId].Count(p => p.TriggerTypeName == trigger.GetType().Name);
 
                     if (existingPlotsCount > 0)
                     {
                         relevantGameObjects.Add(gameObject);
                     }
 
-                    if(existingPlotsCount == trigger.AllowedInstances)
+                    if (existingPlotsCount == trigger.AllowedInstances)
                     {
                         continue;
                     }
 
-                    if (!relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject))
+                    if (relevantGameObjects.Contains(gameObject) || !trigger.CanStart(gameObject))
                     {
-                        var plot = trigger.DoStart(gameObject);
-
-                        PlotManager[gameObject.StringId].Add(plot);
-                        relevantGameObjects.Add(gameObject);
+                        continue;
                     }
+
+                    var plot = trigger.DoStart(gameObject);
+                    PlotManager[gameObject.StringId].Add(plot);
+                    relevantGameObjects.Add(gameObject);
                 }
 
                 foreach (var gameObject in relevantGameObjects)
@@ -149,18 +149,20 @@ namespace BSI.CloakDagger.Managers
                         else
                         {
                             var behavior = plot.ActiveGoal.Behavior;
-                            if (behavior.CanEnd())
+                            if (!behavior.CanEnd())
                             {
-                                behavior.DoEnd();
+                                continue;
+                            }
 
-                                if (plot.IsEndGoal())
-                                {
-                                    plotsToRemove.Add(plot);
-                                }
-                                else
-                                {
-                                    plot.SetNextGoal();
-                                }
+                            behavior.DoEnd();
+
+                            if (plot.IsEndGoal())
+                            {
+                                plotsToRemove.Add(plot);
+                            }
+                            else
+                            {
+                                plot.SetNextGoal();
                             }
                         }
                     }

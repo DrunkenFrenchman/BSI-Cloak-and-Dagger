@@ -1,14 +1,14 @@
 ﻿<Module>
-	<Name value="BSI - Cloak and Dagger: CivilWar"/>
-	<Id value="BSI.CloakDagger.CivilWar"/>
-	<Version value="v0.1.0"/>
+	<Name value="BSI - Cloak and Dagger: CivilWar" />
+	<Id value="BSI.CloakDagger.CivilWar" />
+	<Version value="v0.1.0" />
 	<Official value="false" />
 	<DefaultModule value="false" />
-	<SingleplayerModule value="true"/>
-	<MultiplayerModule value="false"/>
+	<SingleplayerModule value="true" />
+	<MultiplayerModule value="false" />
 	<DependedModules>
-		<DependedModule Id="BSI.CloakDagger"/>
-		<DependedModule Id="Bannerlord.MBOptionScreen"/>
+		<DependedModule Id="BSI.CloakDagger" />
+		<DependedModule Id="Bannerlord.MBOptionScreen" />
 	</DependedModules>
 	<DependedModuleMetadatas>
 		<DependedModuleMetadata id="BSI.CloakDagger" order="LoadBeforeThis" version="v0.1.0" optional="false" incompatible="false" />
@@ -22,14 +22,14 @@
 	</DependedModuleMetadatas>
 	<SubModules>
 		<SubModule>
-			<Name value="BSI - Cloak and Dagger: CivilWar"/>
-			<DLLName value="BSI.CloakDagger.CivilWar.dll"/>
-			<SubModuleClassType value="BSI.CloakDagger.CivilWar.SubModule"/>
+			<Name value="BSI - Cloak and Dagger: CivilWar" />
+			<DLLName value="BSI.CloakDagger.CivilWar.dll" />
+			<SubModuleClassType value="BSI.CloakDagger.CivilWar.SubModule" />
 			<Tags>
 				<Tag key="DedicatedServerType" value="none" />
 				<Tag key="IsNoRenderModeElement" value="false" />
 			</Tags>
 		</SubModule>
 	</SubModules>
-	<Xmls/>
+	<Xmls />
 </Module>

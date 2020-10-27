@@ -2,11 +2,11 @@
 {
     internal static class Groups
     {
-        internal const string GENERAL = "{=CLOAKDAGGER_GROUPS_GENERAL}General";
+        internal const string General = "{=CLOAKDAGGER_GROUPS_GENERAL}General";
 
         #region DEBUG
 
-        internal const string DEBUG_GENERAL = Categories.DEBUG + "/" + GENERAL;
+        internal const string DebugGeneral = Categories.Debug + "/" + General;
 
         #endregion
     }
