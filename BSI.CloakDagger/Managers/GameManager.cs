@@ -18,7 +18,7 @@ namespace BSI.CloakDagger.Managers
         private GameManager()
         {
             Triggers = new List<Trigger>();
-            Plots = new Dictionary<string, List<Plot>>();
+            PlotManager = new Dictionary<string, List<Plot>>();
         }
 
         public static GameManager Instance
@@ -44,14 +44,24 @@ namespace BSI.CloakDagger.Managers
 
         private List<Trigger> Triggers { get; set; }
 
-        public Dictionary<string, List<Plot>> Plots { get; set; }
+        public Dictionary<string, List<Plot>> PlotManager { get; set; }
 
         public override void RegisterEvents()
         {
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(OnDailyTick));
-            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) => Plots.Add(kingdom.StringId, new List<Plot>()));
-            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) => Plots.Remove(kingdom.StringId));
-            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) => Plots.Remove(clan.StringId));
+            CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, (kingdom) =>
+            {
+                PlotManager.Add(kingdom.StringId, new List<Plot>());
+            });
+            CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, (kingdom) =>
+            {
+                PlotManager.Remove(kingdom.StringId);
+                KingdomHelper.RemoveKingdom(kingdom);
+            });
+            CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, (clan) =>
+            {
+                PlotManager.Remove(clan.StringId);
+            });
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -73,7 +83,7 @@ namespace BSI.CloakDagger.Managers
         public void Initialize()
         {
             SaveFileManager.LoadData();
-            foreach (var plot in Plots.SelectMany(p => p.Value))
+            foreach (var plot in PlotManager.SelectMany(p => p.Value))
             {
                 plot.Initialize(plot.Title, plot.Description, plot.Target, plot.Leader, plot.MemberIds, plot.ActiveGoal, plot.EndGoal, plot.TriggerTypeName);
 
@@ -90,9 +100,9 @@ namespace BSI.CloakDagger.Managers
             stringIds.AddRange(Campaign.Current.Heroes.Select(h => h.StringId));
             stringIds.AddRange(Campaign.Current.Characters.Select(c => c.StringId));
 
-            foreach (var stringId in stringIds.Except(Plots.Keys))
+            foreach (var stringId in stringIds.Except(PlotManager.Keys))
             {
-                Plots.Add(stringId, new List<Plot>());
+                PlotManager.Add(stringId, new List<Plot>());
             }
         }
 
@@ -102,20 +112,25 @@ namespace BSI.CloakDagger.Managers
             {
                 var relevantGameObjects = new List<MBObjectBase>();
 
-                foreach (var gameObject in GameObjectHelper.GetGameObjectsByStringIds(Plots.Keys.ToList()))
+                foreach (var gameObject in GameObjectHelper.GetGameObjectsByStringIds(PlotManager.Keys.ToList()))
                 {
-                    var existingPlotsCount = Plots[gameObject.StringId].Count(plot => plot.TriggerTypeName == trigger.GetType().Name);
+                    var existingPlotsCount = PlotManager[gameObject.StringId].Count(plot => plot.TriggerTypeName == trigger.GetType().Name);
 
                     if (existingPlotsCount > 0)
                     {
                         relevantGameObjects.Add(gameObject);
                     }
 
-                    if (trigger.AllowedInstances > existingPlotsCount && !relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject))
+                    if(existingPlotsCount == trigger.AllowedInstances)
+                    {
+                        continue;
+                    }
+
+                    if (!relevantGameObjects.Contains(gameObject) && trigger.CanStart(gameObject))
                     {
                         var plot = trigger.DoStart(gameObject);
 
-                        Plots[gameObject.StringId].Add(plot);
+                        PlotManager[gameObject.StringId].Add(plot);
                         relevantGameObjects.Add(gameObject);
                     }
                 }
@@ -124,7 +139,7 @@ namespace BSI.CloakDagger.Managers
                 {
                     var plotsToRemove = new List<Plot>();
 
-                    foreach (var plot in Plots[gameObject.StringId].Where(p => p.TriggerTypeName == trigger.GetType().Name))
+                    foreach (var plot in PlotManager[gameObject.StringId].Where(p => p.TriggerTypeName == trigger.GetType().Name))
                     {
                         if (plot.CanAbort())
                         {
@@ -152,7 +167,7 @@ namespace BSI.CloakDagger.Managers
 
                     foreach (var plot in plotsToRemove)
                     {
-                        Plots[gameObject.StringId].Remove(plot);
+                        PlotManager[gameObject.StringId].Remove(plot);
                     }
                 }
             }

@@ -16,7 +16,7 @@ namespace BSI.CloakDagger.Managers
         internal static void SaveData()
         {
             Directory.CreateDirectory(SaveFilePath);
-            File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.Plots, new JsonSerializerSettings { Formatting = Formatting.Indented, ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
+            File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager, new JsonSerializerSettings { Formatting = Formatting.Indented, ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         }
 
         internal static void LoadData()
@@ -26,7 +26,7 @@ namespace BSI.CloakDagger.Managers
                 return;
             }
 
-            GameManager.Instance.Plots = JsonConvert.DeserializeObject<Dictionary<string, List<Plot>>>(File.ReadAllText(SaveFilePath));
+            GameManager.Instance.PlotManager = JsonConvert.DeserializeObject<Dictionary<string, List<Plot>>>(File.ReadAllText(SaveFilePath));
         }
     }
 }

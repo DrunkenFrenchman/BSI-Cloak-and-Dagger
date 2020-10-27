@@ -22,7 +22,7 @@ namespace BSI.CloakDagger.CivilWar
 
         private void OnDailyTick()
         {
-            foreach (var plot in GameManager.Instance.Plots.SelectMany(p => p.Value).Where(p => p.TriggerTypeName.GetType() == typeof(CivilWarTrigger)))
+            foreach (var plot in GameManager.Instance.PlotManager.SelectMany(p => p.Value).Where(p => p.TriggerTypeName.GetType() == typeof(CivilWarTrigger)))
             {
                 var behavior = plot.ActiveGoal.Behavior;
 

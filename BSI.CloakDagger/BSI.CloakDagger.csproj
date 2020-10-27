@@ -152,6 +152,7 @@
   <!-- System Files -->
   <ItemGroup>
     <Compile Include="Helpers\GameObjectHelper.cs" />
+    <Compile Include="Helpers\KingdomHelper.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
     <Compile Include="Patches\SaveFilePatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,18 +175,15 @@
     <Compile Include="Enumerations\Culture.cs" />
     <Compile Include="Enumerations\KingdomTitle.cs" />
     <Compile Include="Enumerations\UniqueTo.cs" />
-    <Compile Include="Events\PlotEvent.cs" />
     <Compile Include="Extensions\ColorExtension.cs" />
     <Compile Include="Extensions\HeroExtension.cs" />
     <Compile Include="Extensions\MBObjectBaseExtension.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Managers\KingdomManager.cs" />
     <Compile Include="Objects\Behavior.cs" />
     <Compile Include="Objects\Goal.cs" />
     <Compile Include="Objects\Plot.cs" />
     <Compile Include="Objects\Trigger.cs" />
-    <Compile Include="Managers\PlotManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ModuleData\Languages\" />

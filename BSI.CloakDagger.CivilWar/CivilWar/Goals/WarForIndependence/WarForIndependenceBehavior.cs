@@ -1,4 +1,5 @@
 ﻿using BSI.CloakDagger.Extensions;
+using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
@@ -28,7 +29,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
         {
             var plot = Goal.Plot;
 
-            var newName = Managers.KingdomManager.NameGenerator(plot.Leader.ConvertToHero());
+            var newName = KingdomHelper.GenerateName(plot.Leader.ConvertToHero());
             plot.Leader.ConvertToKingdom().ChangeKingdomName(newName, plot.Leader.ConvertToClan().InformalName);
 
             InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ConvertToKingdom(), plot.Target.ConvertToKingdom(), new TextObject($"Civil War ended in {plot.Target.ConvertToKingdom().Name}")));

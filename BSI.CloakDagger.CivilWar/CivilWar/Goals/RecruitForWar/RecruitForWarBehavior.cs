@@ -1,6 +1,7 @@
 ﻿using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
+using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var informalname = new TextObject(plot.Leader.ConvertToHero().Clan.InformalName.ToString());
 
             var oldKingdom = plot.Target.ConvertToKingdom();
-            var rebel = Managers.KingdomManager.CreateKingdom(plot.Leader.ConvertToHero(), name, informalname, plot.Leader.ConvertToHero().Clan.Banner, true);
+            var rebel = KingdomHelper.CreateKingdom(plot.Leader.ConvertToHero(), name, informalname, plot.Leader.ConvertToHero().Clan.Banner, true);
 
             foreach (var member in plot.Members)
             {

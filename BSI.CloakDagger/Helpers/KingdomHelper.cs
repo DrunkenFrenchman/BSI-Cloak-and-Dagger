@@ -1,5 +1,4 @@
 ﻿using BSI.CloakDagger.Extensions;
-using BSI.CloakDagger.Helpers;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -11,9 +10,9 @@ using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
-namespace BSI.CloakDagger.Managers
+namespace BSI.CloakDagger.Helpers
 {
-    public static class KingdomManager
+    public static class KingdomHelper
     {
         public static Kingdom CreateKingdom(Hero leader, TextObject name, TextObject informalName, Banner banner = null, bool showNotification = false)
         {
@@ -28,7 +27,38 @@ namespace BSI.CloakDagger.Managers
             AccessTools.Property(typeof(Kingdom), "AlternativeColor").SetValue(kingdom, altColor.ToUnsignedInteger());
             AccessTools.Property(typeof(Kingdom), "AlternativeColor2").SetValue(kingdom, mainColor.GetOpposingColor().ToUnsignedInteger());
 
+            AddKingdom(kingdom);
             return kingdom;
+        }
+
+        public static TextObject GenerateName(Hero hero)
+        {
+            string name = " ";
+            Enumerations.Culture culture = (Enumerations.Culture)hero.Culture.GetCultureCode();
+            switch (culture)
+            {
+                case Enumerations.Culture.Aserai:
+                    name += Enumerations.KingdomTitle.Sultanate.ToString();
+                    break;
+                case Enumerations.Culture.Battania:
+                    name += Enumerations.KingdomTitle.Riocht.ToString();
+                    break;
+                case Enumerations.Culture.Empire:
+                    name += Enumerations.KingdomTitle.Vasileo.ToString();
+                    break;
+                case Enumerations.Culture.Khuzait:
+                    name += Enumerations.KingdomTitle.Khaganate.ToString();
+                    break;
+                case Enumerations.Culture.Sturgia:
+                    name += Enumerations.KingdomTitle.Storveldi.ToString();
+                    break;
+                case Enumerations.Culture.Vlandia:
+                    name += Enumerations.KingdomTitle.Royaume.ToString();
+                    break;
+            }
+
+            return new TextObject(hero.Clan.Name.ToString() + name);
+
         }
 
         public static void ModifyKingdomList(Func<List<Kingdom>, List<Kingdom>> modificator)
@@ -60,36 +90,6 @@ namespace BSI.CloakDagger.Managers
             {
                 return kingdoms.RemoveAll(k => k.StringId == kingdom.StringId) > 0 ? kingdoms : null;
             });
-        }
-
-        public static TextObject NameGenerator(Hero hero)
-        {
-            string name = " ";
-            Enumerations.Culture culture = (Enumerations.Culture)hero.Culture.GetCultureCode();
-            switch (culture)
-            {
-                case Enumerations.Culture.Aserai:
-                    name += Enumerations.KingdomTitle.Sultanate.ToString();
-                    break;
-                case Enumerations.Culture.Battania:
-                    name += Enumerations.KingdomTitle.Riocht.ToString();
-                    break;
-                case Enumerations.Culture.Empire:
-                    name += Enumerations.KingdomTitle.Vasileo.ToString();
-                    break;
-                case Enumerations.Culture.Khuzait:
-                    name += Enumerations.KingdomTitle.Khaganate.ToString();
-                    break;
-                case Enumerations.Culture.Sturgia:
-                    name += Enumerations.KingdomTitle.Storveldi.ToString();
-                    break;
-                case Enumerations.Culture.Vlandia:
-                    name += Enumerations.KingdomTitle.Royaume.ToString();
-                    break;
-            }
-
-            return new TextObject(hero.Clan.Name.ToString() + name);
-
         }
     }
 }

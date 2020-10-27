@@ -2,11 +2,11 @@
 {
     public enum KingdomTitle
     {
-        Sultanate = 2,
-        Riocht = 5,
         Vasileo = 0,
-        Khaganate = 4,
         Storveldi = 1,
-        Royaume = 3
+        Sultanate = 2,
+        Royaume = 3,
+        Khaganate = 4,
+        Riocht = 5
     }
 }
