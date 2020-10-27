@@ -9,11 +9,44 @@ namespace BSI.CloakDagger.Managers
 {
     internal class SaveFileManager
     {
-        internal static string ActiveSaveSlotName { get; set; }
+        #region Thread-Safe Singleton
 
-        internal static string SaveFilePath => Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Saves", $"{ActiveSaveSlotName}.json");
+        private static volatile SaveFileManager _instance;
+        private static readonly object SyncRoot = new object();
 
-        internal static void SaveData()
+        private SaveFileManager()
+        {
+
+        }
+
+        public static SaveFileManager Instance
+        {
+            get
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new SaveFileManager();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        public string ActiveSaveSlotName { get; internal set; }
+
+        public string SaveFilePath => Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Saves", $"{ActiveSaveSlotName}.json");
+
+        public void SaveData()
         {
             Directory.CreateDirectory(SaveFilePath);
             File.WriteAllText(SaveFilePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager,new JsonSerializerSettings
@@ -23,7 +56,7 @@ namespace BSI.CloakDagger.Managers
             }));
         }
 
-        internal static void LoadData()
+        public void LoadData()
         {
             if (!File.Exists(SaveFilePath))
             {

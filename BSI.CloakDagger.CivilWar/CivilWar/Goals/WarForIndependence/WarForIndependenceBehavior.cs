@@ -17,8 +17,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
         {
             var plot = Goal.Plot;
 
-            var plotTargetMapFaction = plot.Target.ConvertToHero().MapFaction;
-            var plotLeaderMapFaction = plot.Leader.ConvertToHero().MapFaction;
+            var plotTargetMapFaction = plot.Target.ToHero().MapFaction;
+            var plotLeaderMapFaction = plot.Leader.ToHero().MapFaction;
 
             return plotLeaderMapFaction != plotTargetMapFaction && !plotLeaderMapFaction.IsAtWarWith(plotTargetMapFaction);
         }
@@ -27,10 +27,10 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence
         {
             var plot = Goal.Plot;
 
-            var newName = KingdomHelper.GenerateName(plot.Leader.ConvertToHero());
-            plot.Leader.ConvertToKingdom().ChangeKingdomName(newName, plot.Leader.ConvertToClan().InformalName);
+            var newName = KingdomHelper.GenerateName(plot.Leader.ToHero());
+            plot.Leader.ToKingdom().ChangeKingdomName(newName, plot.Leader.ToClan().InformalName);
 
-            InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ConvertToKingdom(), plot.Target.ConvertToKingdom(), new TextObject($"Civil War ended in {plot.Target.ConvertToKingdom().Name}")));
+            InformationManager.AddNotice(new PeaceMapNotification(plot.Leader.ToKingdom(), plot.Target.ToKingdom(), new TextObject($"Civil War ended in {plot.Target.ToKingdom().Name}")));
         }
     }
 }

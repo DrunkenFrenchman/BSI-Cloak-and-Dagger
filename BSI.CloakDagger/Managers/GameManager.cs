@@ -43,9 +43,9 @@ namespace BSI.CloakDagger.Managers
 
         #endregion
 
-        private List<Trigger> Triggers { get; }
+        public List<Trigger> Triggers { get; internal set; }
 
-        public Dictionary<string, List<Plot>> PlotManager { get; set; }
+        public Dictionary<string, List<Plot>> PlotManager { get; internal set; }
 
         public override void RegisterEvents()
         {
@@ -81,7 +81,7 @@ namespace BSI.CloakDagger.Managers
 
         public void Initialize()
         {
-            SaveFileManager.LoadData();
+            SaveFileManager.Instance.LoadData();
             foreach (var plot in PlotManager.SelectMany(p => p.Value))
             {
                 plot.Initialize(plot.Title, plot.Description, plot.Target, plot.Leader, plot.MemberIds, plot.ActiveGoal, plot.EndGoal, plot.TriggerTypeName);

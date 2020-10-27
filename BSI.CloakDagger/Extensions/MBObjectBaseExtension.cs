@@ -6,220 +6,172 @@ namespace BSI.CloakDagger.Extensions
 {
     public static class MbObjectBaseExtension
     {
-        public static Kingdom ConvertToKingdom(this MBObjectBase gameObject)
+        public static Kingdom ToKingdom(this MBObjectBase gameObject)
         {
-            if (gameObject is Kingdom kingdom)
+            switch (gameObject)
             {
-                return kingdom;
+                case Kingdom kingdom:
+                    return kingdom;
+                case Clan clan when clan.Kingdom != null:
+                    return clan.Kingdom;
+                case Hero hero when hero.Clan?.Kingdom != null:
+                    return hero.Clan.Kingdom;
+                case CharacterObject character when character.HeroObject?.Clan?.Kingdom != null:
+                    return character.HeroObject.Clan.Kingdom;
+                default:
+                    return null;
             }
-
-            if (gameObject is Clan clan && clan.Kingdom != null)
-            {
-                return clan.Kingdom;
-            }
-
-            if (gameObject is Hero hero && hero.Clan?.Kingdom != null)
-            {
-                return hero.Clan.Kingdom;
-            }
-
-            if (gameObject is CharacterObject character && character.HeroObject?.Clan?.Kingdom != null)
-            {
-                return character.HeroObject.Clan.Kingdom;
-            }
-
-            return null;
         }
 
-        public static Clan ConvertToClan(this MBObjectBase gameObject)
+        public static Clan ToClan(this MBObjectBase gameObject)
         {
-            if (gameObject is Kingdom kingdom)
+            switch (gameObject)
             {
-                return kingdom.RulingClan;
+                case Kingdom kingdom:
+                    return kingdom.RulingClan;
+                case Clan clan:
+                    return clan;
+                case Hero hero when hero.Clan != null:
+                    return hero.Clan;
+                case CharacterObject character when character.HeroObject?.Clan != null:
+                    return character.HeroObject.Clan;
+                default:
+                    return null;
             }
-
-            if (gameObject is Clan clan)
-            {
-                return clan;
-            }
-
-            if (gameObject is Hero hero && hero.Clan != null)
-            {
-                return hero.Clan;
-            }
-
-            if (gameObject is CharacterObject character && character.HeroObject?.Clan != null)
-            {
-                return character.HeroObject.Clan;
-            }
-
-            return null;
         }
 
-        public static Hero ConvertToHero(this MBObjectBase gameObject)
+        public static Hero ToHero(this MBObjectBase gameObject)
         {
-            if (gameObject is Kingdom kingdom)
+            switch (gameObject)
             {
-                return kingdom.Leader;
+                case Kingdom kingdom:
+                    return kingdom.Leader;
+                case Clan clan:
+                    return clan.Leader;
+                case Hero hero:
+                    return hero;
+                case CharacterObject character when character.IsHero:
+                    return character.HeroObject;
+                default:
+                    return null;
             }
-
-            if (gameObject is Clan clan)
-            {
-                return clan.Leader;
-            }
-
-            if (gameObject is Hero hero)
-            {
-                return hero;
-            }
-
-            if (gameObject is CharacterObject character && character.IsHero)
-            {
-                return character.HeroObject;
-            }
-
-            return null;
         }
 
-        public static CharacterObject ConvertToCharacter(this MBObjectBase gameObject)
+        public static CharacterObject ToCharacter(this MBObjectBase gameObject)
         {
-            if (gameObject is Kingdom kingdom)
+            switch (gameObject)
             {
-                return kingdom.Leader.CharacterObject;
+                case Kingdom kingdom:
+                    return kingdom.Leader.CharacterObject;
+                case Clan clan:
+                    return clan.Leader.CharacterObject;
+                case Hero hero:
+                    return hero.CharacterObject;
+                case CharacterObject character:
+                    return character;
+                default:
+                    return null;
             }
-
-            if (gameObject is Clan clan)
-            {
-                return clan.Leader.CharacterObject;
-            }
-
-            if (gameObject is Hero hero)
-            {
-                return hero.CharacterObject;
-            }
-
-            if (gameObject is CharacterObject character)
-            {
-                return character;
-            }
-
-            return null;
         }
 
-        public static List<Kingdom> ConvertToKingdoms(this List<MBObjectBase> gameObjects)
+        public static List<Kingdom> ToKingdoms(this List<MBObjectBase> gameObjects)
         {
             var kingdoms = new List<Kingdom>();
 
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject is Kingdom kingdom)
+                switch (gameObject)
                 {
-                    kingdoms.Add(kingdom.ConvertToKingdom());
-                }
-
-                if (gameObject is Clan clan)
-                {
-                    kingdoms.Add(clan.ConvertToKingdom());
-                }
-
-                if (gameObject is Hero hero)
-                {
-                    kingdoms.Add(hero.ConvertToKingdom());
-                }
-
-                if (gameObject is CharacterObject character)
-                {
-                    kingdoms.Add(character.ConvertToKingdom());
+                    case Kingdom kingdom:
+                        kingdoms.Add(kingdom.ToKingdom());
+                        break;
+                    case Clan clan:
+                        kingdoms.Add(clan.ToKingdom());
+                        break;
+                    case Hero hero:
+                        kingdoms.Add(hero.ToKingdom());
+                        break;
+                    case CharacterObject character:
+                        kingdoms.Add(character.ToKingdom());
+                        break;
                 }
             }
 
             return kingdoms;
         }
 
-        public static List<Clan> ConvertToClans(this List<MBObjectBase> gameObjects)
+        public static List<Clan> ToClans(this List<MBObjectBase> gameObjects)
         {
             var clans = new List<Clan>();
 
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject is Kingdom kingdom)
+                switch (gameObject)
                 {
-                    clans.Add(kingdom.ConvertToClan());
-                }
-
-                if (gameObject is Clan clan)
-                {
-                    clans.Add(clan.ConvertToClan());
-                }
-
-                if (gameObject is Hero hero)
-                {
-                    clans.Add(hero.ConvertToClan());
-                }
-
-                if (gameObject is CharacterObject character)
-                {
-                    clans.Add(character.ConvertToClan());
+                    case Kingdom kingdom:
+                        clans.Add(kingdom.ToClan());
+                        break;
+                    case Clan clan:
+                        clans.Add(clan.ToClan());
+                        break;
+                    case Hero hero:
+                        clans.Add(hero.ToClan());
+                        break;
+                    case CharacterObject character:
+                        clans.Add(character.ToClan());
+                        break;
                 }
             }
 
             return clans;
         }
 
-        public static List<Hero> ConvertToHeroes(this List<MBObjectBase> gameObjects)
+        public static List<Hero> ToHeroes(this List<MBObjectBase> gameObjects)
         {
             var heroes = new List<Hero>();
 
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject is Kingdom kingdom)
+                switch (gameObject)
                 {
-                    heroes.Add(kingdom.ConvertToHero());
-                }
-
-                if (gameObject is Clan clan)
-                {
-                    heroes.Add(clan.ConvertToHero());
-                }
-
-                if (gameObject is Hero hero)
-                {
-                    heroes.Add(hero.ConvertToHero());
-                }
-
-                if (gameObject is CharacterObject character)
-                {
-                    heroes.Add(character.ConvertToHero());
+                    case Kingdom kingdom:
+                        heroes.Add(kingdom.ToHero());
+                        break;
+                    case Clan clan:
+                        heroes.Add(clan.ToHero());
+                        break;
+                    case Hero hero:
+                        heroes.Add(hero.ToHero());
+                        break;
+                    case CharacterObject character:
+                        heroes.Add(character.ToHero());
+                        break;
                 }
             }
 
             return heroes;
         }
 
-        public static List<CharacterObject> ConvertToCharacters(this List<MBObjectBase> gameObjects)
+        public static List<CharacterObject> ToCharacters(this List<MBObjectBase> gameObjects)
         {
             var characters = new List<CharacterObject>();
 
             foreach (var gameObject in gameObjects)
             {
-                if (gameObject is Kingdom kingdom)
+                switch (gameObject)
                 {
-                    characters.Add(kingdom.ConvertToCharacter());
-                }
-
-                if (gameObject is Clan clan)
-                {
-                    characters.Add(clan.ConvertToCharacter());
-                }
-
-                if (gameObject is Hero hero)
-                {
-                    characters.Add(hero.ConvertToCharacter());
-                }
-
-                if (gameObject is CharacterObject character)
-                {
-                    characters.Add(character.ConvertToCharacter());
+                    case Kingdom kingdom:
+                        characters.Add(kingdom.ToCharacter());
+                        break;
+                    case Clan clan:
+                        characters.Add(clan.ToCharacter());
+                        break;
+                    case Hero hero:
+                        characters.Add(hero.ToCharacter());
+                        break;
+                    case CharacterObject character:
+                        characters.Add(character.ToCharacter());
+                        break;
                 }
             }
 

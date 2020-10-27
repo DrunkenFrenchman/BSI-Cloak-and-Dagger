@@ -15,11 +15,11 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.ActiveSaveSlotName = string.Empty;
+                    SaveFileManager.Instance.ActiveSaveSlotName = string.Empty;
                 }
                 catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("OnNewGame", exception);
+                    LogHelper.LogException("OnNewGame", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
@@ -32,11 +32,11 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
+                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
                 }
                 catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("LoadSaveGameData", exception);
+                    LogHelper.LogException("LoadSaveGameData", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
@@ -49,12 +49,12 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName")?.GetValue(null)?.ToString();
-                    SaveFileManager.SaveData();
+                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName")?.GetValue(null)?.ToString();
+                    SaveFileManager.Instance.SaveData();
                 }
                 catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("SaveAsCurrentGame", exception);
+                    LogHelper.LogException("SaveAsCurrentGame", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
@@ -67,12 +67,12 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
-                    SaveFileManager.SaveData();
+                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
+                    SaveFileManager.Instance.SaveData();
                 }
                 catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("QuickSaveCurrentGame", exception);
+                    LogHelper.LogException("QuickSaveCurrentGame", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }
@@ -85,12 +85,12 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.ActiveSaveSlotName = $"{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveNamePrefix").GetValue(null)}{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveIndex").GetValue(null)}";
-                    SaveFileManager.SaveData();
+                    SaveFileManager.Instance.ActiveSaveSlotName = $"{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveNamePrefix").GetValue(null)}{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveIndex").GetValue(null)}";
+                    SaveFileManager.Instance.SaveData();
                 }
                 catch (Exception exception)
                 {
-                    Debug.AddExceptionLog("AutoSaveCurrentGame", exception);
+                    LogHelper.LogException("AutoSaveCurrentGame", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }

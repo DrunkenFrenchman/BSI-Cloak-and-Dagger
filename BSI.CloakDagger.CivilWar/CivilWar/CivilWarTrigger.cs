@@ -37,8 +37,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
 
         public override Plot DoStart(MBObjectBase gameObject)
         {
-            var target = gameObject.ConvertToKingdom();
-            var leader = gameObject.ConvertToHero();
+            var target = gameObject.ToKingdom();
+            var leader = gameObject.ToHero();
 
             var civilWarPlot = new CivilWarPlot();
             var civilWarPlotTitle = "Civil War";

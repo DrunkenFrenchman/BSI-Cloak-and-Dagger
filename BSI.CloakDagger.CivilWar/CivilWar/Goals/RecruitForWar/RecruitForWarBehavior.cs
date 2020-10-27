@@ -23,8 +23,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
         {
             var plot = Goal.Plot;
 
-            var leaderHero = plot.Leader.ConvertToHero();
-            var targetHero = plot.Target.ConvertToHero();
+            var leaderHero = plot.Leader.ToHero();
+            var targetHero = plot.Target.ToHero();
             var strength = GetStrength(plot);
             var warPartiesCount = GetWarPartiesCount(plot);
 
@@ -48,7 +48,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 
             var warChance = Settings.WarBaseChance * personalityFactor * (strengthFactor * valorFactor) * partiesFactor;
 
-            Debug.AddEntry($"War Chance in {targetHero.Clan.Kingdom.Name}: {warChance}");
+            LogHelper.Log($"War Chance in {targetHero.Clan.Kingdom.Name}: {warChance}");
 
             return new Random().Next(100) < warChance;
         }
@@ -57,15 +57,15 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
         {
             var plot = Goal.Plot;
 
-            var name = new TextObject(plot.Target.ConvertToKingdom().InformalName + " Seperatists");
-            var informalName = new TextObject(plot.Leader.ConvertToHero().Clan.InformalName.ToString());
+            var name = new TextObject(plot.Target.ToKingdom().InformalName + " Seperatists");
+            var informalName = new TextObject(plot.Leader.ToHero().Clan.InformalName.ToString());
 
-            var oldKingdom = plot.Target.ConvertToKingdom();
-            var rebel = KingdomHelper.CreateKingdom(plot.Leader.ConvertToHero(), name, informalName, plot.Leader.ConvertToHero().Clan.Banner, true);
+            var oldKingdom = plot.Target.ToKingdom();
+            var rebel = KingdomHelper.CreateKingdom(plot.Leader.ToHero(), name, informalName, plot.Leader.ToHero().Clan.Banner, true);
 
-            foreach (var member in plot.Members.Where(member => member.ConvertToHero().Clan.Kingdom != rebel))
+            foreach (var member in plot.Members.Where(member => member.ToHero().Clan.Kingdom != rebel))
             {
-                ChangeKingdomAction.ApplyByJoinToKingdom(member.ConvertToHero().Clan, rebel);
+                ChangeKingdomAction.ApplyByJoinToKingdom(member.ToHero().Clan, rebel);
             }
 
             DeclareWarAction.Apply(rebel, oldKingdom);
@@ -99,14 +99,14 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 
             InformationManager.AddNotice(new WarMapNotification(rebel, oldKingdom, new TextObject($"Civil War breaks out in {oldKingdom.Name}")));
 
-            Debug.AddEntry("Successful Revolt created: " + rebel.Name);
+            LogHelper.Log("Successful Revolt created: " + rebel.Name);
         }
 
         internal void DailyTick()
         {
             var plot = Goal.Plot;
 
-            var membersToAdd = (from clan in plot.Target.ConvertToKingdom()?.Clans where CheckForEnter(clan, plot) select clan.Leader).Cast<MBObjectBase>().ToList();
+            var membersToAdd = (from clan in plot.Target.ToKingdom()?.Clans where CheckForEnter(clan, plot) select clan.Leader).Cast<MBObjectBase>().ToList();
             plot.MemberIds.AddRange(membersToAdd.Select(m => m.StringId));
 
             var membersToRemove = new List<MBObjectBase>();
@@ -129,9 +129,9 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 
         private static bool CheckForLeave(MBObjectBase member, Plot plot)
         {
-            var memberLeader = member.ConvertToHero();
-            var plotLeader = plot.Leader.ConvertToHero();
-            var plotTarget = plot.Target.ConvertToHero();
+            var memberLeader = member.ToHero();
+            var plotLeader = plot.Leader.ToHero();
+            var plotTarget = plot.Target.ToHero();
 
             return memberLeader.IsClanLeader()
                    && memberLeader.GetRelation(plotTarget) > Settings.PositiveRelationThreshold
@@ -140,8 +140,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 
         private static void CheckForNewLeader(MBObjectBase member, Plot plot)
         {
-            var memberLeader = member.ConvertToHero();
-            var plotLeader = plot.Leader.ConvertToHero();
+            var memberLeader = member.ToHero();
+            var plotLeader = plot.Leader.ToHero();
 
             if (plot.Leader is null)
             {
@@ -178,7 +178,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var parties = 0;
             var clansDone = new List<Clan>();
 
-            foreach (var hero in from hero in plot.Members.ConvertToHeroes().TakeWhile(hero => !clansDone.Contains(hero.Clan)) from party in hero.Clan.WarParties select hero)
+            foreach (var hero in from hero in plot.Members.ToHeroes().TakeWhile(hero => !clansDone.Contains(hero.Clan)) from party in hero.Clan.WarParties select hero)
             {
                 parties += 1;
                 clansDone.Add(hero.Clan);
@@ -192,7 +192,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var totalStrength = 0f;
             var clansDone = new List<Clan>();
 
-            foreach (var hero in plot.Members.ConvertToHeroes())
+            foreach (var hero in plot.Members.ToHeroes())
             {
                 if (clansDone.Contains(hero.Clan))
                 {

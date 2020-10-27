@@ -20,7 +20,7 @@ namespace BSI.CloakDagger
             }
             catch (Exception exception)
             {
-                Debug.AddExceptionLog("OnSubModuleLoad", exception);
+                LogHelper.LogException("OnSubModuleLoad", exception);
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
             }
         }
@@ -42,7 +42,7 @@ namespace BSI.CloakDagger
             }
             catch (Exception exception)
             {
-                Debug.AddExceptionLog("OnGameStart", exception);
+                LogHelper.LogException("OnGameStart", exception);
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
             }
         }
@@ -63,7 +63,7 @@ namespace BSI.CloakDagger
             }
             catch (Exception exception)
             {
-                Debug.AddExceptionLog("OnGameInitializationFinished", exception);
+                LogHelper.LogException("OnGameInitializationFinished", exception);
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
             }
         }

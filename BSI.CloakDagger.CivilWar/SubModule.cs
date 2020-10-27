@@ -35,7 +35,7 @@ namespace BSI.CloakDagger.CivilWar
             }
             catch (Exception exception)
             {
-                Debug.AddExceptionLog("OnGameStart", exception);
+                LogHelper.LogException("OnGameStart", exception);
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Civil War", ColorHelper.Colors.Red));
             }
         }
@@ -55,7 +55,7 @@ namespace BSI.CloakDagger.CivilWar
             }
             catch (Exception exception)
             {
-                Debug.AddExceptionLog("OnGameInitializationFinished", exception);
+                LogHelper.LogException("OnGameInitializationFinished", exception);
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger: Civil War", ColorHelper.Colors.Red));
             }
         }
