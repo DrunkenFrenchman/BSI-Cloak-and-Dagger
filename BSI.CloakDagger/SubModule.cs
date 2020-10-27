@@ -4,11 +4,27 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using BSI.CloakDagger.Managers;
+using HarmonyLib;
 
 namespace BSI.CloakDagger
 {
     public class SubModule : MBSubModuleBase
     {
+        protected override void OnSubModuleLoad()
+        {
+            base.OnSubModuleLoad();
+
+            try
+            {
+                new Harmony(GetType().Namespace).PatchAll(GetType().Assembly);
+            }
+            catch (Exception exception)
+            {
+                Debug.AddExceptionLog("OnSubModuleLoad", exception);
+                InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
+            }
+        }
+
         protected override void OnGameStart(Game game, IGameStarter gameStarter)
         {
             base.OnGameStart(game, gameStarter);
