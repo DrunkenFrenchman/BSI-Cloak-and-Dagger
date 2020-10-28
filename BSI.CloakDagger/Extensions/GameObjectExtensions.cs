@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BSI.CloakDagger.Enumerations;
-using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;

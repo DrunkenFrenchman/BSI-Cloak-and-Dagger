@@ -7,40 +7,6 @@ namespace BSI.CloakDagger.Managers
 {
     public class PlotManager
     {
-        #region Thread-Safe Singleton
-
-        private static volatile PlotManager _instance;
-        private static readonly object SyncRoot = new object();
-
-        private PlotManager()
-        {
-            Plots = new List<GamePlot>();
-            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
-        }
-
-        public static PlotManager Instance
-        {
-            get
-            {
-                if (_instance != null)
-                {
-                    return _instance;
-                }
-
-                lock (SyncRoot)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new PlotManager();
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        #endregion
-
         internal List<GamePlot> Plots { get; set; }
 
         public ILookup<GameObject, Plot> GamePlots { get; }
@@ -92,5 +58,39 @@ namespace BSI.CloakDagger.Managers
         {
             return GamePlots.SelectMany(p => p).Where(p => p.TriggerType == triggerType).ToList();
         }
+
+        #region Thread-Safe Singleton
+
+        private static volatile PlotManager _instance;
+        private static readonly object SyncRoot = new object();
+
+        private PlotManager()
+        {
+            Plots = new List<GamePlot>();
+            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
+        }
+
+        public static PlotManager Instance
+        {
+            get
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new PlotManager();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        #endregion
     }
 }

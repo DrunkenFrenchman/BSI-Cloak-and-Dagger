@@ -106,16 +106,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
         {
             var plot = Goal.Plot;
 
-            var membersToAdd = plot.Target.ToKingdom()
-                                   .Clans.Where(c => CheckForEnter(c, plot))
-                                   .Select(clan => new GameObject
-                                   {
-                                       GameObjectType = GameObjectType.Clan,
-                                       StringId = clan.StringId
-                                   })
-                                   .ToList();
-
-            plot.Members.AddRange(membersToAdd);
+            plot.Members.AddRange(plot.Target.ToKingdom().Clans.Where(c => CheckForEnter(c, plot)).Select(clan => clan.ToGameObject()));
 
             var membersToRemove = new List<GameObject>();
             foreach (var plotter in plot.Members)
@@ -141,9 +132,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var plotLeader = plot.Leader.ToHero();
             var plotTarget = plot.Target.ToHero();
 
-            return memberLeader.IsClanLeader()
-                   && memberLeader.GetRelation(plotTarget) > Settings.PositiveRelationThreshold
-                   && memberLeader.GetRelation(plotTarget) > memberLeader.GetRelation(plotLeader);
+            return memberLeader.IsClanLeader() && memberLeader.GetRelation(plotTarget) > Settings.PositiveRelationThreshold && memberLeader.GetRelation(plotTarget) > memberLeader.GetRelation(plotLeader);
         }
 
         private static void CheckForNewLeader(MBObjectBase member, Plot plot)

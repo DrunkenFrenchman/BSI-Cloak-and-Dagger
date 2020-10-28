@@ -56,15 +56,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
             var warForIndependenceGoalDescription = $"Do a civil war for independence against {target.Name}.";
             warForIndependenceGoal.Initialize(warForIndependenceGoalTitle, warForIndependenceGoalDescription, null, civilWarPlot);
 
-            civilWarPlot.Initialize(civilWarPlotTitle, civilWarPlotDescription, new GameObject
-            {
-                GameObjectType = GameObjectType.Kingdom,
-                StringId = target.StringId
-            }, new GameObject
-            {
-                GameObjectType = GameObjectType.Hero,
-                StringId = leader.StringId
-            },members, recruitForWarGoal, warForIndependenceGoal, GetType().Name);
+            civilWarPlot.Initialize(civilWarPlotTitle, civilWarPlotDescription, target.ToGameObject(), leader.ToGameObject(), members, recruitForWarGoal, warForIndependenceGoal, GetType().Name);
 
             return civilWarPlot;
         }

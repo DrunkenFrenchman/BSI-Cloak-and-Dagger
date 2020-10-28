@@ -36,7 +36,7 @@ namespace BSI.CloakDagger
 
             try
             {
-                ((CampaignGameStarter)gameStarter).AddBehavior(GameManager.Instance);
+                ((CampaignGameStarter) gameStarter).AddBehavior(GameManager.Instance);
             }
             catch (Exception exception)
             {

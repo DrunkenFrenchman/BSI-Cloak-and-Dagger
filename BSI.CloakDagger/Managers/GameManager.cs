@@ -9,41 +9,6 @@ namespace BSI.CloakDagger.Managers
 {
     public class GameManager : CampaignBehaviorBase
     {
-        #region Thread-Safe Singleton
-
-        private static volatile GameManager _instance;
-        private static readonly object SyncRoot = new object();
-
-        private GameManager()
-        {
-            Triggers = new List<Trigger>();
-            GameObjects = new List<GameObject>();
-            PlotManager = PlotManager.Instance;
-        }
-
-        public static GameManager Instance
-        {
-            get
-            {
-                if (_instance != null)
-                {
-                    return _instance;
-                }
-
-                lock (SyncRoot)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new GameManager();
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        #endregion
-
         private bool _isFirstDailyTick = true;
 
         public List<Trigger> Triggers { get; internal set; }
@@ -59,7 +24,11 @@ namespace BSI.CloakDagger.Managers
 
             CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, kingdom =>
             {
-                GameObjects.Add(new GameObject { GameObjectType = GameObjectType.Kingdom, StringId = kingdom.StringId });
+                GameObjects.Add(new GameObject
+                {
+                    GameObjectType = GameObjectType.Kingdom,
+                    StringId = kingdom.StringId
+                });
             });
 
             CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, kingdom =>
@@ -160,29 +129,80 @@ namespace BSI.CloakDagger.Managers
 
         private void LoadGameObjects()
         {
-            var kingdoms = Campaign.Current.Kingdoms.Select(k => new GameObject { GameObjectType = GameObjectType.Kingdom, StringId = k.StringId });
+            var kingdoms = Campaign.Current.Kingdoms.Select(k => new GameObject
+            {
+                GameObjectType = GameObjectType.Kingdom,
+                StringId = k.StringId
+            });
             foreach (var kingdom in kingdoms.Except(Instance.GameObjects))
             {
                 Instance.GameObjects.Add(kingdom);
             }
 
-            var clans = Campaign.Current.Clans.Select(c => new GameObject { GameObjectType = GameObjectType.Clan, StringId = c.StringId });
+            var clans = Campaign.Current.Clans.Select(c => new GameObject
+            {
+                GameObjectType = GameObjectType.Clan,
+                StringId = c.StringId
+            });
             foreach (var clan in clans.Except(Instance.GameObjects))
             {
                 Instance.GameObjects.Add(clan);
             }
 
-            var heroes = Campaign.Current.Heroes.Select(h => new GameObject { GameObjectType = GameObjectType.Hero, StringId = h.StringId });
+            var heroes = Campaign.Current.Heroes.Select(h => new GameObject
+            {
+                GameObjectType = GameObjectType.Hero,
+                StringId = h.StringId
+            });
             foreach (var hero in heroes.Except(Instance.GameObjects))
             {
                 Instance.GameObjects.Add(hero);
             }
 
-            var characters = Campaign.Current.Characters.Select(c => new GameObject { GameObjectType = GameObjectType.Character, StringId = c.StringId });
+            var characters = Campaign.Current.Characters.Select(c => new GameObject
+            {
+                GameObjectType = GameObjectType.Character,
+                StringId = c.StringId
+            });
             foreach (var character in characters.Except(Instance.GameObjects))
             {
                 Instance.GameObjects.Add(character);
             }
         }
+
+        #region Thread-Safe Singleton
+
+        private static volatile GameManager _instance;
+        private static readonly object SyncRoot = new object();
+
+        private GameManager()
+        {
+            Triggers = new List<Trigger>();
+            GameObjects = new List<GameObject>();
+            PlotManager = PlotManager.Instance;
+        }
+
+        public static GameManager Instance
+        {
+            get
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new GameManager();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        #endregion
     }
 }

@@ -9,39 +9,6 @@ namespace BSI.CloakDagger.Managers
 {
     internal class SaveFileManager
     {
-        #region Thread-Safe Singleton
-
-        private static volatile SaveFileManager _instance;
-        private static readonly object SyncRoot = new object();
-
-        private SaveFileManager()
-        {
-
-        }
-
-        public static SaveFileManager Instance
-        {
-            get
-            {
-                if (_instance != null)
-                {
-                    return _instance;
-                }
-
-                lock (SyncRoot)
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new SaveFileManager();
-                    }
-                }
-
-                return _instance;
-            }
-        }
-
-        #endregion
-
         public string ActiveSaveSlotName { get; internal set; }
 
         public string SavePath => Path.Combine(SaveFolderPath, SaveFileName);
@@ -80,5 +47,37 @@ namespace BSI.CloakDagger.Managers
                 plot.EndGoal.Initialize(endGoal.Title, endGoal.Description, endGoal.NextGoal, plot);
             }
         }
+
+        #region Thread-Safe Singleton
+
+        private static volatile SaveFileManager _instance;
+        private static readonly object SyncRoot = new object();
+
+        private SaveFileManager()
+        {
+        }
+
+        public static SaveFileManager Instance
+        {
+            get
+            {
+                if (_instance != null)
+                {
+                    return _instance;
+                }
+
+                lock (SyncRoot)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new SaveFileManager();
+                    }
+                }
+
+                return _instance;
+            }
+        }
+
+        #endregion
     }
 }
