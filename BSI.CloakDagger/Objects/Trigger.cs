@@ -7,7 +7,9 @@ namespace BSI.CloakDagger.Objects
     {
         public string Id { get; set; }
 
-        public GameObjectType UniqueTo { get; set; }
+        public GameObjectType UniqueToType { get; set; }
+
+        public GameObjectType InitiatorType { get; set; }
 
         public int AllowedInstances { get; set; }
 
@@ -15,10 +17,11 @@ namespace BSI.CloakDagger.Objects
 
         public abstract Plot DoStart(GameObject gameObject);
 
-        public virtual void Initialize(GameObjectType uniqueTo, int allowedInstances)
+        public virtual void Initialize(GameObjectType uniqueToType, GameObjectType initiatorType, int allowedInstances)
         {
             Id = Guid.NewGuid().ToString();
-            UniqueTo = uniqueTo;
+            UniqueToType = uniqueToType;
+            InitiatorType = initiatorType;
             AllowedInstances = allowedInstances;
         }
     }

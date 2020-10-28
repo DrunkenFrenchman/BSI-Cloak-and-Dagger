@@ -16,6 +16,15 @@ namespace BSI.CloakDagger.Managers
             Plots.Add(gamePlot);
         }
 
+        public void Add(Plot plot)
+        {
+            Plots.Add(new GamePlot
+            {
+                GameObject = plot.Target,
+                Plot = plot
+            });
+        }
+
         public void Add(GameObject gameObject, Plot plot)
         {
             Add(new GamePlot

@@ -71,35 +71,20 @@ namespace BSI.CloakDagger.Managers
                 _isFirstDailyTick = false;
             }
 
-            var relevantGameObjects = new List<GameObject>();
-
             foreach (var trigger in Triggers)
             {
-                foreach (var gameObject in GameObjects)
+                foreach (var gameObject in GameObjects.Where(go => go.GameObjectType == trigger.InitiatorType))
                 {
-                    var existingPlotsCount = PlotManager.GetPlots(gameObject, nameof(trigger)).Count();
-
-                    if (existingPlotsCount > 0)
-                    {
-                        relevantGameObjects.Add(gameObject);
-                    }
-
-                    if (existingPlotsCount == trigger.AllowedInstances)
+                    if (!trigger.CanStart(gameObject))
                     {
                         continue;
                     }
 
-                    if (relevantGameObjects.Contains(gameObject) || !trigger.CanStart(gameObject))
-                    {
-                        continue;
-                    }
-
-                    PlotManager.Add(gameObject, trigger.DoStart(gameObject));
-                    relevantGameObjects.Add(gameObject);
+                    PlotManager.Add(trigger.DoStart(gameObject));
                 }
             }
 
-            foreach (var plot in relevantGameObjects.SelectMany(gameObject => PlotManager.GamePlots[gameObject]))
+            foreach (var plot in PlotManager.GetPlots())
             {
                 if (plot.CanAbort())
                 {

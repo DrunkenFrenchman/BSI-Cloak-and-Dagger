@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar;
 using BSI.CloakDagger.CivilWar.CivilWar.Goals.WarForIndependence;
 using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
+using BSI.CloakDagger.Managers;
 using BSI.CloakDagger.Objects;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar
@@ -15,22 +17,20 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
 
         public override bool CanStart(GameObject gameObject)
         {
-            if (gameObject.GameObjectType != GameObjectType.Hero)
-            {
-                return false;
-            }
-
             var hero = gameObject.ToHero();
-
             if (hero.Clan?.Kingdom == null || hero.Clan.Kingdom.Leader == hero || !hero.IsClanLeader() || hero.GetRelation(hero.Clan.Kingdom.Leader) > Settings.NegativeRelationThreshold || hero.Clan.IsMinorFaction)
             {
                 return false;
             }
 
-            var tick = new Random().Next(100);
+            if (GameManager.Instance.PlotManager.GetPlots(nameof(CivilWarTrigger)).FirstOrDefault(p => p.Leader == gameObject || p.Members.Contains(gameObject)) != null)
+            {
+                return false;
+            }
+
             var honorScore = -(hero.GetCharacterTraitLevel(CharacterTrait.Honor) + hero.Clan.Kingdom.Leader.GetCharacterTraitLevel(CharacterTrait.Honor));
             var plottingChance = 10 * Math.Pow(2f, honorScore);
-            return plottingChance > tick;
+            return plottingChance > new Random().Next(100);
         }
 
         public override Plot DoStart(GameObject gameObject)
