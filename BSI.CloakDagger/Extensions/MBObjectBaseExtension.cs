@@ -132,7 +132,7 @@ namespace BSI.CloakDagger.Extensions
             }
         }
 
-        public static List<GameObject> ToGameObjects(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<GameObject> ToGameObjects(this IEnumerable<MBObjectBase> mbObjects)
         {
             var gameObjects = new List<GameObject>();
 
@@ -161,7 +161,7 @@ namespace BSI.CloakDagger.Extensions
             return gameObjects;
         }
 
-        public static List<CultureObject> ToCultures(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<CultureObject> ToCultures(this IEnumerable<MBObjectBase> mbObjects)
         {
             var cultures = new List<CultureObject>();
 
@@ -190,7 +190,7 @@ namespace BSI.CloakDagger.Extensions
             return cultures;
         }
 
-        public static List<Kingdom> ToKingdoms(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<Kingdom> ToKingdoms(this IEnumerable<MBObjectBase> mbObjects)
         {
             var kingdoms = new List<Kingdom>();
 
@@ -216,7 +216,7 @@ namespace BSI.CloakDagger.Extensions
             return kingdoms;
         }
 
-        public static List<Clan> ToClans(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<Clan> ToClans(this IEnumerable<MBObjectBase> mbObjects)
         {
             var clans = new List<Clan>();
 
@@ -242,7 +242,7 @@ namespace BSI.CloakDagger.Extensions
             return clans;
         }
 
-        public static List<Hero> ToHeroes(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<Hero> ToHeroes(this IEnumerable<MBObjectBase> mbObjects)
         {
             var heroes = new List<Hero>();
 
@@ -268,7 +268,7 @@ namespace BSI.CloakDagger.Extensions
             return heroes;
         }
 
-        public static List<CharacterObject> ToCharacters(this List<MBObjectBase> mbObjects)
+        public static IEnumerable<CharacterObject> ToCharacters(this IEnumerable<MBObjectBase> mbObjects)
         {
             var characters = new List<CharacterObject>();
 

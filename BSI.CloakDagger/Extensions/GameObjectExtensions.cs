@@ -52,7 +52,7 @@ namespace BSI.CloakDagger.Extensions
             return gameObject.ToMbObject().ToCharacter();
         }
 
-        public static List<MBObjectBase> ToMbObjects(this List<GameObject> gameObjects)
+        public static IEnumerable<MBObjectBase> ToMbObjects(this IEnumerable<GameObject> gameObjects)
         {
             var baseGameObjects = new List<MBObjectBase>();
 
@@ -81,27 +81,27 @@ namespace BSI.CloakDagger.Extensions
             return baseGameObjects;
         }
 
-        public static List<CultureObject> ToCultures(this List<GameObject> gameObjects)
+        public static IEnumerable<CultureObject> ToCultures(this IEnumerable<GameObject> gameObjects)
         {
             return gameObjects.ToMbObjects().ToCultures();
         }
 
-        public static List<Kingdom> ToKingdoms(this List<GameObject> gameObjects)
+        public static IEnumerable<Kingdom> ToKingdoms(this IEnumerable<GameObject> gameObjects)
         {
             return gameObjects.ToMbObjects().ToKingdoms();
         }
 
-        public static List<Clan> ToClans(this List<GameObject> gameObjects)
+        public static IEnumerable<Clan> ToClans(this IEnumerable<GameObject> gameObjects)
         {
             return gameObjects.ToMbObjects().ToClans();
         }
 
-        public static List<Hero> ToHeroes(this List<GameObject> gameObjects)
+        public static IEnumerable<Hero> ToHeroes(this IEnumerable<GameObject> gameObjects)
         {
             return gameObjects.ToMbObjects().ToHeroes();
         }
 
-        public static List<CharacterObject> ToCharacters(this List<GameObject> gameObjects)
+        public static IEnumerable<CharacterObject> ToCharacters(this IEnumerable<GameObject> gameObjects)
         {
             return gameObjects.ToMbObjects().ToCharacters();
         }

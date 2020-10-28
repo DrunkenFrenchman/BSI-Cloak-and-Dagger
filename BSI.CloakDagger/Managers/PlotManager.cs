@@ -49,14 +49,24 @@ namespace BSI.CloakDagger.Managers
             return Plots.RemoveAll(p => p.Plot == plot);
         }
 
-        public List<Plot> GetPlots()
+        public IEnumerable<Plot> GetPlots()
         {
             return GamePlots.SelectMany(p => p).ToList();
         }
 
-        public List<Plot> GetPlots(string triggerType)
+        public IEnumerable<Plot> GetPlots(GameObject gameObject)
         {
-            return GamePlots.SelectMany(p => p).Where(p => p.TriggerType == triggerType).ToList();
+            return GamePlots[gameObject];
+        }
+
+        public IEnumerable<Plot> GetPlots(string triggerType)
+        {
+            return GamePlots.SelectMany(p => p).Where(p => p.TriggerType == triggerType);
+        }
+
+        public IEnumerable<Plot> GetPlots(GameObject gameObject, string triggerType)
+        {
+            return GamePlots[gameObject].Where(p => p.TriggerType == triggerType);
         }
 
         #region Thread-Safe Singleton
