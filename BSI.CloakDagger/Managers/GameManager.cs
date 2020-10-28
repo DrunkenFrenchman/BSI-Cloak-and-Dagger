@@ -4,14 +4,13 @@ using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Objects.Comparer;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.CloakDagger.Managers
 {
     public class GameManager : CampaignBehaviorBase
     {
-        private bool _isFirstDailyTick = true;
-
         public List<Trigger> Triggers { get; internal set; }
 
         public List<GameObject> GameObjects { get; internal set; }
@@ -60,17 +59,14 @@ namespace BSI.CloakDagger.Managers
 
         private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
         {
-            LoadGameObjects();
+            GameObjects.AddRange(Campaign.Current.Kingdoms.Where(k => !k.IsEliminated).ToGameObjects());
+            GameObjects.AddRange(Campaign.Current.Clans.Where(c => !c.IsEliminated).ToGameObjects());
+            GameObjects.AddRange(Campaign.Current.Heroes.Where(h => h.IsActive && h.IsAlive).ToGameObjects());
+            GameObjects.AddRange(Campaign.Current.Characters.Where(c => !c.IsTemplate && !c.IsChildTemplate).ToGameObjects());
         }
 
         private void OnDailyTick()
         {
-            if (_isFirstDailyTick)
-            {
-                LoadGameObjects();
-                _isFirstDailyTick = false;
-            }
-
             foreach (var trigger in Triggers)
             {
                 foreach (var gameObject in GameObjects.Where(go => go.GameObjectType == trigger.InitiatorType))
@@ -111,14 +107,6 @@ namespace BSI.CloakDagger.Managers
                     }
                 }
             }
-        }
-
-        private void LoadGameObjects()
-        {
-            GameObjects.AddRange(Campaign.Current.Kingdoms.ToGameObjects().Except(GameObjects));
-            GameObjects.AddRange(Campaign.Current.Clans.ToGameObjects().Except(GameObjects));
-            GameObjects.AddRange(Campaign.Current.Heroes.ToGameObjects().Except(GameObjects));
-            GameObjects.AddRange(Campaign.Current.Characters.ToGameObjects().Except(GameObjects));
         }
 
         #region Thread-Safe Singleton

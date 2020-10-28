@@ -28,11 +28,11 @@ namespace BSI.CloakDagger.Patches
         [HarmonyPatch(typeof(MBSaveLoad), "LoadSaveGameData")]
         internal static class LoadSaveGameData
         {
-            internal static void Postfix()
+            internal static void Postfix(string saveName)
             {
                 try
                 {
-                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
+                    SaveFileManager.Instance.ActiveSaveSlotName = saveName;
                 }
                 catch (Exception exception)
                 {
@@ -49,8 +49,8 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName")?.GetValue(null)?.ToString();
-                    SaveFileManager.Instance.SaveData();
+                    SaveFileManager.Instance.ActiveSaveSlotName = $"{AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null)}";
+                    SaveFileManager.Instance.Save();
                 }
                 catch (Exception exception)
                 {
@@ -67,8 +67,8 @@ namespace BSI.CloakDagger.Patches
             {
                 try
                 {
-                    SaveFileManager.Instance.ActiveSaveSlotName = AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null).ToString();
-                    SaveFileManager.Instance.SaveData();
+                    SaveFileManager.Instance.ActiveSaveSlotName = $"{AccessTools.Field(typeof(MBSaveLoad), "ActiveSaveSlotName").GetValue(null)}";
+                    SaveFileManager.Instance.Save();
                 }
                 catch (Exception exception)
                 {
@@ -86,11 +86,29 @@ namespace BSI.CloakDagger.Patches
                 try
                 {
                     SaveFileManager.Instance.ActiveSaveSlotName = $"{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveNamePrefix").GetValue(null)}{AccessTools.Field(typeof(MBSaveLoad), "AutoSaveIndex").GetValue(null)}";
-                    SaveFileManager.Instance.SaveData();
+                    SaveFileManager.Instance.Save();
                 }
                 catch (Exception exception)
                 {
                     LogHelper.LogException("AutoSaveCurrentGame", exception);
+                    InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(MBSaveLoad), "DeleteSaveGame")]
+        internal static class DeleteSaveGame
+        {
+            internal static void Postfix(string saveName)
+            {
+                try
+                {
+                    SaveFileManager.Instance.ActiveSaveSlotName = saveName;
+                    SaveFileManager.Instance.Delete();
+                }
+                catch (Exception exception)
+                {
+                    LogHelper.LogException("LoadSaveGameData", exception);
                     InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Red));
                 }
             }

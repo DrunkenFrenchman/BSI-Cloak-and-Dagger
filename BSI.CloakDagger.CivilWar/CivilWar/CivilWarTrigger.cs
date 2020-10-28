@@ -42,23 +42,23 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
                 gameObject
             };
 
-            var civilWarPlot = new CivilWarPlot();
-            var civilWarPlotTitle = "Civil War";
-            var civilWarPlotDescription = $"This plot aims to reach independence from {target.Name} through Civil War.";
+            var plot = new CivilWarPlot();
+            var plotTitle = "Civil War";
+            var plotDescription = $"This plot aims to reach independence from {target.Name} through Civil War.";
 
             var recruitForWarGoal = new RecruitForWarGoal();
             var recruitForWarGoalTitle = "Recruit for war";
             var recruitForWarGoalDescription = $"Recruit plot members for war against {target.Name}.";
-            recruitForWarGoal.Initialize(recruitForWarGoalTitle, recruitForWarGoalDescription, null, civilWarPlot);
+            recruitForWarGoal.Initialize(recruitForWarGoalTitle, recruitForWarGoalDescription, null, plot);
 
             var warForIndependenceGoal = new WarForIndependenceGoal();
             var warForIndependenceGoalTitle = "War for independence";
             var warForIndependenceGoalDescription = $"Do a civil war for independence against {target.Name}.";
-            warForIndependenceGoal.Initialize(warForIndependenceGoalTitle, warForIndependenceGoalDescription, null, civilWarPlot);
+            warForIndependenceGoal.Initialize(warForIndependenceGoalTitle, warForIndependenceGoalDescription, null, plot);
 
-            civilWarPlot.Initialize(civilWarPlotTitle, civilWarPlotDescription, target.ToGameObject(), leader.ToGameObject(), members, recruitForWarGoal, warForIndependenceGoal, GetType().Name);
+            plot.Initialize(plotTitle, plotDescription, target.ToGameObject(), leader.ToGameObject(), members, recruitForWarGoal, warForIndependenceGoal, nameof(CivilWarTrigger));
 
-            return civilWarPlot;
+            return plot;
         }
     }
 }

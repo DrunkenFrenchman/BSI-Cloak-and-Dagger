@@ -12,8 +12,9 @@ namespace BSI.CloakDagger.Helpers
     {
         private static readonly CloakDaggerSettings Settings = CloakDaggerSettings.Instance;
 
-        private static readonly string FolderPath = Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Logs");
-        private static readonly string FileName = $"{(string.IsNullOrEmpty(SaveFileManager.Instance.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.Instance.ActiveSaveSlotName)}.log";
+        internal static string FilePath => Path.Combine(FolderPath, FileName);
+        internal static readonly string FolderPath = Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Logs");
+        internal static readonly string FileName = $"{(string.IsNullOrEmpty(SaveFileManager.Instance.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.Instance.ActiveSaveSlotName)}.log";
 
         public static void Log(string message)
         {
@@ -29,7 +30,7 @@ namespace BSI.CloakDagger.Helpers
                     Initialize();
                 }
 
-                File.AppendAllText(Path.Combine(FolderPath, FileName), $"{DateTime.Now} | {message}{Environment.NewLine}");
+                File.AppendAllText(FilePath, $"{DateTime.Now} | {message}{Environment.NewLine}");
             }
             catch (Exception exception)
             {

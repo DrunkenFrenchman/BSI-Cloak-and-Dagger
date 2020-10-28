@@ -6,12 +6,12 @@ using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Objects.Comparer;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
 {
@@ -111,14 +111,16 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var membersToRemove = new List<GameObject>();
             foreach (var plotter in plot.Members)
             {
-                CheckForNewLeader(plotter.ToClan(), plot);
-                if (CheckForLeave(plotter.ToClan(), plot))
+                var clanLeader = plotter.ToClan().Leader;
+
+                CheckForNewLeader(clanLeader, plot);
+                if (CheckForLeave(clanLeader, plot))
                 {
                     membersToRemove.Add(plotter);
                 }
             }
 
-            plot.Members = plot.Members.Except(membersToRemove).ToList();
+            plot.Members = plot.Members.Except(membersToRemove, new GameObjectComparer()).ToList();
         }
 
         private static bool CheckForEnter(Clan clan, Plot plot)
@@ -126,18 +128,16 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             return !plot.Members.ToClans().Contains(clan) && CanPlot(clan, plot) && WantPlot(clan, plot);
         }
 
-        private static bool CheckForLeave(MBObjectBase member, Plot plot)
+        private static bool CheckForLeave(Hero member, Plot plot)
         {
-            var memberLeader = member.ToHero();
             var plotLeader = plot.Leader.ToHero();
             var plotTarget = plot.Target.ToHero();
 
-            return memberLeader.IsClanLeader() && memberLeader.GetRelation(plotTarget) > Settings.PositiveRelationThreshold && memberLeader.GetRelation(plotTarget) > memberLeader.GetRelation(plotLeader);
+            return member.IsClanLeader() && member.GetRelation(plotTarget) > Settings.PositiveRelationThreshold && member.GetRelation(plotTarget) > member.GetRelation(plotLeader);
         }
 
-        private static void CheckForNewLeader(MBObjectBase member, Plot plot)
+        private static void CheckForNewLeader(Hero member, Plot plot)
         {
-            var memberLeader = member.ToHero();
             var plotLeader = plot.Leader.ToHero();
 
             if (!plot.Members.Contains(plot.Leader))
@@ -146,7 +146,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
                 return;
             }
 
-            if (memberLeader.Clan.Tier < plotLeader.Clan.Tier || memberLeader.GetPlottingFriends(plot).Count <= plotLeader.GetPlottingFriends(plot).Count)
+            if (member.Clan.Tier < plotLeader.Clan.Tier || member.GetPlottingFriends(plot).Count <= plotLeader.GetPlottingFriends(plot).Count)
             {
                 return;
             }
@@ -157,7 +157,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
         private static bool CanPlot(Clan clan, Plot plot)
         {
             var hero = clan.Leader;
-            return hero.Clan.Kingdom.Leader != hero && hero.GetRelation(hero.Clan.Kingdom.Leader) < Settings.NegativeRelationThreshold && !hero.Clan.IsMinorFaction;
+            var kingdomLeader = plot.Target.ToHero();
+            return kingdomLeader != hero && hero.GetRelation(kingdomLeader) < Settings.NegativeRelationThreshold && !clan.IsMinorFaction;
         }
 
         private static bool WantPlot(Clan clan, Plot plot)
@@ -165,7 +166,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar.Goals.RecruitForWar
             var hero = clan.Leader;
             var plottingFriends = hero.GetPlottingFriends(plot);
 
-            var honorScore = -(hero.GetCharacterTraitLevel(CharacterTrait.Honor) + hero.Clan.Kingdom.Leader.GetCharacterTraitLevel(CharacterTrait.Honor));
+            var honorScore = -(hero.GetCharacterTraitLevel(CharacterTrait.Honor) + clan.Kingdom.Leader.GetCharacterTraitLevel(CharacterTrait.Honor));
 
             return Settings.BasePlotChance * Math.Pow(Settings.PlotPersonalityMult, honorScore) * Math.Pow(Settings.PlotFriendMult, plottingFriends.Count) > new Random().Next(100);
         }

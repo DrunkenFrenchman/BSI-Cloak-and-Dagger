@@ -9,23 +9,25 @@ namespace BSI.CloakDagger.Managers
     {
         internal List<GamePlot> Plots { get; set; }
 
-        public ILookup<GameObject, Plot> GamePlots { get; }
+        internal ILookup<GameObject, Plot> GamePlots { get; private set; }
 
-        public void Add(GamePlot gamePlot)
+        internal void Add(GamePlot gamePlot)
         {
             Plots.Add(gamePlot);
         }
 
-        public void Add(Plot plot)
+        internal void Add(Plot plot)
         {
             Plots.Add(new GamePlot
             {
                 GameObject = plot.Target,
                 Plot = plot
             });
+
+            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
         }
 
-        public void Add(GameObject gameObject, Plot plot)
+        internal void Add(GameObject gameObject, Plot plot)
         {
             Add(new GamePlot
             {
@@ -34,7 +36,7 @@ namespace BSI.CloakDagger.Managers
             });
         }
 
-        public void Add(GameObjectType gameObjectType, string stringId, Plot plot)
+        internal void Add(GameObjectType gameObjectType, string stringId, Plot plot)
         {
             Add(new GameObject
             {
@@ -43,24 +45,33 @@ namespace BSI.CloakDagger.Managers
             }, plot);
         }
 
-        public bool Remove(GamePlot gamePlot)
+        internal bool Remove(GamePlot gamePlot)
         {
-            return Plots.Remove(gamePlot);
+            var result = Plots.Remove(gamePlot);
+            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
+
+            return result;
         }
 
-        public int Remove(GameObject gameObject)
+        internal int Remove(GameObject gameObject)
         {
-            return Plots.RemoveAll(p => p.GameObject == gameObject);
+            var result = Plots.RemoveAll(p => p.GameObject == gameObject);
+            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
+
+            return result;
         }
 
-        public int Remove(Plot plot)
+        internal int Remove(Plot plot)
         {
-            return Plots.RemoveAll(p => p.Plot == plot);
+            var result = Plots.RemoveAll(p => p.Plot == plot);
+            GamePlots = Plots.ToLookup(p => p.GameObject, p => p.Plot);
+
+            return result;
         }
 
         public IEnumerable<Plot> GetPlots()
         {
-            return GamePlots.SelectMany(p => p).ToList();
+            return GamePlots.SelectMany(p => p);
         }
 
         public IEnumerable<Plot> GetPlots(GameObject gameObject)

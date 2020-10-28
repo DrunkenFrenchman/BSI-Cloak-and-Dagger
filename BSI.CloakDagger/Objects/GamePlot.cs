@@ -1,9 +1,11 @@
-﻿namespace BSI.CloakDagger.Objects
-{
-    public class GamePlot
-    {
-        public GameObject GameObject { get; set; }
+﻿using Newtonsoft.Json;
 
-        public Plot Plot { get; set; }
+namespace BSI.CloakDagger.Objects
+{
+    internal class GamePlot
+    {
+        [JsonProperty] internal GameObject GameObject { get; set; }
+
+        [JsonProperty] internal Plot Plot { get; set; }
     }
 }

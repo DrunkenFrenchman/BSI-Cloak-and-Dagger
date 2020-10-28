@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
 using Newtonsoft.Json;
 using TaleWorlds.Engine;
@@ -17,17 +18,17 @@ namespace BSI.CloakDagger.Managers
 
         public string SaveFileName => $"{ActiveSaveSlotName}.json";
 
-        public void SaveData()
+        public void Save()
         {
             Directory.CreateDirectory(SaveFolderPath);
             File.WriteAllText(SavePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager.Plots, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                TypeNameHandling = TypeNameHandling.Auto
             }));
         }
 
-        public void LoadData()
+        public void Load()
         {
             if (!File.Exists(SavePath))
             {
@@ -45,6 +46,19 @@ namespace BSI.CloakDagger.Managers
 
                 var endGoal = plot.EndGoal;
                 plot.EndGoal.Initialize(endGoal.Title, endGoal.Description, endGoal.NextGoal, plot);
+            }
+        }
+
+        public void Delete()
+        {
+            if (File.Exists(SavePath))
+            {
+                File.Delete(SavePath);
+            }
+
+            if (File.Exists(LogHelper.FilePath))
+            {
+                File.Delete(LogHelper.FilePath);
             }
         }
 

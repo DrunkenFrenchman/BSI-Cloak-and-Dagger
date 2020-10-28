@@ -56,7 +56,7 @@ namespace BSI.CloakDagger
 
             try
             {
-                SaveFileManager.Instance.LoadData();
+                SaveFileManager.Instance.Load();
                 InformationManager.DisplayMessage(new InformationMessage("Cloak and Dagger", ColorHelper.Colors.Green));
             }
             catch (Exception exception)
