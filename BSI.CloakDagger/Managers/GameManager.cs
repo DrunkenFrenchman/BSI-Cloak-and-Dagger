@@ -4,7 +4,6 @@ using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Managers
 {
@@ -18,7 +17,8 @@ namespace BSI.CloakDagger.Managers
         private GameManager()
         {
             Triggers = new List<Trigger>();
-            PlotManager = new Dictionary<GameObject, List<Plot>>();
+            GameObjects = new List<GameObject>();
+            PlotManager = PlotManager.Instance;
         }
 
         public static GameManager Instance
@@ -44,25 +44,33 @@ namespace BSI.CloakDagger.Managers
 
         #endregion
 
+        private bool _isFirstDailyTick = true;
+
         public List<Trigger> Triggers { get; internal set; }
 
-        public Dictionary<GameObject, List<Plot>> PlotManager { get; internal set; }
+        public List<GameObject> GameObjects { get; internal set; }
+
+        public PlotManager PlotManager { get; internal set; }
 
         public override void RegisterEvents()
         {
+            CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+
             CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, kingdom =>
             {
-                PlotManager.Add(new GameObject { GameObjectType = GameObjectType.Kingdom, StringId = kingdom.StringId }, new List<Plot>());
+                GameObjects.Add(new GameObject { GameObjectType = GameObjectType.Kingdom, StringId = kingdom.StringId });
             });
+
             CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, kingdom =>
             {
-                PlotManager.Remove(PlotManager.FirstOrDefault(c => c.Key.GameObjectType == GameObjectType.Kingdom && c.Key.StringId == kingdom.StringId).Key);
+                GameObjects.RemoveAll(g => g.GameObjectType == GameObjectType.Kingdom && g.StringId == kingdom.StringId);
                 KingdomHelper.RemoveKingdom(kingdom);
             });
+
             CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, clan =>
             {
-                PlotManager.Remove(PlotManager.FirstOrDefault(c => c.Key.GameObjectType == GameObjectType.Clan && c.Key.StringId == clan.StringId).Key);
+                GameObjects.RemoveAll(g => g.GameObjectType == GameObjectType.Clan && g.StringId == clan.StringId);
             });
         }
 
@@ -80,21 +88,26 @@ namespace BSI.CloakDagger.Managers
             Triggers.Add(trigger);
         }
 
+        private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+        {
+            LoadGameObjects();
+        }
+
         private void OnDailyTick()
         {
-            if (!SaveFileManager.Instance.IsFirstDailyTickDataLoaded)
+            if (_isFirstDailyTick)
             {
-                SaveFileManager.Instance.LoadData();
-                SaveFileManager.Instance.IsFirstDailyTickDataLoaded = true;
+                LoadGameObjects();
+                _isFirstDailyTick = false;
             }
+
+            var relevantGameObjects = new List<GameObject>();
 
             foreach (var trigger in Triggers)
             {
-                var relevantGameObjects = new List<MBObjectBase>();
-
-                foreach (var gameObject in GameObjectHelper.GetMBObjectsByGameObjects(PlotManager.Keys.ToList()))
+                foreach (var gameObject in GameObjects)
                 {
-                    var existingPlotsCount = PlotManager.Where(p => p.Key.StringId == gameObject.StringId).SelectMany(p => p.Value).Count(p => p.TriggerType == trigger.GetType().Name);
+                    var existingPlotsCount = PlotManager.GamePlots[gameObject].Count(p => p.TriggerType == trigger.GetType().Name);
 
                     if (existingPlotsCount > 0)
                     {
@@ -111,48 +124,64 @@ namespace BSI.CloakDagger.Managers
                         continue;
                     }
 
-                    var plot = trigger.DoStart(gameObject);
-                    PlotManager.FirstOrDefault(p => p.Key.StringId == gameObject.StringId).Value.Add(plot);
+                    PlotManager.Add(gameObject, trigger.DoStart(gameObject));
                     relevantGameObjects.Add(gameObject);
                 }
+            }
 
-                foreach (var gameObject in relevantGameObjects)
+            foreach (var plot in relevantGameObjects.SelectMany(gameObject => PlotManager.GamePlots[gameObject]))
+            {
+                if (plot.CanAbort())
                 {
-                    var plotsToRemove = new List<Plot>();
-
-                    foreach (var plot in PlotManager.Where(p => p.Key.StringId == gameObject.StringId).SelectMany(p => p.Value))
+                    plot.DoAbort();
+                    PlotManager.Remove(plot);
+                }
+                else
+                {
+                    var behavior = plot.ActiveGoal.Behavior;
+                    if (!behavior.CanEnd())
                     {
-                        if (plot.CanAbort())
-                        {
-                            plot.DoAbort();
-                            plotsToRemove.Add(plot);
-                        }
-                        else
-                        {
-                            var behavior = plot.ActiveGoal.Behavior;
-                            if (!behavior.CanEnd())
-                            {
-                                continue;
-                            }
-
-                            behavior.DoEnd();
-
-                            if (plot.IsEndGoal())
-                            {
-                                plotsToRemove.Add(plot);
-                            }
-                            else
-                            {
-                                plot.SetNextGoal();
-                            }
-                        }
+                        continue;
                     }
 
-                    foreach (var plot in plotsToRemove)
+                    behavior.DoEnd();
+
+                    if (plot.IsEndGoal())
                     {
-                        PlotManager.FirstOrDefault(c => c.Key.StringId == gameObject.StringId).Value.Remove(plot);
+                        PlotManager.Remove(plot);
+                    }
+                    else
+                    {
+                        plot.SetNextGoal();
                     }
                 }
+            }
+        }
+
+        private void LoadGameObjects()
+        {
+            var kingdoms = Campaign.Current.Kingdoms.Select(k => new GameObject { GameObjectType = GameObjectType.Kingdom, StringId = k.StringId });
+            foreach (var kingdom in kingdoms.Except(Instance.GameObjects))
+            {
+                Instance.GameObjects.Add(kingdom);
+            }
+
+            var clans = Campaign.Current.Clans.Select(c => new GameObject { GameObjectType = GameObjectType.Clan, StringId = c.StringId });
+            foreach (var clan in clans.Except(Instance.GameObjects))
+            {
+                Instance.GameObjects.Add(clan);
+            }
+
+            var heroes = Campaign.Current.Heroes.Select(h => new GameObject { GameObjectType = GameObjectType.Hero, StringId = h.StringId });
+            foreach (var hero in heroes.Except(Instance.GameObjects))
+            {
+                Instance.GameObjects.Add(hero);
+            }
+
+            var characters = Campaign.Current.Characters.Select(c => new GameObject { GameObjectType = GameObjectType.Character, StringId = c.StringId });
+            foreach (var character in characters.Except(Instance.GameObjects))
+            {
+                Instance.GameObjects.Add(character);
             }
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using BSI.CloakDagger.Enumerations;
+using BSI.CloakDagger.Objects;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 
@@ -6,9 +8,65 @@ namespace BSI.CloakDagger.Extensions
 {
     public static class MbObjectBaseExtension
     {
-        public static Kingdom ToKingdom(this MBObjectBase gameObject)
+        public static GameObject ToGameObject(this MBObjectBase mbObject)
         {
-            switch (gameObject)
+            switch (mbObject)
+            {
+                case CultureObject culture:
+                    return new GameObject
+                    {
+                        GameObjectType = GameObjectType.Culture,
+                        StringId = culture.StringId
+                    };
+                case Kingdom kingdom:
+                    return new GameObject
+                    {
+                        GameObjectType = GameObjectType.Kingdom,
+                        StringId = kingdom.StringId
+                    };
+                case Clan clan:
+                    return new GameObject
+                    {
+                        GameObjectType = GameObjectType.Clan,
+                        StringId = clan.StringId
+                    };
+                case Hero hero:
+                    return new GameObject
+                    {
+                        GameObjectType = GameObjectType.Hero,
+                        StringId = hero.StringId
+                    };
+                case CharacterObject character:
+                    return new GameObject
+                    {
+                        GameObjectType = GameObjectType.Character,
+                        StringId = character.StringId
+                    };
+                default:
+                    return null;
+            }
+        }
+
+        public static CultureObject ToCulture(this MBObjectBase mbObject)
+        {
+            switch (mbObject)
+            {
+                case Kingdom kingdom:
+                    return kingdom.Culture;
+                case Clan clan:
+                    return clan.Culture;
+                case Hero hero:
+                    return hero.Culture;
+                case CharacterObject character:
+                    return character.Culture;
+                default:
+                    return null;
+            }
+        }
+
+        public static Kingdom ToKingdom(this MBObjectBase mbObject)
+        {
+            switch (mbObject)
             {
                 case Kingdom kingdom:
                     return kingdom;
@@ -23,9 +81,9 @@ namespace BSI.CloakDagger.Extensions
             }
         }
 
-        public static Clan ToClan(this MBObjectBase gameObject)
+        public static Clan ToClan(this MBObjectBase mbObject)
         {
-            switch (gameObject)
+            switch (mbObject)
             {
                 case Kingdom kingdom:
                     return kingdom.RulingClan;
@@ -40,9 +98,9 @@ namespace BSI.CloakDagger.Extensions
             }
         }
 
-        public static Hero ToHero(this MBObjectBase gameObject)
+        public static Hero ToHero(this MBObjectBase mbObject)
         {
-            switch (gameObject)
+            switch (mbObject)
             {
                 case Kingdom kingdom:
                     return kingdom.Leader;
@@ -57,9 +115,9 @@ namespace BSI.CloakDagger.Extensions
             }
         }
 
-        public static CharacterObject ToCharacter(this MBObjectBase gameObject)
+        public static CharacterObject ToCharacter(this MBObjectBase mbObject)
         {
-            switch (gameObject)
+            switch (mbObject)
             {
                 case Kingdom kingdom:
                     return kingdom.Leader.CharacterObject;
@@ -74,13 +132,71 @@ namespace BSI.CloakDagger.Extensions
             }
         }
 
-        public static List<Kingdom> ToKingdoms(this List<MBObjectBase> gameObjects)
+        public static List<GameObject> ToGameObjects(this List<MBObjectBase> mbObjects)
+        {
+            var gameObjects = new List<GameObject>();
+
+            foreach (var mbObject in mbObjects)
+            {
+                switch (mbObject)
+                {
+                    case CultureObject culture:
+                        gameObjects.Add(culture.ToGameObject());
+                        break;
+                    case Kingdom kingdom:
+                        gameObjects.Add(kingdom.ToGameObject());
+                        break;
+                    case Clan clan:
+                        gameObjects.Add(clan.ToGameObject());
+                        break;
+                    case Hero hero:
+                        gameObjects.Add(hero.ToGameObject());
+                        break;
+                    case CharacterObject character:
+                        gameObjects.Add(character.ToGameObject());
+                        break;
+                }
+            }
+
+            return gameObjects;
+        }
+
+        public static List<CultureObject> ToCultures(this List<MBObjectBase> mbObjects)
+        {
+            var cultures = new List<CultureObject>();
+
+            foreach (var mbObject in mbObjects)
+            {
+                switch (mbObject)
+                {
+                    case CultureObject culture:
+                        cultures.Add(culture.ToCulture());
+                        break;
+                    case Kingdom kingdom:
+                        cultures.Add(kingdom.ToCulture());
+                        break;
+                    case Clan clan:
+                        cultures.Add(clan.ToCulture());
+                        break;
+                    case Hero hero:
+                        cultures.Add(hero.ToCulture());
+                        break;
+                    case CharacterObject character:
+                        cultures.Add(character.ToCulture());
+                        break;
+                }
+            }
+
+            return cultures;
+        }
+
+        public static List<Kingdom> ToKingdoms(this List<MBObjectBase> mbObjects)
         {
             var kingdoms = new List<Kingdom>();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var mbObject in mbObjects)
             {
-                switch (gameObject)
+                switch (mbObject)
                 {
                     case Kingdom kingdom:
                         kingdoms.Add(kingdom.ToKingdom());
@@ -100,13 +216,13 @@ namespace BSI.CloakDagger.Extensions
             return kingdoms;
         }
 
-        public static List<Clan> ToClans(this List<MBObjectBase> gameObjects)
+        public static List<Clan> ToClans(this List<MBObjectBase> mbObjects)
         {
             var clans = new List<Clan>();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var mbObject in mbObjects)
             {
-                switch (gameObject)
+                switch (mbObject)
                 {
                     case Kingdom kingdom:
                         clans.Add(kingdom.ToClan());
@@ -126,13 +242,13 @@ namespace BSI.CloakDagger.Extensions
             return clans;
         }
 
-        public static List<Hero> ToHeroes(this List<MBObjectBase> gameObjects)
+        public static List<Hero> ToHeroes(this List<MBObjectBase> mbObjects)
         {
             var heroes = new List<Hero>();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var mbObject in mbObjects)
             {
-                switch (gameObject)
+                switch (mbObject)
                 {
                     case Kingdom kingdom:
                         heroes.Add(kingdom.ToHero());
@@ -152,13 +268,13 @@ namespace BSI.CloakDagger.Extensions
             return heroes;
         }
 
-        public static List<CharacterObject> ToCharacters(this List<MBObjectBase> gameObjects)
+        public static List<CharacterObject> ToCharacters(this List<MBObjectBase> mbObjects)
         {
             var characters = new List<CharacterObject>();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var mbObject in mbObjects)
             {
-                switch (gameObject)
+                switch (mbObject)
                 {
                     case Kingdom kingdom:
                         characters.Add(kingdom.ToCharacter());

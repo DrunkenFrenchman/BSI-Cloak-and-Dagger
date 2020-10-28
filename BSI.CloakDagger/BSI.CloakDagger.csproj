@@ -172,10 +172,11 @@
   <!-- Mod Files -->
   <ItemGroup>
     <Compile Include="Extensions\GameObjectExtensions.cs" />
-    <Compile Include="Helpers\GameObjectHelper.cs" />
     <Compile Include="Helpers\KingdomHelper.cs" />
+    <Compile Include="Managers\PlotManager.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
     <Compile Include="Objects\GameObject.cs" />
+    <Compile Include="Objects\GamePlot.cs" />
     <Compile Include="Patches\SaveFilePatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Localization\Categories.cs" />

@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Bannerlord.ButterLib.Common.Extensions;
-using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Objects;
 using Newtonsoft.Json;
-using TaleWorlds.CampaignSystem;
 using TaleWorlds.Engine;
 using Path = System.IO.Path;
 
@@ -48,10 +44,6 @@ namespace BSI.CloakDagger.Managers
 
         public string ActiveSaveSlotName { get; internal set; }
 
-        public bool IsSaveDataLoaded { get; private set; }
-
-        public bool IsFirstDailyTickDataLoaded { get; internal set; }
-
         public string SavePath => Path.Combine(SaveFolderPath, SaveFileName);
 
         public string SaveFolderPath => Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Saves");
@@ -61,7 +53,7 @@ namespace BSI.CloakDagger.Managers
         public void SaveData()
         {
             Directory.CreateDirectory(SaveFolderPath);
-            File.WriteAllText(SavePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager,new JsonSerializerSettings
+            File.WriteAllText(SavePath, JsonConvert.SerializeObject(GameManager.Instance.PlotManager.Plots, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -70,41 +62,14 @@ namespace BSI.CloakDagger.Managers
 
         public void LoadData()
         {
-            if (File.Exists(SavePath) && !IsSaveDataLoaded)
+            if (!File.Exists(SavePath))
             {
-                foreach (var (key, value) in JsonConvert.DeserializeObject<Dictionary<GameObject, List<Plot>>>(File.ReadAllText(SavePath)))
-                {
-                    GameManager.Instance.PlotManager.Add(key, value);
-                }
-
-                IsSaveDataLoaded = true;
+                return;
             }
 
-            var kingdoms = Campaign.Current.Kingdoms.Select(k => new GameObject {GameObjectType = GameObjectType.Kingdom, StringId = k.StringId});
-            foreach (var kingdom in kingdoms.Except(GameManager.Instance.PlotManager.Keys))
-            {
-                GameManager.Instance.PlotManager.Add(kingdom, new List<Plot>());
-            }
+            GameManager.Instance.PlotManager.Plots = JsonConvert.DeserializeObject<List<GamePlot>>(File.ReadAllText(SavePath));
 
-            var clans = Campaign.Current.Clans.Select(c => new GameObject { GameObjectType = GameObjectType.Clan, StringId = c.StringId });
-            foreach (var clan in clans.Except(GameManager.Instance.PlotManager.Keys))
-            {
-                GameManager.Instance.PlotManager.Add(clan, new List<Plot>());
-            }
-
-            var heroes = Campaign.Current.Heroes.Select(h => new GameObject { GameObjectType = GameObjectType.Hero, StringId = h.StringId });
-            foreach (var hero in heroes.Except(GameManager.Instance.PlotManager.Keys))
-            {
-                GameManager.Instance.PlotManager.Add(hero, new List<Plot>());
-            }
-
-            var characters = Campaign.Current.Characters.Select(c => new GameObject { GameObjectType = GameObjectType.Character, StringId = c.StringId });
-            foreach (var character in characters.Except(GameManager.Instance.PlotManager.Keys))
-            {
-                GameManager.Instance.PlotManager.Add(character, new List<Plot>());
-            }
-
-            foreach (var plot in GameManager.Instance.PlotManager.SelectMany(p => p.Value))
+            foreach (var plot in GameManager.Instance.PlotManager.GetPlots())
             {
                 plot.Initialize(plot.Title, plot.Description, plot.Target, plot.Leader, plot.Members, plot.ActiveGoal, plot.EndGoal, plot.TriggerType);
 

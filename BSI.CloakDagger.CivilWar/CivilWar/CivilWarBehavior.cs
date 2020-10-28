@@ -19,10 +19,8 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
 
         private void OnDailyTick()
         {
-            foreach (var plot in GameManager.Instance.PlotManager.SelectMany(p => p.Value).Where(p => p.TriggerType.GetType() == typeof(CivilWarTrigger)))
+            foreach (var behavior in GameManager.Instance.PlotManager.GetPlots(nameof(CivilWarTrigger)).Select(plot => plot.ActiveGoal.Behavior))
             {
-                var behavior = plot.ActiveGoal.Behavior;
-
                 switch (behavior)
                 {
                     case RecruitForWarBehavior recruitForWarBehavior:

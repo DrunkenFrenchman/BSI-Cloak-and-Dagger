@@ -6,8 +6,6 @@ using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Objects;
-using TaleWorlds.CampaignSystem;
-using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar
 {
@@ -15,14 +13,14 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
     {
         private static readonly CivilWarSettings Settings = CivilWarSettings.Instance;
 
-        public override bool CanStart(MBObjectBase gameObject)
+        public override bool CanStart(GameObject gameObject)
         {
-            if (!(gameObject is CharacterObject character) || character.HeroObject == null)
+            if (gameObject.GameObjectType != GameObjectType.Hero)
             {
                 return false;
             }
 
-            var hero = character.HeroObject;
+            var hero = gameObject.ToHero();
 
             if (hero.Clan?.Kingdom == null || hero.Clan.Kingdom.Leader == hero || !hero.IsClanLeader() || hero.GetRelation(hero.Clan.Kingdom.Leader) > Settings.NegativeRelationThreshold || hero.Clan.IsMinorFaction)
             {
@@ -35,17 +33,13 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
             return plottingChance > tick;
         }
 
-        public override Plot DoStart(MBObjectBase gameObject)
+        public override Plot DoStart(GameObject gameObject)
         {
             var target = gameObject.ToKingdom();
             var leader = gameObject.ToHero();
             var members = new List<GameObject>
             {
-                new GameObject
-                {
-                    GameObjectType = GameObjectType.Clan,
-                    StringId = leader.StringId
-                }
+                gameObject
             };
 
             var civilWarPlot = new CivilWarPlot();
