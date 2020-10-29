@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Models;
 using Newtonsoft.Json;
 using TaleWorlds.Engine;
 using Path = System.IO.Path;

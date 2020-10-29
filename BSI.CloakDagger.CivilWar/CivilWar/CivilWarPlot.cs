@@ -1,4 +1,4 @@
-﻿using BSI.CloakDagger.Objects;
+﻿using BSI.CloakDagger.Models.PlotMod;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar
 {

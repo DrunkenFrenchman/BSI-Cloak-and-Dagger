@@ -8,12 +8,9 @@
 	<MultiplayerModule value="false" />
 	<DependedModules>
 		<DependedModule Id="BSI.CloakDagger" />
-		<DependedModule Id="Bannerlord.MBOptionScreen" />
 	</DependedModules>
 	<DependedModuleMetadatas>
-		<DependedModuleMetadata id="BSI.CloakDagger" order="LoadBeforeThis" version="v0.1.0" optional="false" incompatible="false" />
-		<DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v4.0.7" optional="false" incompatible="false" />
-
+		<DependedModuleMetadata id="BSI.CloakDagger" order="LoadBeforeThis" version="v0.*" optional="false" incompatible="false" />
 		<DependedModuleMetadata id="Native" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
 		<DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />
 		<DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="e1.5.3.*" optional="false" incompatible="false" />

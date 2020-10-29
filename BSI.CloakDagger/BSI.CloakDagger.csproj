@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <!-- Release Configuration Properties -->
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -34,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <!-- Debugging Properties -->
   <PropertyGroup>
@@ -175,10 +177,10 @@
     <Compile Include="Helpers\KingdomHelper.cs" />
     <Compile Include="Managers\PlotManager.cs" />
     <Compile Include="Managers\SaveFileManager.cs" />
-    <Compile Include="Objects\Comparer\GameObjectComparer.cs" />
-    <Compile Include="Objects\GameObject.cs" />
-    <Compile Include="Objects\GamePlot.cs" />
-    <Compile Include="Patches\SaveFilePatcher.cs" />
+    <Compile Include="Models\Comparer\GameObjectComparer.cs" />
+    <Compile Include="Models\GameObject.cs" />
+    <Compile Include="Models\GamePlot.cs" />
+    <Compile Include="Patches\MBSaveLoadPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings\Localization\Categories.cs" />
     <Compile Include="Settings\Localization\Descriptions.cs" />
@@ -198,18 +200,22 @@
     <Compile Include="Extensions\MBObjectBaseExtension.cs" />
     <Compile Include="Managers\GameManager.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
-    <Compile Include="Objects\Behavior.cs" />
-    <Compile Include="Objects\Goal.cs" />
-    <Compile Include="Objects\Plot.cs" />
-    <Compile Include="Objects\Trigger.cs" />
+    <Compile Include="Models\PlotMod\Behavior.cs" />
+    <Compile Include="Models\PlotMod\Goal.cs" />
+    <Compile Include="Models\PlotMod\Plot.cs" />
+    <Compile Include="Models\PlotMod\Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GUI\Brushes\" />
+    <Folder Include="GUI\Prefabs\" />
     <Folder Include="ModuleData\Languages\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /d /y /i /r "$(MSBuildProjectDirectory)\SubModule.xml" "$(SolutionDir)..\BSI.CloakDagger\"
-xcopy /d /y /i /r /e "$(MSBuildProjectDirectory)\ModuleData" "$(SolutionDir)..\BSI.CloakDagger\ModuleData\"</PostBuildEvent>
+xcopy /d /y /i /r /e "$(MSBuildProjectDirectory)\ModuleData" "$(SolutionDir)..\BSI.CloakDagger\ModuleData\"
+xcopy /d /y /i /r /e "$(MSBuildProjectDirectory)\GUI" "$(SolutionDir)..\BSI.CloakDagger\GUI\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

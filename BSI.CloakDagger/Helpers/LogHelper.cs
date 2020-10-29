@@ -11,10 +11,10 @@ namespace BSI.CloakDagger.Helpers
     public static class LogHelper
     {
         private static readonly CloakDaggerSettings Settings = CloakDaggerSettings.Instance;
-
-        internal static string FilePath => Path.Combine(FolderPath, FileName);
         internal static readonly string FolderPath = Path.Combine(Utilities.GetConfigsPath(), "CloakDagger", "Logs");
         internal static readonly string FileName = $"{(string.IsNullOrEmpty(SaveFileManager.Instance.ActiveSaveSlotName) ? "ERROR" : SaveFileManager.Instance.ActiveSaveSlotName)}.log";
+
+        internal static string FilePath => Path.Combine(FolderPath, FileName);
 
         public static void Log(string message)
         {

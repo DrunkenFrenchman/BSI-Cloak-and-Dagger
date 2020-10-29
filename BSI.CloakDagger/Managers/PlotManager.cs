@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using BSI.CloakDagger.Enumerations;
-using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Models;
+using BSI.CloakDagger.Models.PlotMod;
 
 namespace BSI.CloakDagger.Managers
 {

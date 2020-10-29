@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BSI.CloakDagger.Objects.Comparer
+namespace BSI.CloakDagger.Models.Comparer
 {
     public class GameObjectComparer : IEqualityComparer<GameObject>
     {

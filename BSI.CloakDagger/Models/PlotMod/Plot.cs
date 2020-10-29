@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BSI.CloakDagger.Objects
+namespace BSI.CloakDagger.Models.PlotMod
 {
     public abstract class Plot
     {

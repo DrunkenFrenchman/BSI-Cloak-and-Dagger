@@ -1,6 +1,6 @@
 ﻿using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Models.PlotMod;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;

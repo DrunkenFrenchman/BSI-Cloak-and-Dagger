@@ -1,6 +1,6 @@
 ﻿using BSI.CloakDagger.Enumerations;
 
-namespace BSI.CloakDagger.Objects
+namespace BSI.CloakDagger.Models
 {
     public class GameObject
     {

@@ -7,7 +7,8 @@ using BSI.CloakDagger.CivilWar.Settings;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Managers;
-using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Models;
+using BSI.CloakDagger.Models.PlotMod;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar
 {

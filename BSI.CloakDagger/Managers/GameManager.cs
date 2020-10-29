@@ -3,8 +3,8 @@ using System.Linq;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Helpers;
-using BSI.CloakDagger.Objects;
-using BSI.CloakDagger.Objects.Comparer;
+using BSI.CloakDagger.Models;
+using BSI.CloakDagger.Models.PlotMod;
 using TaleWorlds.CampaignSystem;
 
 namespace BSI.CloakDagger.Managers

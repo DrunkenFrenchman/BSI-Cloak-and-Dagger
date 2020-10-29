@@ -6,7 +6,7 @@ using TaleWorlds.Core;
 
 namespace BSI.CloakDagger.Patches
 {
-    internal static class SaveFilePatches
+    internal static class MBSaveLoadPatches
     {
         [HarmonyPatch(typeof(MBSaveLoad), "OnNewGame")]
         internal static class OnNewGame

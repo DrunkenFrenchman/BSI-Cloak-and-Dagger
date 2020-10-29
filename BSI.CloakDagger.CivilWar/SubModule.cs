@@ -3,7 +3,7 @@ using BSI.CloakDagger.CivilWar.CivilWar;
 using BSI.CloakDagger.Enumerations;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Managers;
-using BSI.CloakDagger.Objects;
+using BSI.CloakDagger.Models.PlotMod;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
