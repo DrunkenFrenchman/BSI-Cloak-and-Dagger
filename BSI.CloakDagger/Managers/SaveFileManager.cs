@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Models;
 using Newtonsoft.Json;
@@ -35,7 +36,12 @@ namespace BSI.CloakDagger.Managers
                 return;
             }
 
-            GameManager.Instance.PlotManager.Plots = JsonConvert.DeserializeObject<List<GamePlot>>(File.ReadAllText(SavePath));
+            GameManager.Instance.PlotManager.Plots = JsonConvert.DeserializeObject<List<GamePlot>>(File.ReadAllText(SavePath), new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                TypeNameHandling = TypeNameHandling.Auto
+            }) ?? new List<GamePlot>();
+            GameManager.Instance.PlotManager.GamePlots = GameManager.Instance.PlotManager.Plots.ToLookup(p => p.GameObject, p => p.Plot);
 
             foreach (var plot in GameManager.Instance.PlotManager.GetPlots())
             {

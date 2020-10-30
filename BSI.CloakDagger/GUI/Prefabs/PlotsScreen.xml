@@ -1,0 +1,192 @@
+<Prefab>
+	<Constants>
+		<Constant Name="LeftPanel.Margin.Top" Value="5" />
+		<Constant Name="LeftPanel.Margin.Bottom" Value="0" />
+
+		<Constant Name="RightPanel.Margin.Top" Value="150" />
+		<Constant Name="RightPanel.Margin.Left" Value="50" />
+		<Constant Name="RightPanel.Margin.Right" Value="170" />
+
+		<Constant Name="Plot.Background.Width" BrushLayer="Default" BrushName="Quest.Background" BrushValueType="Width" />
+		<Constant Name="Plot.Background.Height" BrushLayer="Default" BrushName="Quest.Background" BrushValueType="Height" />
+
+		<Constant Name="Plot.LeftPanel.Toggle.Margin.Left" Value="1" />
+		<Constant Name="Plot.LeftPanel.Toggle.Width" BrushLayer="Default" BrushName="Quest.LeftPanel.Toggle" BrushValueType="Width" />
+		<Constant Name="Plot.LeftPanel.Toggle.Height" BrushLayer="Default" BrushName="Quest.LeftPanel.Toggle" BrushValueType="Height" />
+
+		<Constant Name="Plot.LeftPanel.Header.Width" BrushLayer="Default" BrushName="Quest.LeftPanel.Header" BrushValueType="Width" />
+		<Constant Name="Plot.LeftPanel.Header.Height" BrushLayer="Default" BrushName="Quest.LeftPanel.Header" BrushValueType="Height" />
+
+		<Constant Name="Plot.LeftPanel.PlotTitle.Text.XOffset" Value="3" />
+		<Constant Name="Plot.LeftPanel.PlotTitle.Text.YOffset" Value="-1" />
+
+		<Constant Name="Plot.LeftPanel.PlotButton.Active.Width" BrushLayer="Default" BrushName="Quest.LeftPanel.QuestButton.Active" BrushValueType="Width" />
+		<Constant Name="Plot.LeftPanel.PlotButton.Active.Height" BrushLayer="Default" BrushName="Quest.LeftPanel.QuestButton.Active" BrushValueType="Height" />
+
+		<Constant Name="RightPanel.PlotStage.Margin.Bottom" Value="15" />
+
+		<Constant Name="RightPanel.Plots.Padding.Bottom" Value="80" />
+	</Constants>
+	<Variables></Variables>
+	<VisualDefinitions>
+		<VisualDefinition Name="BottomMenu" DelayOnBegin="0.2" TransitionDuration="0.4">
+			<VisualState PositionYOffset="0" State="Default" />
+		</VisualDefinition>
+	</VisualDefinitions>
+	<Window>
+		<Widget Id="PlotsScreenWidget" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+			<Children>
+				<!--Background Illustration-->
+				<Standard.Background>
+					<Children>
+						<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.Background.Width" SuggestedHeight="!Plot.Background.Height" HorizontalAlignment="Left" VerticalAlignment="Bottom" Brush="Quest.Background" />
+					</Children>
+				</Standard.Background>
+				<!--Top Panel-->
+				<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="755" SuggestedHeight="176" HorizontalAlignment="Center" PositionXOffset="60" Sprite="StdAssets\tabbar_standart" Brush.ValueFactor="-30">
+					<Children>
+						<RichTextWidget WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" PositionYOffset="-5" Brush="Quest.CenterPanel.Title.Text" Brush.FontSize="45" Text="@PlotTitleText" />
+					</Children>
+				</Widget>
+				<ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="0" MarginTop="35" MarginBottom="90" IsVisible="true">
+					<Children>
+						<!--Left Panel-->
+						<ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" MarginLeft="27" SuggestedWidth="614" Brush="Frame1Brush" LayoutImp.LayoutMethod="VerticalBottomToTop" RenderLate="true">
+							<Children>
+								<!--Plots Header-->
+								<ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren">
+									<Children>
+										<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.Header.Height" MarginTop="1" MarginLeft="0" Brush="Quest.LeftPanel.Header" RenderLate="true" />
+										<ButtonWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="27" SuggestedHeight="50" HorizontalAlignment="Right" PositionYOffset="3" VerticalAlignment="Top" Brush="Scroll.Header" />
+									</Children>
+								</ListPanel>
+								<!--Scrollable panel and scrollbar-->
+								<ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="!LeftPanel.Margin.Top">
+									<Children>
+										<ScrollablePanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginBottom="!LeftPanel.Margin.Bottom" AutoHideScrollBarHandle="true" AutoHideScrollBars="true" ClipRect="PlotsClipRect" InnerPanel="PlotsClipRect\Plots" VerticalScrollbar="..\PlotsScrollbar\Scrollbar">
+											<Children>
+												<!--Left Panel-->
+												<Widget Id="PlotsClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" ClipContents="true">
+													<Children>
+														<ListPanel Id="Plots" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+															<Children>
+																<!-- Active Plots -->
+																<ToggleWidget DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.Toggle.Height" MarginLeft="!Plot.LeftPanel.Toggle.Margin.Left" Brush="Quest.LeftPanel.Toggle" RenderLate="true" WidgetToClose="..\ActivePlots">
+																	<Children>
+																		<TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Quest.LeftPanel.Toggle.Text" Text="@ActivePlotsText" />
+																	</Children>
+																</ToggleWidget>
+																<ListPanel Id="ActivePlots" DataSource="{ActivePlots}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+																	<ItemTemplate>
+																		<PlotItemButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.PlotButton.Active.Height" Brush="Quest.LeftPanel.QuestButton.Active.MainStory" ButtonType="Radio" Command.Click="ExecuteSelection" IsSelected="@IsSelected" PlotTitleText="PlotTitleText" PlotTitleXOffset="!Plot.LeftPanel.PlotTitle.Text.XOffset" PlotTitleYOffset="!Plot.LeftPanel.PlotTitle.Text.YOffset">
+																			<Children>
+																				<ListPanel WidthSizePolicy="CoverChildren" HeightSizePolicy="StretchToParent">
+																					<Children>
+																						<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="32" SuggestedHeight="54" Sprite="Icons\icon_issue_available" IsHidden="true" VerticalAlignment="Center" MarginLeft="5" />
+																						<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="32" SuggestedHeight="54" Sprite="Icons\icon_quest_available" IsHidden="true" VerticalAlignment="Center" MarginLeft="5" />
+																						<TextWidget Id="PlotTitleText" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="440" MarginLeft="10" MarginRight="10" Brush="Quest.LeftPanel.Quest.Text" Brush.TextHorizontalAlignment="Left" Brush.TextVerticalAlignment="Center" Text="@Title" />
+																					</Children>
+																				</ListPanel>
+																				<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.PlotButton.Active.Height" VerticalAlignment="Center" Brush="Quest.Tuple.Notification" IsEnabled="false" IsVisible="@IsUpdated" />
+																			</Children>
+																		</PlotItemButtonWidget>
+																	</ItemTemplate>
+																</ListPanel>
+																<!-- Available Plots -->
+																<ToggleWidget DoNotPassEventsToChildren="true" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.Toggle.Height" MarginLeft="!Plot.LeftPanel.Toggle.Margin.Left" Brush="Quest.LeftPanel.Toggle" idthSizePolicy="Fixed" RenderLate="true" WidgetToClose="..\AvailablePlots">
+																	<Children>
+																		<TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush="Quest.LeftPanel.Toggle.Text" Text="@AvailablePlotsText" />
+																	</Children>
+																</ToggleWidget>
+																<ListPanel Id="AvailablePlots" DataSource="{AvailablePlots}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+																	<ItemTemplate>
+																		<PlotItemButtonWidget DoNotPassEventsToChildren="true" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="!Plot.LeftPanel.PlotButton.Active.Width" SuggestedHeight="!Plot.LeftPanel.PlotButton.Active.Height" Brush="Quest.LeftPanel.QuestButton.Active.MainStory" ButtonType="Radio" Command.Click="ExecuteSelection" IsSelected="@IsSelected" PlotTitleText="PlotTitleText" PlotTitleXOffset="!Plot.LeftPanel.PlotTitle.Text.XOffset" PlotTitleYOffset="!Plot.LeftPanel.PlotTitle.Text.YOffset">
+																			<Children>
+																				<ListPanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent">
+																					<Children>
+																						<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="41" SuggestedHeight="34" Sprite="Quest\icon_quest_done_checkmark" VerticalAlignment="Center" MarginLeft="5" IsVisible="false" />
+																						<TextWidget Id="PlotTitleText" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="10" MarginRight="10" Brush="Quest.LeftPanel.Quest.Old.Text" Brush.TextHorizontalAlignment="Left" Brush.TextVerticalAlignment="Center" Text="@Title" />
+																						<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="29" SuggestedHeight="29" VerticalAlignment="Center" Sprite="Quest\text_ball_ring" Brush.AlphaFactor="0.8" Brush.Color="#F4E1C4FF" IsEnabled="false" MarginRight="10" />
+																					</Children>
+																				</ListPanel>
+																			</Children>
+																		</PlotItemButtonWidget>
+																	</ItemTemplate>
+																</ListPanel>
+															</Children>
+														</ListPanel>
+													</Children>
+												</Widget>
+											</Children>
+										</ScrollablePanel>
+										<Standard.VerticalScrollbar Id="PlotsScrollbar" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Bottom" MarginBottom="!LeftPanel.Margin.Bottom" />
+									</Children>
+								</ListPanel>
+							</Children>
+						</ListPanel>
+						<!--Right Panel-->
+						<Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="!RightPanel.Margin.Left" MarginRight="!RightPanel.Margin.Right" MarginTop="!RightPanel.Margin.Top">
+							<Children>
+								<TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Brush.FontSize="42" IsHidden="@IsThereAnyPlot" Text="@NoActivePlotText" />
+								<!--Current Plot Title-->
+								<Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren">
+									<Children>
+										<RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" Brush="Quest.CenterPanel.Title.Text" Brush.FontSize="42" Brush.TextHorizontalAlignment="Center" Text="@CurrentPlotTitle" />
+									</Children>
+								</Widget>
+								<ScrollbarWidget Id="PlotLogScrollbar" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="16" HorizontalAlignment="Left" MarginLeft="10" MarginTop="70" MarginBottom="20" Sprite="SPParty\ScrollBar01TrackBG@2x" AlignmentAxis="Vertical" Handle="PlotLogScrollbarHandle" IsVisible="false" MaxValue="100" MinValue="0">
+									<Children>
+										<Widget Id="PlotLogScrollbarHandle" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" VerticalAlignment="Top" Sprite="ScrollBar01Track@2x_9" IsVisible="false" />
+									</Children>
+								</ScrollbarWidget>
+								<ScrollablePanel WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Center" MarginLeft="50" MarginTop="50" MarginBottom="20" AutoHideScrollBars="true" ClipRect="MyClipRect" InnerPanel="MyClipRect\ParentList" VerticalScrollbar="..\PlotLogScrollbar">
+									<Children>
+										<Widget Id="MyClipRect" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginTop="20" MarginBottom="10" ClipContents="true">
+											<Children>
+												<ListPanel Id="ParentList" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+													<Children>
+														<!--Current Plot Stages-->
+														<!--<ListPanel Id="CurrentPlotStages" DataSource="{CurrentPlotStages}" WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" LayoutImp.LayoutMethod="VerticalBottomToTop">
+															<ItemTemplate>
+																<QuestsStageItem MarginBottom="!RightPanel.PlotStage.Margin.Bottom" />
+															</ItemTemplate>
+														</ListPanel>-->
+														<Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="!RightPanel.Plots.Padding.Bottom" IsEnabled="false" />
+													</Children>
+												</ListPanel>
+											</Children>
+										</Widget>
+									</Children>
+								</ScrollablePanel>
+
+								<!--<Widget WidthSizePolicy = "Fixed" HeightSizePolicy = "Fixed" SuggestedHeight="310" SuggestedWidth="2000" PositionXOffset="-530" PositionYOffset="90" VerticalAlignment="Bottom" Sprite = "Quest\scroll_hide" Brush.AlphaFactor="1"/>-->
+
+							</Children>
+						</Widget>
+					</Children>
+				</ListPanel>
+				<!--Info Box-->
+				<Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="357" SuggestedHeight="205" HorizontalAlignment="Right" MarginTop="10">
+					<Children>
+
+						<!--Quest Giver Container-->
+						<!--<ButtonWidget IsHidden="@IsCurrentQuestGiverHeroHidden" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" SuggestedWidth="138" HorizontalAlignment="Left" MarginLeft="200" MarginTop="25" MarginBottom="35" Command.Click="ExecuteOpenQuestGiverEncyclopedia">
+							<Children>
+								<TextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="60" Brush="Quest.LeftPanel.Quest.Text.Prox" Brush.FontSize="14" Brush.TextHorizontalAlignment="Center" IsDisabled="true" Text="@QuestGiverText" />
+								<ImageIdentifierWidget DataSource="{CurrentQuestGiverHero\ImageIdentifier}" WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="87" SuggestedHeight="65" HorizontalAlignment="Center" VerticalAlignment="Bottom" MarginBottom="25" AdditionalArgs="@AdditionalArgs" ImageId="@Id" ImageTypeCode="@ImageTypeCode" IsDisabled="true">
+									<Children>
+										<Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" />
+									</Children>
+								</ImageIdentifierWidget>
+								<HintWidget DataSource="{CurrentQuestGiverHero}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" Command.HoverBegin="ExecuteBeginHint" Command.HoverEnd="ExecuteEndHint" IsDisabled="true" />
+							</Children>
+						</ButtonWidget>-->
+
+					</Children>
+				</Widget>
+				<!--Close Screen Button-->
+				<Standard.DialogCloseButtons VisualDefinition="BottomMenu" HorizontalAlignment="Center" VerticalAlignment="Bottom" PositionYOffset="100" Parameter.DoneButtonAction="ExecuteClose" Parameter.DoneButtonText="Done" Parameter.ShowCancel="false" />
+			</Children>
+		</Widget>
+	</Window>
+</Prefab>

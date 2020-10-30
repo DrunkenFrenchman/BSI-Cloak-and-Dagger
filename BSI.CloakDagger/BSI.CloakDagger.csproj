@@ -182,11 +182,20 @@
     <Compile Include="Models\GamePlot.cs" />
     <Compile Include="Patches\MBSaveLoadPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Screens\PlotScreen.cs" />
+    <Compile Include="Screens\ViewModels\PlotStageVM.cs" />
+    <Compile Include="Screens\Widgets\PlotItemButtonWidget.cs" />
     <Compile Include="Settings\Localization\Categories.cs" />
     <Compile Include="Settings\Localization\Descriptions.cs" />
     <Compile Include="Settings\Localization\Groups.cs" />
     <Compile Include="Settings\Localization\Names.cs" />
     <Compile Include="SubModule.cs" />
+    <Compile Include="Screens\ViewModels\PlotItemVM.cs" />
+    <Compile Include="Screens\ViewModels\PlotsVM.cs" />
+    <Content Include="GUI\Brushes\Plot.xml" />
+    <Content Include="GUI\Prefabs\PlotsScreen.xml" />
+    <Content Include="ModuleData\Languages\DE\std_module_strings_xml.xml" />
+    <Content Include="ModuleData\Languages\std_module_strings_xml.xml" />
     <Content Include="SubModule.xml" />
     <Compile Include="Commands.cs" />
     <Compile Include="Settings\CloakDaggerSettings.cs" />
@@ -205,12 +214,7 @@
     <Compile Include="Models\PlotMod\Plot.cs" />
     <Compile Include="Models\PlotMod\Trigger.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\Brushes\" />
-    <Folder Include="GUI\Prefabs\" />
-    <Folder Include="ModuleData\Languages\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

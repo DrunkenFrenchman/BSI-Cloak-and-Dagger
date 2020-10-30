@@ -9,6 +9,7 @@ using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Managers;
 using BSI.CloakDagger.Models;
 using BSI.CloakDagger.Models.PlotMod;
+using TaleWorlds.CampaignSystem;
 
 namespace BSI.CloakDagger.CivilWar.CivilWar
 {
@@ -34,6 +35,11 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
             return plottingChance > new Random().Next(100);
         }
 
+        public override bool CanPlayerStart()
+        {
+            return !Hero.MainHero.IsKingdomLeader() && Hero.MainHero.ToKingdom() != null;
+        }
+
         public override Plot DoStart(GameObject gameObject)
         {
             var target = gameObject.ToKingdom();
@@ -44,7 +50,7 @@ namespace BSI.CloakDagger.CivilWar.CivilWar
             };
 
             var plot = new CivilWarPlot();
-            var plotTitle = "Civil War";
+            var plotTitle = $"{Title}: {target.Name}";
             var plotDescription = $"This plot aims to reach independence from {target.Name} through Civil War.";
 
             var recruitForWarGoal = new RecruitForWarGoal();

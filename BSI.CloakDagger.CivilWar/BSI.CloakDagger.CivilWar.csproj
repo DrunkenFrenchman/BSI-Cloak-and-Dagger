@@ -170,6 +170,8 @@
     <Compile Include="Settings\Localization\Groups.cs" />
     <Compile Include="Settings\Localization\Names.cs" />
     <Compile Include="SubModule.cs" />
+    <Content Include="ModuleData\Languages\DE\std_module_strings_xml.xml" />
+    <Content Include="ModuleData\Languages\std_module_strings_xml.xml" />
     <Content Include="SubModule.xml" />
     <Compile Include="CivilWar\CivilWarPlot.cs" />
     <Compile Include="CivilWar\CivilWarTrigger.cs" />
@@ -186,9 +188,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ModuleData\Languages\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

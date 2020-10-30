@@ -30,7 +30,7 @@ namespace BSI.CloakDagger.CivilWar
                 campaignGameStarter.AddBehavior(new CivilWarBehavior());
 
                 Trigger = new CivilWarTrigger();
-                Trigger.Initialize(GameObjectType.Kingdom, GameObjectType.Hero, 1);
+                Trigger.Initialize(GameObjectType.Kingdom, "Civil War", "This plot aims to reach independence from the current kingdom through Civil War.", GameObjectType.Hero, 1);
                 GameManager.Instance.AddTrigger(Trigger);
             }
             catch (Exception exception)

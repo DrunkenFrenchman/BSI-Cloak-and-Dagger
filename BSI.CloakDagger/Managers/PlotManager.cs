@@ -10,7 +10,7 @@ namespace BSI.CloakDagger.Managers
     {
         internal List<GamePlot> Plots { get; set; }
 
-        internal ILookup<GameObject, Plot> GamePlots { get; private set; }
+        internal ILookup<GameObject, Plot> GamePlots { get; set; }
 
         internal void Add(GamePlot gamePlot)
         {

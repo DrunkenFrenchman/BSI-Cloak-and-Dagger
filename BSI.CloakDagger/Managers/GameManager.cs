@@ -5,7 +5,11 @@ using BSI.CloakDagger.Extensions;
 using BSI.CloakDagger.Helpers;
 using BSI.CloakDagger.Models;
 using BSI.CloakDagger.Models.PlotMod;
+using BSI.CloakDagger.Screens;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Engine.Screens;
+using TaleWorlds.InputSystem;
+using TaleWorlds.MountAndBlade.View.Missions;
 
 namespace BSI.CloakDagger.Managers
 {
@@ -21,6 +25,7 @@ namespace BSI.CloakDagger.Managers
         {
             CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, OnSessionLaunched);
             CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, OnDailyTick);
+            CampaignEvents.TickEvent.AddNonSerializedListener(this, OnTick);
 
             CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, kingdom =>
             {
@@ -71,6 +76,11 @@ namespace BSI.CloakDagger.Managers
             {
                 foreach (var gameObject in GameObjects.Where(go => go.GameObjectType == trigger.InitiatorType))
                 {
+                    if (gameObject.ToHero() == Hero.MainHero)
+                    {
+                        continue;
+                    }
+
                     if (!trigger.CanStart(gameObject))
                     {
                         continue;
@@ -79,6 +89,7 @@ namespace BSI.CloakDagger.Managers
                     PlotManager.Add(trigger.DoStart(gameObject));
                 }
             }
+
 
             foreach (var plot in PlotManager.GetPlots())
             {
@@ -106,6 +117,14 @@ namespace BSI.CloakDagger.Managers
                         plot.SetNextGoal();
                     }
                 }
+            }
+        }
+
+        private void OnTick(float dt)
+        {
+            if (Input.IsKeyPressed(InputKey.P))
+            {
+                ScreenManager.PushScreen(ViewCreatorManager.CreateScreenView<PlotScreen>());
             }
         }
 

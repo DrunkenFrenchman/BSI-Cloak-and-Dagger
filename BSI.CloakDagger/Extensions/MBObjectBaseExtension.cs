@@ -6,7 +6,7 @@ using TaleWorlds.ObjectSystem;
 
 namespace BSI.CloakDagger.Extensions
 {
-    public static class MbObjectBaseExtension
+    public static class MBObjectBaseExtension
     {
         public static GameObject ToGameObject(this MBObjectBase mbObject)
         {
